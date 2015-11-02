@@ -14,6 +14,7 @@
 		FA01F4CF1BE75AE5003B738C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA01F4CD1BE75AE5003B738C /* LaunchScreen.storyboard */; };
 		FA01F4DA1BE75AE5003B738C /* DotkunTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA01F4D91BE75AE5003B738C /* DotkunTests.swift */; };
 		FA01F4E51BE75AE5003B738C /* DotkunUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA01F4E41BE75AE5003B738C /* DotkunUITests.swift */; };
+		FA01F4F61BE75F66003B738C /* Dotkun.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA01F4F51BE75F66003B738C /* Dotkun.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +37,7 @@
 /* Begin PBXFileReference section */
 		FA01F4C11BE75AE5003B738C /* Dotkun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dotkun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA01F4C41BE75AE5003B738C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FA01F4C61BE75AE5003B738C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FA01F4C61BE75AE5003B738C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Dotkun/ViewController/ViewController.swift; sourceTree = SOURCE_ROOT; };
 		FA01F4C91BE75AE5003B738C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FA01F4CB1BE75AE5003B738C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA01F4CE1BE75AE5003B738C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +48,7 @@
 		FA01F4E01BE75AE5003B738C /* DotkunUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DotkunUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA01F4E41BE75AE5003B738C /* DotkunUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotkunUITests.swift; sourceTree = "<group>"; };
 		FA01F4E61BE75AE5003B738C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA01F4F51BE75F66003B738C /* Dotkun.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dotkun.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,8 +99,10 @@
 		FA01F4C31BE75AE5003B738C /* Dotkun */ = {
 			isa = PBXGroup;
 			children = (
+				FA01F4F81BE76010003B738C /* Entity */,
+				FA01F4F71BE75FA9003B738C /* ViewController */,
+				FA01F4F41BE75F31003B738C /* Model */,
 				FA01F4C41BE75AE5003B738C /* AppDelegate.swift */,
-				FA01F4C61BE75AE5003B738C /* ViewController.swift */,
 				FA01F4C81BE75AE5003B738C /* Main.storyboard */,
 				FA01F4CB1BE75AE5003B738C /* Assets.xcassets */,
 				FA01F4CD1BE75AE5003B738C /* LaunchScreen.storyboard */,
@@ -123,6 +127,29 @@
 				FA01F4E61BE75AE5003B738C /* Info.plist */,
 			);
 			path = DotkunUITests;
+			sourceTree = "<group>";
+		};
+		FA01F4F41BE75F31003B738C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FA01F4F51BE75F66003B738C /* Dotkun.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FA01F4F71BE75FA9003B738C /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				FA01F4C61BE75AE5003B738C /* ViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		FA01F4F81BE76010003B738C /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,6 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA01F4C71BE75AE5003B738C /* ViewController.swift in Sources */,
+				FA01F4F61BE75F66003B738C /* Dotkun.swift in Sources */,
 				FA01F4C51BE75AE5003B738C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -484,6 +512,7 @@
 				FA01F4EB1BE75AE5003B738C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FA01F4EC1BE75AE5003B738C /* Build configuration list for PBXNativeTarget "DotkunTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +521,7 @@
 				FA01F4EE1BE75AE5003B738C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FA01F4EF1BE75AE5003B738C /* Build configuration list for PBXNativeTarget "DotkunUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +530,7 @@
 				FA01F4F11BE75AE5003B738C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
