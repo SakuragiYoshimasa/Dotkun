@@ -15,6 +15,7 @@
 		FA01F4DA1BE75AE5003B738C /* DotkunTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA01F4D91BE75AE5003B738C /* DotkunTests.swift */; };
 		FA01F4E51BE75AE5003B738C /* DotkunUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA01F4E41BE75AE5003B738C /* DotkunUITests.swift */; };
 		FA01F4F61BE75F66003B738C /* Dotkun.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA01F4F51BE75F66003B738C /* Dotkun.swift */; };
+		FA01F4FB1BE76206003B738C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA01F4FA1BE76206003B738C /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		FA01F4E41BE75AE5003B738C /* DotkunUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotkunUITests.swift; sourceTree = "<group>"; };
 		FA01F4E61BE75AE5003B738C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA01F4F51BE75F66003B738C /* Dotkun.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dotkun.swift; sourceTree = "<group>"; };
+		FA01F4FA1BE76206003B738C /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				FA01F4F51BE75F66003B738C /* Dotkun.swift */,
+				FA01F4FA1BE76206003B738C /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA01F4FB1BE76206003B738C /* User.swift in Sources */,
 				FA01F4C71BE75AE5003B738C /* ViewController.swift in Sources */,
 				FA01F4F61BE75F66003B738C /* Dotkun.swift in Sources */,
 				FA01F4C51BE75AE5003B738C /* AppDelegate.swift in Sources */,
