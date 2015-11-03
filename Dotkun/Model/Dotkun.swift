@@ -31,6 +31,29 @@ class Dotkun: GameViewObject {
         self.color.setFill()
         CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, 6, 6))
         
+        UIColor.brownColor().setStroke()
+        CGContextSetLineWidth(context, 1)
+        
+        // 首
+        CGContextMoveToPoint(context, position.x, position.y+3)
+        // 股
+        CGContextAddLineToPoint(context, position.x, position.y+8)
+        // 右足の先
+        CGContextAddLineToPoint(context, position.x+3, position.y+11)
+        
+        // 股
+        CGContextMoveToPoint(context, position.x, position.y+8)
+        // 左足の先
+        CGContextAddLineToPoint(context, position.x-3, position.y+11)
+        
+        // 左腕の先
+        CGContextMoveToPoint(context, position.x-3, position.y+5)
+        // 右腕の先
+        CGContextAddLineToPoint(context, position.x+3, position.y+5)
+        
+        // 描画
+        CGContextStrokePath(context)
+        
         UIGraphicsPopContext()
     }
     

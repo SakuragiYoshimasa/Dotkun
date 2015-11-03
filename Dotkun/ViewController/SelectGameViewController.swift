@@ -19,15 +19,17 @@ class SelectGameViewController: BaseViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         let statusBarHeight = Util.getStatusBarHeight()
-        gameListTable = UITableView(frame: CGRectMake(0, statusBarHeight+100, self.view.bounds.width, self.view.bounds.height-statusBarHeight))
-        gameListTable.registerClass(SelectGameTableCell.self, forCellReuseIdentifier: "SelectGameTableCell")
-        gameListTable.backgroundColor = UIColor.clearColor()
-        gameListTable.dataSource = self
-        gameListTable.delegate = self
-        gameListTable.separatorColor = UIColor.clearColor()
-        gameListTable.allowsSelection = true
-        gameListTable.allowsMultipleSelection = false
-        self.view.addSubview(gameListTable)
+        if gameListTable == nil {
+            gameListTable = UITableView(frame: CGRectMake(0, statusBarHeight+100, self.view.bounds.width, self.view.bounds.height-statusBarHeight - masterViewController.getTabBarHeight() - 100))
+            gameListTable.registerClass(SelectGameTableCell.self, forCellReuseIdentifier: "SelectGameTableCell")
+            gameListTable.backgroundColor = UIColor.clearColor()
+            gameListTable.dataSource = self
+            gameListTable.delegate = self
+            gameListTable.separatorColor = UIColor.clearColor()
+            gameListTable.allowsSelection = true
+            gameListTable.allowsMultipleSelection = false
+            self.view.addSubview(gameListTable)
+        }
     }
     
     override func didReceiveMemoryWarning() {

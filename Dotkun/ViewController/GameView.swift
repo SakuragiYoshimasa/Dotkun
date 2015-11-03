@@ -35,7 +35,8 @@ class GameView: UIView {
     override func drawRect(rect: CGRect) {
         let context = UIGraphicsGetCurrentContext()
         
-        CGContextClearRect(context!, self.bounds)
+        self.backgroundColor?.setFill()
+        CGContextFillRect(context!, self.bounds)
         
         for object in objects {
             object.drawOnContext(context!)

@@ -10,6 +10,7 @@ import UIKit
 
 protocol SegueFromMasterDelegate {
     func performSegue(identifier: String)
+    func getTabBarHeight() -> CGFloat
 }
 
 class HomeTabBarController: UITabBarController, SegueFromMasterDelegate {
@@ -39,6 +40,11 @@ class HomeTabBarController: UITabBarController, SegueFromMasterDelegate {
         // なぜか0だけだと選択されないので1にしてから0に
         self.selectedIndex = 1
         self.selectedIndex = 0
+    }
+    
+    func getTabBarHeight() -> CGFloat {
+        print(self.tabBar.frame.height)
+        return self.tabBar.frame.height
     }
     
     func performSegue(identifier: String) {

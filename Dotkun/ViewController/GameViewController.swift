@@ -21,6 +21,7 @@ class GameViewController: BaseViewController {
         
         if gameView == nil {
             gameView = GameView(frame: CGRectMake(0,Util.getStatusBarHeight(),self.view.bounds.width, self.view.bounds.height-Util.getStatusBarHeight()))
+            gameView.backgroundColor = UIColor.whiteColor()
             self.view.addSubview(gameView)
         }
         
@@ -33,7 +34,7 @@ class GameViewController: BaseViewController {
     
     func initGame() {
         dotkuns = []
-        for _ in 0...1023 {
+        for _ in 0...2047 {
             let dotkun = Dotkun(color: TestUtil.randomColor(), pos: TestUtil.randomPoint(gameView.bounds))
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
