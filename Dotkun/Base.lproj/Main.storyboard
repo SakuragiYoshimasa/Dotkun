@@ -52,6 +52,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <segue destination="z2v-on-kPc" kind="show" identifier="startGame" id="Ipd-q3-prK"/>
+                        <segue destination="5be-AX-6AL" kind="show" identifier="createIcon" id="prH-Lh-tl2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ea3-nX-yGr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -97,6 +98,26 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8UX-bE-M3q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1192.5" y="132.5"/>
+        </scene>
+        <!--Create Icon View Controller-->
+        <scene sceneID="PEn-jJ-9AA">
+            <objects>
+                <viewController id="5be-AX-6AL" customClass="CreateIconViewController" customModule="Dotkun" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wyi-FI-Gh0"/>
+                        <viewControllerLayoutGuide type="bottom" id="1FZ-KF-jcA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JaK-Bh-I8A">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iBe-5c-xNF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="371.5" y="907.5"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="4W7-jg-BWj">

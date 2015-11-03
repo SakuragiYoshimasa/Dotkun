@@ -8,12 +8,12 @@
 
 import UIKit
 
-protocol SegueFromMasterDelegate {
+protocol TabControllerMasterDelegate {
     func performSegue(identifier: String)
     func getTabBarHeight() -> CGFloat
 }
 
-class HomeTabBarController: UITabBarController, SegueFromMasterDelegate {
+class HomeTabBarController: UITabBarController, TabControllerMasterDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -21,18 +21,18 @@ class HomeTabBarController: UITabBarController, SegueFromMasterDelegate {
         var viewControllers: [UIViewController] = []
         
         let firstViewController = SelectGameViewController()
-        firstViewController.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.Contacts, tag: 1)
+        firstViewController.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.Favorites, tag: 1)
         firstViewController.masterViewController = self
         viewControllers.append(firstViewController)
         
-        let secondViewController = AccountViewController()
-        secondViewController.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.MostViewed, tag: 2)
+        let secondViewController = IconCollectionViewController()
+        secondViewController.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.More, tag: 2)
         secondViewController.masterViewController = self
         viewControllers.append(secondViewController)
         
-        /*let thirdViewController = ThirdViewController()
+        let thirdViewController = AccountViewController()
         thirdViewController.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.Contacts, tag: 3)
-        viewControllers.append(thirdViewController)*/
+        viewControllers.append(thirdViewController)
         
         self.setViewControllers(viewControllers, animated: false)
         
@@ -43,12 +43,19 @@ class HomeTabBarController: UITabBarController, SegueFromMasterDelegate {
     }
     
     func getTabBarHeight() -> CGFloat {
-        print(self.tabBar.frame.height)
         return self.tabBar.frame.height
     }
     
     func performSegue(identifier: String) {
-        startGame()
+        if identifier == "startGame" {
+            startGame()
+        } else if identifier == "createIcon" {
+            createIcon()
+        }
+    }
+    
+    func createIcon() {
+        self.performSegueWithIdentifier("createIcon", sender: nil)
     }
     
     func startGame() {

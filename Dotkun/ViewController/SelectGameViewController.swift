@@ -12,7 +12,7 @@ class SelectGameViewController: BaseViewController {
     
     var gameListTable: UITableView! = nil
     var gameList = ["ローカル", "オンライン", "あー", "いー", "うー"]
-    var masterViewController: SegueFromMasterDelegate! = nil
+    var masterViewController: TabControllerMasterDelegate! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,10 +53,9 @@ extension SelectGameViewController: UITableViewDelegate, UITableViewDataSource {
     }
     // セル表示
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:NSIndexPath) -> UITableViewCell {
-        //cell deque
-        let myCell: SelectGameTableCell = tableView.dequeueReusableCellWithIdentifier("SelectGameTableCell", forIndexPath: indexPath) as! SelectGameTableCell
-        myCell.setup(gameList[indexPath.row])
-        return myCell
+        let cell: SelectGameTableCell = tableView.dequeueReusableCellWithIdentifier("SelectGameTableCell", forIndexPath: indexPath) as! SelectGameTableCell
+        cell.setup(gameList[indexPath.row])
+        return cell
     }
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.gameListTable.deselectRowAtIndexPath(indexPath, animated: false)
