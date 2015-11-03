@@ -5,23 +5,118 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <scenes>
-        <!--Home Tab Bar Controller-->
+        <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="HomeTabBarController" customModule="Dotkun" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="Dotkun" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vjb-5l-bZD">
+                                <rect key="frame" x="240" y="319" width="38" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Login"/>
+                                <connections>
+                                    <segue destination="DLM-LG-dfq" kind="show" id="Zab-e3-3UT"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="772.5" y="-641.5"/>
+        </scene>
+        <!--Home Tab Bar Controller-->
+        <scene sceneID="b1x-oj-Ebj">
+            <objects>
+                <viewController id="DLM-LG-dfq" customClass="HomeTabBarController" customModule="Dotkun" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="pxt-P8-h84"/>
+                        <viewControllerLayoutGuide type="bottom" id="LSp-72-ePs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3Xv-q5-YdO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <segue destination="z2v-on-kPc" kind="show" identifier="startGame" id="Ipd-q3-prK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ea3-nX-yGr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="772.5" y="132.5"/>
+        </scene>
+        <!--Account View Controller-->
+        <scene sceneID="6dP-IW-yfh">
+            <objects>
+                <viewController id="8mS-gC-ZpW" customClass="AccountViewController" customModule="Dotkun" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="MmS-sv-6Oq"/>
+                        <viewControllerLayoutGuide type="bottom" id="KI1-HJ-Fza"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="0QV-i4-IhZ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xOE-Ij-k6a" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1610.5" y="132.5"/>
+        </scene>
+        <!--Select Game View Controller-->
+        <scene sceneID="S4S-yI-aaj">
+            <objects>
+                <viewController id="uHZ-Uy-Yx6" customClass="SelectGameViewController" customModule="Dotkun" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NCG-zC-r1M"/>
+                        <viewControllerLayoutGuide type="bottom" id="bNe-QF-r5a"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SFf-VB-UWU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8UX-bE-M3q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1192.5" y="132.5"/>
+        </scene>
+        <!--Game View Controller-->
+        <scene sceneID="4W7-jg-BWj">
+            <objects>
+                <viewController id="z2v-on-kPc" customClass="GameViewController" customModule="Dotkun" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yrV-CQ-woH"/>
+                        <viewControllerLayoutGuide type="bottom" id="gAX-5B-8Qq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sWf-Aw-Ig6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="spu-BY-ndF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="772.5" y="907.5"/>
         </scene>
     </scenes>
 </document>

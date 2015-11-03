@@ -10,6 +10,9 @@ import UIKit
 
 class Constants {
     static let APPNAME = "Dotkun"
+    
+    static let GAME_FPS = 60.0
+    
     static let MAINCOLOR = UIColor(red: 0.4, green: 0.8, blue: 0.8, alpha: 1.0)
-    static let BACKCOLOR = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1.0)
+    static let BACKCOLOR = UIColor(red: 1.0, green: 0.5, blue: 0.5, alpha: 1.0)
 }

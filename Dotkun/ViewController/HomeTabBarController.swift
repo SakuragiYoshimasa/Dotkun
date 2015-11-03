@@ -8,7 +8,11 @@
 
 import UIKit
 
-class HomeTabBarController: UITabBarController {
+protocol SegueFromMasterDelegate {
+    func performSegue(identifier: String)
+}
+
+class HomeTabBarController: UITabBarController, SegueFromMasterDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -17,14 +21,15 @@ class HomeTabBarController: UITabBarController {
         
         let firstViewController = SelectGameViewController()
         firstViewController.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.Contacts, tag: 1)
+        firstViewController.masterViewController = self
         viewControllers.append(firstViewController)
         
         let secondViewController = AccountViewController()
         secondViewController.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.MostViewed, tag: 2)
+        secondViewController.masterViewController = self
         viewControllers.append(secondViewController)
         
-        /*
-        let thirdViewController = ThirdViewController()
+        /*let thirdViewController = ThirdViewController()
         thirdViewController.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.Contacts, tag: 3)
         viewControllers.append(thirdViewController)*/
         
@@ -34,5 +39,13 @@ class HomeTabBarController: UITabBarController {
         // なぜか0だけだと選択されないので1にしてから0に
         self.selectedIndex = 1
         self.selectedIndex = 0
+    }
+    
+    func performSegue(identifier: String) {
+        startGame()
+    }
+    
+    func startGame() {
+        self.performSegueWithIdentifier("startGame", sender: nil)
     }
 }

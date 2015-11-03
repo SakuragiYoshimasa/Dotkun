@@ -11,14 +11,15 @@ import UIKit
 class SelectGameViewController: BaseViewController {
     
     var gameListTable: UITableView! = nil
-    var gameList = ["ローカル", "オンライン"]
+    var gameList = ["ローカル", "オンライン", "あー", "いー", "うー"]
+    var masterViewController: SegueFromMasterDelegate! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         let statusBarHeight = Util.getStatusBarHeight()
-        gameListTable = UITableView(frame: CGRectMake(0, statusBarHeight+200, self.view.bounds.width, self.view.bounds.height-statusBarHeight))
+        gameListTable = UITableView(frame: CGRectMake(0, statusBarHeight+100, self.view.bounds.width, self.view.bounds.height-statusBarHeight))
         gameListTable.registerClass(SelectGameTableCell.self, forCellReuseIdentifier: "SelectGameTableCell")
         gameListTable.backgroundColor = UIColor.clearColor()
         gameListTable.dataSource = self
@@ -59,6 +60,7 @@ extension SelectGameViewController: UITableViewDelegate, UITableViewDataSource {
         self.gameListTable.deselectRowAtIndexPath(indexPath, animated: false)
         print("select:\(gameList[indexPath.row])")
         //ここで画面遷移したい
+        masterViewController.performSegue("startGame")
     }
 
 }
