@@ -7,6 +7,16 @@
 //
 
 class User {
+    // DBから取得, autoIncrement
     private var userId: String! = nil
-    private var userName: String! = nil
+    
+    // twitterAccount
+    private var twitterId: String! = nil
+    
+    // スクリーンネーム
+    private var userName: String = ""
+    
+    func isLoggedIn() -> Bool {
+        return !(twitterId == nil)
+    }
 }
