@@ -22,7 +22,9 @@ class HomeTabBarController: UITabBarController, TabControllerMasterDelegate {
         
         let firstViewController = SelectGameViewController()
         firstViewController.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.Favorites, tag: 1)
-        firstViewController.masterViewController = self
+        //firstViewController.masterViewController = self
+        firstViewController.setHome(self)
+        firstViewController.setIdentifer("startGame")
         viewControllers.append(firstViewController)
         
         let secondViewController = IconCollectionViewController()
@@ -30,7 +32,7 @@ class HomeTabBarController: UITabBarController, TabControllerMasterDelegate {
         secondViewController.masterViewController = self
         viewControllers.append(secondViewController)
         
-        let thirdViewController = AccountViewController()
+        let thirdViewController = ProfileViewController()
         thirdViewController.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.Contacts, tag: 3)
         viewControllers.append(thirdViewController)
         

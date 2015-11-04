@@ -8,11 +8,11 @@
 
 import UIKit
 
-class SelectGameViewController: BaseViewController {
+class SelectGameViewController: hogeController {
     
     var gameListTable: UITableView! = nil
     var gameList = ["ローカル", "オンライン", "あー", "いー", "うー"]
-    var masterViewController: TabControllerMasterDelegate! = nil
+    //var masterViewController: TabControllerMasterDelegate! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +20,9 @@ class SelectGameViewController: BaseViewController {
         
         let statusBarHeight = Util.getStatusBarHeight()
         if gameListTable == nil {
-            gameListTable = UITableView(frame: CGRectMake(0, statusBarHeight+100, self.view.bounds.width, self.view.bounds.height-statusBarHeight - masterViewController.getTabBarHeight() - 100))
+          //  gameListTable = UITableView(frame: CGRectMake(0, statusBarHeight+100, self.view.bounds.width, self.view.bounds.height-statusBarHeight - masterViewController.getTabBarHeight() - 100))
+            
+            gameListTable = UITableView(frame: CGRectMake(0, statusBarHeight+100, self.view.bounds.width, self.view.bounds.height-statusBarHeight - 50 - 100))
             gameListTable.registerClass(SelectGameTableCell.self, forCellReuseIdentifier: "SelectGameTableCell")
             gameListTable.backgroundColor = UIColor.clearColor()
             gameListTable.dataSource = self
@@ -61,7 +63,8 @@ extension SelectGameViewController: UITableViewDelegate, UITableViewDataSource {
         self.gameListTable.deselectRowAtIndexPath(indexPath, animated: false)
         print("select:\(gameList[indexPath.row])")
         //ここで画面遷移したい
-        masterViewController.performSegue("startGame")
+        //masterViewController.performSegue("startGame")
+        self.sendMesasge()
     }
 
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AccountViewController: BaseViewController {
+class ProfileViewController: BaseViewController {
     
     var masterViewController: TabControllerMasterDelegate! = nil
     
