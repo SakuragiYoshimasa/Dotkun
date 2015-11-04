@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SelectGameViewController: hogeController {
+class SelectGameViewController: TabBarSlaveViewController {
     
     var gameListTable: UITableView! = nil
     var gameList = ["ローカル", "オンライン", "あー", "いー", "うー"]
@@ -16,7 +16,6 @@ class SelectGameViewController: hogeController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         let statusBarHeight = Util.getStatusBarHeight()
         if gameListTable == nil {
@@ -63,8 +62,7 @@ extension SelectGameViewController: UITableViewDelegate, UITableViewDataSource {
         self.gameListTable.deselectRowAtIndexPath(indexPath, animated: false)
         print("select:\(gameList[indexPath.row])")
         //ここで画面遷移したい
-        //masterViewController.performSegue("startGame")
-        self.sendMesasge()
+        self.sendMesasgeToMaster(Constants.Message.StartGame)
     }
 
 }

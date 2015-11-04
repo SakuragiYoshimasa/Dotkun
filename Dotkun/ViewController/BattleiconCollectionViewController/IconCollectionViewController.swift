@@ -9,9 +9,7 @@
 
 import UIKit
 
-class IconCollectionViewController: BaseViewController {
-    
-    var masterViewController: TabControllerMasterDelegate! = nil
+class IconCollectionViewController: TabBarSlaveViewController {
     
     var createButton: UIButton! = nil
     
@@ -28,7 +26,7 @@ class IconCollectionViewController: BaseViewController {
     }
     
     func createIcon() {
-        masterViewController.performSegue("createIcon")
+        self.sendMesasgeToMaster(Constants.Message.CreateIcon)
     }
     
     override func didReceiveMemoryWarning() {

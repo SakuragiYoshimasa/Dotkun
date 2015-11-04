@@ -8,9 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: BaseViewController {
-    
-    var masterViewController: TabControllerMasterDelegate! = nil
+class ProfileViewController: TabBarSlaveViewController {
     
     var imageView: UIImageView!
     var namelabel: UILabel!

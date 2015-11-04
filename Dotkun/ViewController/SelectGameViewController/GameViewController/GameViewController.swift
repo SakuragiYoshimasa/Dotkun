@@ -17,8 +17,7 @@ class GameViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
+
         if gameView == nil {
             gameView = GameView(frame: CGRectMake(0,Util.getStatusBarHeight(),self.view.bounds.width, self.view.bounds.height-Util.getStatusBarHeight()))
             gameView.backgroundColor = UIColor.whiteColor()
@@ -51,7 +50,6 @@ class GameViewController: BaseViewController {
         for dotkun in dotkuns {
             dotkun.move(Util.generateRandom()*2-1, y: Util.generateRandom()*2-1)
         }
-        print("update")
     }
     
 }

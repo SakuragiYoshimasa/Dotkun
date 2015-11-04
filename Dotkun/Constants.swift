@@ -12,15 +12,23 @@ class Constants {
     static let APPNAME = "Dotkun"
     
     //-------------------------------------
-    //GameSetting
+    // GameSetting
     //-------------------------------------
     static let GAME_FPS = 60.0
     
     
     //-------------------------------------
-    //ColorSettings
+    // ColorSettings
     //-------------------------------------
     static let MAINCOLOR = UIColor(red: 0.4, green: 0.8, blue: 0.8, alpha: 1.0)
     static let BACKCOLOR = UIColor(red: 1.0, green: 0.5, blue: 0.5, alpha: 1.0)
     static let TEXTCOLOR = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    
+    //-------------------------------------
+    // Message
+    //-------------------------------------
+    enum Message {
+        case StartGame
+        case CreateIcon
+    }
 }

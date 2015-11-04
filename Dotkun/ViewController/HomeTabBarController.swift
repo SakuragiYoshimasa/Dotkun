@@ -8,12 +8,7 @@
 
 import UIKit
 
-protocol TabControllerMasterDelegate {
-    func performSegue(identifier: String)
-    func getTabBarHeight() -> CGFloat
-}
-
-class HomeTabBarController: UITabBarController, TabControllerMasterDelegate {
+class HomeTabBarController: UITabBarController, TabBarMasterDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -22,14 +17,12 @@ class HomeTabBarController: UITabBarController, TabControllerMasterDelegate {
         
         let firstViewController = SelectGameViewController()
         firstViewController.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.Favorites, tag: 1)
-        //firstViewController.masterViewController = self
-        firstViewController.setHome(self)
-        firstViewController.setIdentifer("startGame")
+        firstViewController.setMaster(self)
         viewControllers.append(firstViewController)
         
         let secondViewController = IconCollectionViewController()
         secondViewController.tabBarItem = UITabBarItem(tabBarSystemItem: UITabBarSystemItem.More, tag: 2)
-        secondViewController.masterViewController = self
+        secondViewController.setMaster(self)
         viewControllers.append(secondViewController)
         
         let thirdViewController = ProfileViewController()
@@ -48,10 +41,10 @@ class HomeTabBarController: UITabBarController, TabControllerMasterDelegate {
         return self.tabBar.frame.height
     }
     
-    func performSegue(identifier: String) {
-        if identifier == "startGame" {
+    func receiveMessage(message: Constants.Message) {
+        if message == Constants.Message.StartGame {
             startGame()
-        } else if identifier == "createIcon" {
+        } else if message == Constants.Message.CreateIcon {
             createIcon()
         }
     }

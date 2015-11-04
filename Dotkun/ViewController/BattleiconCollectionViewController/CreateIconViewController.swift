@@ -9,7 +9,7 @@
 import UIKit
 
 
-class CreateIconViewController: BaseViewController, DrawableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CreateIconViewController: TabBarSlaveViewController, DrawableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var drawableView: DrawableView! = nil
     
