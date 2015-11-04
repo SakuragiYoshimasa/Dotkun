@@ -182,6 +182,8 @@ class DrawableView: UIView {
         }
         
         currentLine = nil
+        
+        requireRedraw()
     }
     
     private func requireRedraw() {
@@ -250,10 +252,7 @@ class DrawableView: UIView {
     }
     
     func save() {
-        // 念のため再描画
-        updateCurrentImage()
-        UIImageWriteToSavedPhotosAlbum(self.currentImage!, self, "image:didFinishSavingWithError:contextInfo:", nil)
-        
+        UIImageWriteToSavedPhotosAlbum(self.getCurrentImage(), self, "image:didFinishSavingWithError:contextInfo:", nil)
     }
     
     func image(image: UIImage, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutablePointer<Void>) {
@@ -263,6 +262,7 @@ class DrawableView: UIView {
         } else {
             delegate?.onFinishSave()
         }
+        delegate?.onFinishSave()
     }
     
     //描画設定
