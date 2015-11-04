@@ -42,10 +42,11 @@ class HomeTabBarController: UITabBarController, TabBarMasterDelegate {
     }
     
     func receiveMessage(message: Constants.Message) {
-        if message == Constants.Message.StartGame {
-            startGame()
-        } else if message == Constants.Message.CreateIcon {
-            createIcon()
+        switch message {
+            case .CreateIcon:
+                createIcon()
+            case .StartGame:
+                startGame()
         }
     }
     
