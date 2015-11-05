@@ -35,6 +35,8 @@
 		FA1E91B01BE9CEC600566A94 /* CreateIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91AD1BE9CEC600566A94 /* CreateIconViewController.swift */; };
 		FA1E91B11BE9CEC600566A94 /* DrawableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91AE1BE9CEC600566A94 /* DrawableView.swift */; };
 		FA1E91B21BE9CEC600566A94 /* IconCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91AF1BE9CEC600566A94 /* IconCollectionViewController.swift */; };
+		FA1E92041BEB5BCC00566A94 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E92031BEB5BCC00566A94 /* GameController.swift */; };
+		FA1E92061BEB5BE000566A94 /* GameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E92051BEB5BE000566A94 /* GameUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +93,8 @@
 		FA1E91AD1BE9CEC600566A94 /* CreateIconViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateIconViewController.swift; sourceTree = "<group>"; };
 		FA1E91AE1BE9CEC600566A94 /* DrawableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawableView.swift; sourceTree = "<group>"; };
 		FA1E91AF1BE9CEC600566A94 /* IconCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconCollectionViewController.swift; sourceTree = "<group>"; };
+		FA1E92031BEB5BCC00566A94 /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
+		FA1E92051BEB5BE000566A94 /* GameUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +265,8 @@
 			children = (
 				FA1E91A91BE9CD8100566A94 /* GameView.swift */,
 				FA1E91AA1BE9CD8100566A94 /* GameViewController.swift */,
+				FA1E92031BEB5BCC00566A94 /* GameController.swift */,
+				FA1E92051BEB5BE000566A94 /* GameUtils.swift */,
 			);
 			path = GameViewController;
 			sourceTree = "<group>";
@@ -469,12 +475,14 @@
 				FA01F4FB1BE76206003B738C /* User.swift in Sources */,
 				FA1E91AC1BE9CD8100566A94 /* GameViewController.swift in Sources */,
 				55F33D591BE86160007A73E5 /* ReadMe.swift in Sources */,
+				FA1E92061BEB5BE000566A94 /* GameUtils.swift in Sources */,
 				55F33D4D1BE8515A007A73E5 /* ProfileViewController.swift in Sources */,
 				FA1E91B01BE9CEC600566A94 /* CreateIconViewController.swift in Sources */,
 				FA1E91A71BE9CD5A00566A94 /* SelectGameViewController.swift in Sources */,
 				FA1E91AB1BE9CD8100566A94 /* GameView.swift in Sources */,
 				55F33D4B1BE8510E007A73E5 /* HomeTabBarController.swift in Sources */,
 				55BF3B311BE9DD5400AF67AC /* ViewController.swift in Sources */,
+				FA1E92041BEB5BCC00566A94 /* GameController.swift in Sources */,
 				FA01F4F61BE75F66003B738C /* Dotkun.swift in Sources */,
 				FA01F4C51BE75AE5003B738C /* AppDelegate.swift in Sources */,
 			);
