@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 
+
 class BattleIcon: Object {
     static let realm = try! Realm()
     

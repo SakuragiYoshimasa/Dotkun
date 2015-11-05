@@ -22,6 +22,10 @@ class TabBarSlaveViewController: BaseViewController {
         }
     }
     
+    final func getTabBarHeight() -> CGFloat {
+        return master.getTabBarHeight()
+    }
+    
     final func setMaster(master: TabBarMasterDelegate){
         self.master = master
     }

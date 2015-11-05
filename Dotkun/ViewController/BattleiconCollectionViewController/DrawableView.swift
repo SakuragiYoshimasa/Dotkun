@@ -251,8 +251,13 @@ class DrawableView: UIView {
         self.requireRedraw()
     }
     
-    func save() {
+    func saveToAlbam() {
         UIImageWriteToSavedPhotosAlbum(self.getCurrentImage(), self, "image:didFinishSavingWithError:contextInfo:", nil)
+    }
+    
+    func save() {
+        BattleIcon.new(self.getCurrentImage())
+        delegate?.onFinishSave()
     }
     
     func image(image: UIImage, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutablePointer<Void>) {
