@@ -18,6 +18,13 @@ class CreateIconViewController: TabBarSlaveViewController, DrawableViewDelegate,
     var clearButton: UIButton! = nil
     var loadButton: UIButton! = nil
     
+    var lineWidthSlider: UISlider! = nil
+    var setColorButton: UIButton! = nil
+    
+    override func viewWillAppear(animated: Bool) {
+        self.lineWidthSlider?.value = Float(sqrt(self.drawableView.getLineWidth()))
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,6 +73,25 @@ class CreateIconViewController: TabBarSlaveViewController, DrawableViewDelegate,
             self.view.addSubview(saveButton)
         }
         
+        if lineWidthSlider == nil {
+            lineWidthSlider = UISlider(frame: CGRectMake(20, self.view.bounds.height - 50 - 25, self.view.bounds.width - 20 - 100, 50))
+            lineWidthSlider.minimumValue = 1.0
+            lineWidthSlider.maximumValue = 10.0
+            lineWidthSlider.addTarget(self, action: "lineWidthChanged:", forControlEvents: .ValueChanged)
+            self.view.addSubview(lineWidthSlider)
+        }
+        
+        if setColorButton == nil {
+            setColorButton = UIButton(frame: CGRect(origin: CGPointZero, size: CGSizeMake(50, 50)))
+            setColorButton.layer.position = CGPointMake(self.view.bounds.width - 50, self.view.bounds.height - 50)
+            setColorButton.backgroundColor = UIColor(CGColor: drawableView.getLineColor())
+            self.view.addSubview(setColorButton)
+        }
+        
+    }
+    
+    func lineWidthChanged(sender: AnyObject?) {
+        self.drawableView.setLineWidth(CGFloat(lineWidthSlider.value * lineWidthSlider.value))
     }
     
     func load() {
