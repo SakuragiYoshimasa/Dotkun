@@ -6,5 +6,47 @@
 //  Copyright © 2015年 SakuragiYoshimasa. All rights reserved.
 //
 class GameUtils {
+    
+}
 
+struct Position {
+    var x: Int
+    var y: Int
+}
+
+func + (p1:Position, p2:Position)->Position {
+    return Position(x: p1.x + p2.x, y: p1.y + p2.y)
+}
+
+enum Direction {
+    case UP
+    case RIGHT
+    case DOWN
+    case LEFT
+    
+    func getPositionValue()->Position {
+        switch self {
+        case .UP:
+            return Position(x: 0, y: -1);
+        case .RIGHT:
+            return Position(x: 1, y: 0);
+        case .DOWN:
+            return Position(x: 0, y: -1);
+        case .LEFT:
+            return Position(x: 1, y: 0);
+        }
+    }
+}
+
+struct GameSettings {
+    static let FIELD_WIDTH: Int = 80
+    static let FIELD_HEIGHT: Int = 120
+    static let DOT_SIZE: Int = 6
+    static let DOTKUN_NUM: Int = 2048
+}
+
+enum FieldState{
+    case NONE
+    case ALLY
+    case ENEMY
 }

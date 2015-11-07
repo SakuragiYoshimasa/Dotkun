@@ -14,7 +14,7 @@ class GameViewController: BaseViewController {
     var gameView: GameView! = nil
     var gameController: GameController! = nil
     
-    var dotkuns: [Dotkun] = []
+    //var dotkuns: [Dotkun] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,12 +32,13 @@ class GameViewController: BaseViewController {
         if gameController == nil {
             gameController = GameController();
         }
+        gameController.initGame(gameView)
         
-        initGame()
+       // initGame()
     }
     
-    func initGame() {
-        dotkuns = []
+    //func initGame() {
+        /*dotkuns = []
         for i in 0...2047 {
             let dotkun = Dotkun(color: TestUtil.randomColor(), pos: TestUtil.randomPoint(gameView.bounds))
             dotkun.setIndex(i)
@@ -45,7 +46,8 @@ class GameViewController: BaseViewController {
             gameView.addObject(dotkun)
             gameController.setDotkun(dotkun, index: i)
         }
-    }
+        */
+   // }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -55,9 +57,9 @@ class GameViewController: BaseViewController {
     func onUpdate() {
         gameController.update()
         gameView.setNeedsDisplay()
-        for dotkun in dotkuns {
+       /* for dotkun in dotkuns {
             dotkun.move(Util.generateRandom()*2-1, y: Util.generateRandom()*2-1)
-        }
+        }*/
     }
     
 }

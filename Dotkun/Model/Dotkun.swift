@@ -8,19 +8,6 @@
 
 import UIKit
 
-struct Position {
-    var x: Int
-    var y: Int
-}
-
-enum Direction {
-    case UP
-    case RIGHT
-    case DOWN
-    case LEFT
-}
-
-
 class Dotkun: GameViewObject {
     // 管理用
     private var ID: Int = 0
@@ -97,6 +84,14 @@ class Dotkun: GameViewObject {
         if targetPosition == nil {
             
         }
+    }
+    
+    func getPosition()->Position{
+        return self.fieldPosition
+    }
+    
+    func getDirection()->Direction{
+        return direction
     }
 }
 
