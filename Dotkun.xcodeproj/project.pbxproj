@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		550D20BE1BEB6B0400B6EC4A /* BattleIconCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550D20BD1BEB6B0400B6EC4A /* BattleIconCollectionCell.swift */; };
 		558032C11BE77F54001D9C61 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558032C01BE77F54001D9C61 /* Constants.swift */; };
 		55BF3B2F1BE9DD5400AF67AC /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BF3B2C1BE9DD5400AF67AC /* BaseViewController.swift */; };
 		55BF3B301BE9DD5400AF67AC /* TabBarSlaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BF3B2D1BE9DD5400AF67AC /* TabBarSlaveViewController.swift */; };
@@ -32,9 +33,9 @@
 		FA1E91A71BE9CD5A00566A94 /* SelectGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91A51BE9CD5A00566A94 /* SelectGameViewController.swift */; };
 		FA1E91AB1BE9CD8100566A94 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91A91BE9CD8100566A94 /* GameView.swift */; };
 		FA1E91AC1BE9CD8100566A94 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91AA1BE9CD8100566A94 /* GameViewController.swift */; };
-		FA1E91B01BE9CEC600566A94 /* CreateIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91AD1BE9CEC600566A94 /* CreateIconViewController.swift */; };
+		FA1E91B01BE9CEC600566A94 /* CreateBattleIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91AD1BE9CEC600566A94 /* CreateBattleIconViewController.swift */; };
 		FA1E91B11BE9CEC600566A94 /* DrawableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91AE1BE9CEC600566A94 /* DrawableView.swift */; };
-		FA1E91B21BE9CEC600566A94 /* IconCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91AF1BE9CEC600566A94 /* IconCollectionViewController.swift */; };
+		FA1E91B21BE9CEC600566A94 /* BattleIconCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91AF1BE9CEC600566A94 /* BattleIconCollectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		1F264AC49FB783E0CC7239C3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		550D20BD1BEB6B0400B6EC4A /* BattleIconCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BattleIconCollectionCell.swift; sourceTree = "<group>"; };
 		558032C01BE77F54001D9C61 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		55BF3B2C1BE9DD5400AF67AC /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		55BF3B2D1BE9DD5400AF67AC /* TabBarSlaveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarSlaveViewController.swift; sourceTree = "<group>"; };
@@ -88,9 +90,9 @@
 		FA1E91A51BE9CD5A00566A94 /* SelectGameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectGameViewController.swift; sourceTree = "<group>"; };
 		FA1E91A91BE9CD8100566A94 /* GameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		FA1E91AA1BE9CD8100566A94 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-		FA1E91AD1BE9CEC600566A94 /* CreateIconViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateIconViewController.swift; sourceTree = "<group>"; };
+		FA1E91AD1BE9CEC600566A94 /* CreateBattleIconViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateBattleIconViewController.swift; sourceTree = "<group>"; };
 		FA1E91AE1BE9CEC600566A94 /* DrawableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawableView.swift; sourceTree = "<group>"; };
-		FA1E91AF1BE9CEC600566A94 /* IconCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconCollectionViewController.swift; sourceTree = "<group>"; };
+		FA1E91AF1BE9CEC600566A94 /* BattleIconCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BattleIconCollectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,8 +132,9 @@
 		55F33D651BE8A1C8007A73E5 /* BattleiconCollectionViewController */ = {
 			isa = PBXGroup;
 			children = (
-				FA1E91AF1BE9CEC600566A94 /* IconCollectionViewController.swift */,
-				FA1E91AD1BE9CEC600566A94 /* CreateIconViewController.swift */,
+				FA1E91AF1BE9CEC600566A94 /* BattleIconCollectionViewController.swift */,
+				550D20BD1BEB6B0400B6EC4A /* BattleIconCollectionCell.swift */,
+				FA1E91AD1BE9CEC600566A94 /* CreateBattleIconViewController.swift */,
 				FA1E91AE1BE9CEC600566A94 /* DrawableView.swift */,
 			);
 			path = BattleiconCollectionViewController;
@@ -458,7 +461,7 @@
 			files = (
 				55BF3B301BE9DD5400AF67AC /* TabBarSlaveViewController.swift in Sources */,
 				FA1E919C1BE9C1EB00566A94 /* BattleIcon.swift in Sources */,
-				FA1E91B21BE9CEC600566A94 /* IconCollectionViewController.swift in Sources */,
+				FA1E91B21BE9CEC600566A94 /* BattleIconCollectionViewController.swift in Sources */,
 				55F33D5B1BE862DA007A73E5 /* LoginViewController.swift in Sources */,
 				FA1E91B11BE9CEC600566A94 /* DrawableView.swift in Sources */,
 				55BF3B2F1BE9DD5400AF67AC /* BaseViewController.swift in Sources */,
@@ -468,9 +471,10 @@
 				558032C11BE77F54001D9C61 /* Constants.swift in Sources */,
 				FA01F4FB1BE76206003B738C /* User.swift in Sources */,
 				FA1E91AC1BE9CD8100566A94 /* GameViewController.swift in Sources */,
+				550D20BE1BEB6B0400B6EC4A /* BattleIconCollectionCell.swift in Sources */,
 				55F33D591BE86160007A73E5 /* ReadMe.swift in Sources */,
 				55F33D4D1BE8515A007A73E5 /* ProfileViewController.swift in Sources */,
-				FA1E91B01BE9CEC600566A94 /* CreateIconViewController.swift in Sources */,
+				FA1E91B01BE9CEC600566A94 /* CreateBattleIconViewController.swift in Sources */,
 				FA1E91A71BE9CD5A00566A94 /* SelectGameViewController.swift in Sources */,
 				FA1E91AB1BE9CD8100566A94 /* GameView.swift in Sources */,
 				55F33D4B1BE8510E007A73E5 /* HomeTabBarController.swift in Sources */,
