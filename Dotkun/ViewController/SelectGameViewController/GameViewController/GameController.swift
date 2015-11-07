@@ -21,7 +21,7 @@ class GameController {
         dotkuns = []
         for i in 0..<GameSettings.DOTKUN_NUM {
             let dotkun = Dotkun(color: TestUtil.randomColor(), pos: TestUtil.randomPoint(gameView.bounds))
-            dotkun.setID(i)
+            dotkun.id = i
             dotkun.updatePosition(i % GameSettings.FIELD_WIDTH, y: i / (GameSettings.FIELD_HEIGHT))
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
@@ -104,7 +104,7 @@ class GameController {
     
     func setDotkunToFieldCell(dotkun: Dotkun){
         gameFeild[dotkun.getPosition().x][dotkun.getPosition().y].dotkun = dotkun
-        if dotkun.getID() < GameSettings.DOTKUN_NUM/2 {
+        if dotkun.id < GameSettings.DOTKUN_NUM/2 {
             gameFeild[dotkun.getPosition().x][dotkun.getPosition().y].state = FieldState.ALLY
         }else{
             gameFeild[dotkun.getPosition().x][dotkun.getPosition().y].state = FieldState.ENEMY

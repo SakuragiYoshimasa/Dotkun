@@ -10,7 +10,15 @@ import UIKit
 
 class Dotkun: GameViewObject {
     // 管理用
-    private var id: Int = 0
+    private var _id: Int = 0
+    var id: Int {
+        set{
+            _id = newValue
+        }
+        get{
+            return _id
+        }
+    }
     
     private var color: UIColor! = nil
     private var colorType: ColorType! = nil
@@ -68,13 +76,6 @@ class Dotkun: GameViewObject {
         fieldPosition = Position(x: 0,y: 0)
     }
     
-    func setID(i: Int){
-        id = i
-    }
-    func getID()->Int {
-        return id
-    }
-    
     func updatePosition(x: Int, y: Int){
         self.fieldPosition = Position(x: x, y: y)
         self.position = CGPoint(x: x * GameSettings.DOT_SIZE, y: y * GameSettings.DOT_SIZE)
@@ -106,11 +107,12 @@ class Dotkun: GameViewObject {
         return direction
     }
     
-    func battleWith(enemy: Dotkun) {
-        //---------------------
-    }
     func getSpentFrames()-> Int {
         return spentFrames
+    }
+    
+    func battleWith(enemy: Dotkun) {
+        //---------------------
     }
     
     //端に行った時用、とリあえず回す
