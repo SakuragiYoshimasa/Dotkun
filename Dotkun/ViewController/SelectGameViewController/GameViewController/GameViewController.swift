@@ -13,7 +13,7 @@ class GameViewController: BaseViewController {
     var updateTimer: NSTimer! = nil
     var gameView: GameView! = nil
     var gameController: GameController! = nil
-    
+    var startButton: UIButton! = nil
     //var dotkuns: [Dotkun] = []
     
     override func viewDidLoad() {
@@ -33,6 +33,14 @@ class GameViewController: BaseViewController {
             gameController = GameController();
         }
         gameController.initGame(gameView)
+        
+        if startButton == nil {
+            startButton = UIButton(frame: CGRectMake(50,300,200,50))
+            startButton.setTitle("StartGame", forState: .Normal)
+            startButton.addTarget(self, action: "startGame", forControlEvents: .TouchUpInside)
+            startButton.backgroundColor = Constants.BACKCOLOR
+            self.view.addSubview(startButton)
+        }
         
        // initGame()
     }
@@ -57,9 +65,14 @@ class GameViewController: BaseViewController {
     func onUpdate() {
         gameController.update()
         gameView.setNeedsDisplay()
+        startButton.setNeedsDisplay()
        /* for dotkun in dotkuns {
             dotkun.move(Util.generateRandom()*2-1, y: Util.generateRandom()*2-1)
         }*/
     }
     
+    func startGame(){
+        startButton.removeFromSuperview()
+        gameController.startGame()
+    }
 }
