@@ -38,6 +38,10 @@ class Dotkun: GameViewObject {
         self.color = color
         self.position = pos
         self._id = id
+        self.hp = 100
+        self.power = 25
+            //Int(Util.generateRandom() * CGFloat(100.0))
+        self.speed = Util.generateRandom() * CGFloat(5.0)
         if id < GameSettings.DOTKUN_NUM/2 {
             self.direction = Direction.UP
         }else{
@@ -45,7 +49,7 @@ class Dotkun: GameViewObject {
         }
     }
     
-    func drawOnContext(context: CGContextRef) {
+    override func drawOnContext(context: CGContextRef) {
         UIGraphicsPushContext(context)
         
         self.color.setFill()
@@ -53,14 +57,12 @@ class Dotkun: GameViewObject {
         
         UIColor.brownColor().setStroke()
         CGContextSetLineWidth(context, 1)
-        
         // 首
         CGContextMoveToPoint(context, position.x, position.y+3)
         // 股
         CGContextAddLineToPoint(context, position.x, position.y+8)
         // 右足の先
         CGContextAddLineToPoint(context, position.x+3, position.y+11)
-        
         // 股
         CGContextMoveToPoint(context, position.x, position.y+8)
         // 左足の先
@@ -77,7 +79,7 @@ class Dotkun: GameViewObject {
         UIGraphicsPopContext()
     }
     
-    init() {
+    override init() {
         fieldPosition = Position(x: 0,y: 0)
     }
     
@@ -117,12 +119,17 @@ class Dotkun: GameViewObject {
     }
     
     func battleWith(enemy: Dotkun) {
-        //---------------------
+        //self.hp? -= enemy.power!
+        enemy.hp? -= self.power!
     }
     
     //端に行った時用、とリあえず回す
     func changeDirection() {
         direction = Direction(rawValue: (direction.rawValue + 1) % 4)
+    }
+    
+    func checkAlive()->Bool {
+        return self.hp > 0
     }
 }
 

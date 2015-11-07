@@ -35,10 +35,10 @@
 		FA1E91AC1BE9CD8100566A94 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91AA1BE9CD8100566A94 /* GameViewController.swift */; };
 		FA1E91B01BE9CEC600566A94 /* CreateBattleIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91AD1BE9CEC600566A94 /* CreateBattleIconViewController.swift */; };
 		FA1E91B11BE9CEC600566A94 /* DrawableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91AE1BE9CEC600566A94 /* DrawableView.swift */; };
+		FA1E91B21BE9CEC600566A94 /* BattleIconCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91AF1BE9CEC600566A94 /* BattleIconCollectionViewController.swift */; };
 		FA1E92041BEB5BCC00566A94 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E92031BEB5BCC00566A94 /* GameController.swift */; };
 		FA1E92061BEB5BE000566A94 /* GameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E92051BEB5BE000566A94 /* GameUtils.swift */; };
-		FA1E91B21BE9CEC600566A94 /* BattleIconCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E91AF1BE9CEC600566A94 /* BattleIconCollectionViewController.swift */; };
-
+		FAE5C4791BEE2B5F00E5872B /* GameViewObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE5C4781BEE2B5F00E5872B /* GameViewObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,9 +95,10 @@
 		FA1E91AA1BE9CD8100566A94 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		FA1E91AD1BE9CEC600566A94 /* CreateBattleIconViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateBattleIconViewController.swift; sourceTree = "<group>"; };
 		FA1E91AE1BE9CEC600566A94 /* DrawableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawableView.swift; sourceTree = "<group>"; };
+		FA1E91AF1BE9CEC600566A94 /* BattleIconCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BattleIconCollectionViewController.swift; sourceTree = "<group>"; };
 		FA1E92031BEB5BCC00566A94 /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
 		FA1E92051BEB5BE000566A94 /* GameUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameUtils.swift; sourceTree = "<group>"; };
-		FA1E91AF1BE9CEC600566A94 /* BattleIconCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BattleIconCollectionViewController.swift; sourceTree = "<group>"; };
+		FAE5C4781BEE2B5F00E5872B /* GameViewObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -271,6 +272,7 @@
 				FA1E91AA1BE9CD8100566A94 /* GameViewController.swift */,
 				FA1E92031BEB5BCC00566A94 /* GameController.swift */,
 				FA1E92051BEB5BE000566A94 /* GameUtils.swift */,
+				FAE5C4781BEE2B5F00E5872B /* GameViewObject.swift */,
 			);
 			path = GameViewController;
 			sourceTree = "<group>";
@@ -489,6 +491,7 @@
 				55BF3B311BE9DD5400AF67AC /* ViewController.swift in Sources */,
 				FA1E92041BEB5BCC00566A94 /* GameController.swift in Sources */,
 				FA01F4F61BE75F66003B738C /* Dotkun.swift in Sources */,
+				FAE5C4791BEE2B5F00E5872B /* GameViewObject.swift in Sources */,
 				FA01F4C51BE75AE5003B738C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
