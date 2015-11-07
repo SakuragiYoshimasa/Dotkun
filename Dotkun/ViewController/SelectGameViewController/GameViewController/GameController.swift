@@ -74,7 +74,9 @@ class GameController {
         frameCounter++
     }
     
-    func updateFinishState(){}
+    func updateFinishState(){
+        
+    }
     
     //--------------------------------------------------
     //Dotkun操作

@@ -99,10 +99,10 @@
             </objects>
             <point key="canvasLocation" x="1192.5" y="132.5"/>
         </scene>
-        <!--Create Icon View Controller-->
+        <!--Create Battle Icon View Controller-->
         <scene sceneID="PEn-jJ-9AA">
             <objects>
-                <viewController id="5be-AX-6AL" customClass="CreateIconViewController" customModule="Dotkun" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="5be-AX-6AL" customClass="CreateBattleIconViewController" customModule="Dotkun" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wyi-FI-Gh0"/>
                         <viewControllerLayoutGuide type="bottom" id="1FZ-KF-jcA"/>

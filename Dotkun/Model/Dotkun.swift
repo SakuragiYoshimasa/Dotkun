@@ -10,23 +10,21 @@ import UIKit
 
 class Dotkun: GameViewObject {
     // 管理用
-    private var ID: Int = 0
+    private var id: Int = 0
     
     private var color: UIColor! = nil
     private var colorType: ColorType! = nil
    
-    private var position: CGPoint! = nil
-    
     private var power: Int! = nil
     private var hp: Int! = nil
     private var speed: CGFloat! = nil
     
+    private var position: CGPoint! = nil
     private var fieldPosition: Position! = nil
     private var targetPosition: Position! = nil
     private var direction: Direction! = nil
     
     private var spentFrames: Int = 0
-    
     
     init(color: UIColor, pos: CGPoint) {
         self.color = color
@@ -66,20 +64,15 @@ class Dotkun: GameViewObject {
         UIGraphicsPopContext()
     }
     
-    
-    func move(x: CGFloat, y: CGFloat) {
-        self.position.move(x, y: y)
-    }
-    
     init() {
         fieldPosition = Position(x: 0,y: 0)
     }
     
     func setID(i: Int){
-        ID = i
+        id = i
     }
     func getID()->Int {
-        return ID
+        return id
     }
     
     func updatePosition(x: Int, y: Int){
@@ -102,26 +95,26 @@ class Dotkun: GameViewObject {
         spentFrames = frameCounter
     }
     
-    func getPosition()->Position{
+    func getPosition()->Position {
         if fieldPosition == nil {
             fieldPosition = Position(x:0, y:0)
         }
         return self.fieldPosition
     }
     
-    func getDirection()->Direction{
+    func getDirection()->Direction {
         return direction
     }
     
-    func battleWith(enemy: Dotkun){
+    func battleWith(enemy: Dotkun) {
         //---------------------
     }
-    func getSpentFrames()-> Int{
+    func getSpentFrames()-> Int {
         return spentFrames
     }
     
     //端に行った時用、とリあえず回す
-    func changeDirection(){
+    func changeDirection() {
         direction = Direction(rawValue: (direction.rawValue + 1) % 4)
     }
 }
