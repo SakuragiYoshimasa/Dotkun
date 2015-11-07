@@ -31,7 +31,7 @@ class Dotkun: GameViewObject {
     init(color: UIColor, pos: CGPoint) {
         self.color = color
         self.position = pos
-        self.direction = Direction.UP
+        self.direction = Direction.DOWN
     }
     
     func drawOnContext(context: CGContextRef) {
@@ -89,6 +89,7 @@ class Dotkun: GameViewObject {
     
     func updatePosition(){
         self.fieldPosition? += self.direction.getPositionValue()
+        updatePosition(fieldPosition.x, y: fieldPosition.y)
     }
     
     func updateDirection(){

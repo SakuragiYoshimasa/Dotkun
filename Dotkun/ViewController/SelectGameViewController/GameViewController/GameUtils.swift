@@ -23,10 +23,10 @@ func += (inout p1:Position, p2:Position){
 }
 
 enum Direction : Int {
-    case UP
-    case RIGHT
-    case DOWN
-    case LEFT
+    case UP = 0
+    case RIGHT = 1
+    case DOWN = 2
+    case LEFT = 3
     
     func getPositionValue()->Position {
         switch self {
@@ -35,17 +35,17 @@ enum Direction : Int {
         case .RIGHT:
             return Position(x: 1, y: 0);
         case .DOWN:
-            return Position(x: 0, y: -1);
+            return Position(x: 0, y: 1);
         case .LEFT:
-            return Position(x: 1, y: 0);
+            return Position(x: -1, y: 0);
         }
     }
 }
 
 struct GameSettings {
-    static let FIELD_WIDTH: Int = 80
-    static let FIELD_HEIGHT: Int = 120
-    static let DOT_SIZE: Int = 20
+    static let FIELD_WIDTH: Int = 120
+    static let FIELD_HEIGHT: Int = 200
+    static let DOT_SIZE: Int = 3
     static let DOTKUN_NUM: Int = 2048
 }
 //ID 0~1023;ALLY 1024~2047::Enemy

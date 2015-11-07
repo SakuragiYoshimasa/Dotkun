@@ -5,6 +5,8 @@
 //  Created by SakuragiYoshimasa on 2015/11/05.
 //  Copyright © 2015年 SakuragiYoshimasa. All rights reserved.
 //
+import Foundation
+
 class GameController {
     
     private var gameFeild = [[FieldCell]](count: GameSettings.FIELD_WIDTH, repeatedValue: [FieldCell](count: GameSettings.FIELD_HEIGHT, repeatedValue: FieldCell(state: FieldState.NONE, dotkun: nil)))
@@ -14,16 +16,18 @@ class GameController {
     func update(){
         
         for dotkun in dotkuns {
-             dotkun.move(Util.generateRandom() , y: Util.generateRandom() )
-            if dotkun.getSpentFrames() == frameCounter {continue}
+            //dotkun.move(Util.generateRandom() , y: Util.generateRandom() )
+            if dotkun.getSpentFrames() > frameCounter {continue}
             dotkun.updateDirection()
-            
+
             switch checkField(dotkun.getPosition() + dotkun.getDirection().getPositionValue()){
             case .ALLY:
+                dotkun.changeDirection()
                 dotkun.updateFrame(frameCounter)
                 break;
             case .ENEMY:
-                battle(dotkun, enemyDotkun: getDotkun(dotkun.getPosition() + dotkun.getDirection().getPositionValue()))
+                dotkun.changeDirection()
+                //battle(dotkun, enemyDotkun: getDotkun(dotkun.getPosition() + dotkun.getDirection().getPositionValue()))
                 break;
             case .NONE:
                 initFieldCell(dotkun.getPosition())
@@ -33,6 +37,7 @@ class GameController {
                 break;
             case .OUT_OF_FIELD:
                 dotkun.changeDirection()
+                dotkun.updateFrame(frameCounter)
                 break;
             }
         }
@@ -62,6 +67,7 @@ class GameController {
         if(position.x >= GameSettings.FIELD_WIDTH || position.x < 0 || position.y >= GameSettings.FIELD_HEIGHT || position.y < 0) {
             return .OUT_OF_FIELD
         }
+        //return FieldState.NONE
         return gameFeild[position.x][position.y].state
     }
     
