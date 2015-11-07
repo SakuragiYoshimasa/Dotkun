@@ -34,10 +34,15 @@ class Dotkun: GameViewObject {
     
     private var spentFrames: Int = 0
     
-    init(color: UIColor, pos: CGPoint) {
+    init(color: UIColor, pos: CGPoint, id: Int) {
         self.color = color
         self.position = pos
-        self.direction = Direction.DOWN
+        self._id = id
+        if id < GameSettings.DOTKUN_NUM/2 {
+            self.direction = Direction.UP
+        }else{
+            self.direction = Direction.DOWN
+        }
     }
     
     func drawOnContext(context: CGContextRef) {

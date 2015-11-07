@@ -20,12 +20,11 @@ class GameController {
     func initGame(gameView: GameView){
         dotkuns = []
         for i in 0..<GameSettings.DOTKUN_NUM {
-            let dotkun = Dotkun(color: TestUtil.randomColor(), pos: TestUtil.randomPoint(gameView.bounds))
-            dotkun.id = i
-            dotkun.updatePosition(i % GameSettings.FIELD_WIDTH, y: i / (GameSettings.FIELD_HEIGHT))
+            let dotkun = Dotkun(color: TestUtil.randomColor(), pos: TestUtil.randomPoint(gameView.bounds), id: i)
+            //dotkun.updatePosition(i % GameSettings.FIELD_WIDTH, y: i / (GameSettings.FIELD_HEIGHT))
+            setInitialDotkunPosition(dotkun, id: i)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
-            setDotkun(dotkun, ID: i)
         }
     }
     
@@ -81,11 +80,21 @@ class GameController {
     //--------------------------------------------------
     //Dotkun操作
     //--------------------------------------------------
-    func setDotkun(newDotkun: Dotkun, ID: Int){
-        /*TODO
-        indexによってdotkunの場所の初期化を行う
-        */
-        newDotkun.updatePosition(ID % GameSettings.FIELD_WIDTH, y: ID / (GameSettings.FIELD_HEIGHT))
+    func setInitialDotkunPosition(dotkun: Dotkun, id: Int){
+        
+        if id < GameSettings.DOTKUN_NUM/2 {
+            dotkun.updatePosition(
+                id % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
+                y: (id / GameSettings.BATTLEICON_WIDTH) + GameSettings.FIELD_HEIGHT - GameSettings.INITIAL_DOT_Y_OFFSET
+            )
+        }else{
+            dotkun.updatePosition(
+                id % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
+                y: GameSettings.BATTLEICON_HEIGHT + (id - GameSettings.DOTKUN_NUM/2)/GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_Y_OFFSET
+            )
+        }
+        
+       // dotkun.updatePosition(id % GameSettings.FIELD_WIDTH, y: id / (GameSettings.FIELD_HEIGHT))
     }
     
     func battle(allyDotkun: Dotkun, enemyDotkun: Dotkun){
