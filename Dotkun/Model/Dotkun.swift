@@ -8,28 +8,48 @@
 
 import UIKit
 
+struct Position {
+    var x: Int
+    var y: Int
+}
+
+enum Direction {
+    case UP
+    case RIGHT
+    case DOWN
+    case LEFT
+}
+
+
 class Dotkun: GameViewObject {
     // 管理用
-    private var index: Int = 0
+    private var ID: Int = 0
     
     private var color: UIColor! = nil
     private var colorType: ColorType! = nil
+   
     private var position: CGPoint! = nil
     
     private var power: Int! = nil
     private var hp: Int! = nil
     private var speed: CGFloat! = nil
     
+    private var fieldPosition: Position! = nil
+    private var targetPosition: Position! = nil
+    private var direction: Direction! = nil
+    
+    
     init(color: UIColor, pos: CGPoint) {
         self.color = color
         self.position = pos
+        self.direction = Direction.UP
     }
     
     func drawOnContext(context: CGContextRef) {
         UIGraphicsPushContext(context)
         
         self.color.setFill()
-        CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, 6, 6))
+        //CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, 6, 6))
         
         UIColor.brownColor().setStroke()
         CGContextSetLineWidth(context, 1)
@@ -57,12 +77,26 @@ class Dotkun: GameViewObject {
         UIGraphicsPopContext()
     }
     
+    
     func move(x: CGFloat, y: CGFloat) {
         self.position.move(x, y: y)
     }
     
     init() {
-        
+    }
+    
+    func setIndex(i: Int){
+        ID = i
+    }
+    
+    func updatePosition(x: Int, y: Int){
+        self.position = CGPoint(x: x * GameSettings.DOT_SIZE, y: y * GameSettings.DOT_SIZE)
+    }
+    
+    func updateDirection(){
+        if targetPosition == nil {
+            
+        }
     }
 }
 

@@ -12,6 +12,7 @@ class GameViewController: BaseViewController {
     
     var updateTimer: NSTimer! = nil
     var gameView: GameView! = nil
+    var gameController: GameController! = nil
     
     var dotkuns: [Dotkun] = []
     
@@ -28,15 +29,21 @@ class GameViewController: BaseViewController {
             updateTimer = NSTimer.scheduledTimerWithTimeInterval((1.0/Constants.GAME_FPS), target: self, selector: "onUpdate", userInfo: nil, repeats: true)
         }
         
+        if gameController == nil {
+            gameController = GameController();
+        }
+        
         initGame()
     }
     
     func initGame() {
         dotkuns = []
-        for _ in 0...2047 {
+        for i in 0...2047 {
             let dotkun = Dotkun(color: TestUtil.randomColor(), pos: TestUtil.randomPoint(gameView.bounds))
+            dotkun.setIndex(i)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
+            gameController.setDotkun(dotkun, index: i)
         }
     }
     
@@ -46,6 +53,7 @@ class GameViewController: BaseViewController {
     }
     
     func onUpdate() {
+        gameController.update()
         gameView.setNeedsDisplay()
         for dotkun in dotkuns {
             dotkun.move(Util.generateRandom()*2-1, y: Util.generateRandom()*2-1)
