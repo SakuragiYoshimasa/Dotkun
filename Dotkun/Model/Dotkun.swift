@@ -25,6 +25,8 @@ class Dotkun: GameViewObject {
     private var targetPosition: Position! = nil
     private var direction: Direction! = nil
     
+    private var spentFrames: Int = 0
+    
     
     init(color: UIColor, pos: CGPoint) {
         self.color = color
@@ -70,14 +72,23 @@ class Dotkun: GameViewObject {
     }
     
     init() {
+        fieldPosition = Position(x: 0,y: 0)
     }
     
-    func setIndex(i: Int){
+    func setID(i: Int){
         ID = i
+    }
+    func getID()->Int {
+        return ID
     }
     
     func updatePosition(x: Int, y: Int){
+        self.fieldPosition = Position(x: x, y: y)
         self.position = CGPoint(x: x * GameSettings.DOT_SIZE, y: y * GameSettings.DOT_SIZE)
+    }
+    
+    func updatePosition(){
+        self.fieldPosition? += self.direction.getPositionValue()
     }
     
     func updateDirection(){
@@ -86,12 +97,31 @@ class Dotkun: GameViewObject {
         }
     }
     
+    func updateFrame(frameCounter: Int){
+        spentFrames = frameCounter
+    }
+    
     func getPosition()->Position{
+        if fieldPosition == nil {
+            fieldPosition = Position(x:0, y:0)
+        }
         return self.fieldPosition
     }
     
     func getDirection()->Direction{
         return direction
+    }
+    
+    func battleWith(enemy: Dotkun){
+        //---------------------
+    }
+    func getSpentFrames()-> Int{
+        return spentFrames
+    }
+    
+    //端に行った時用、とリあえず回す
+    func changeDirection(){
+        direction = Direction(rawValue: (direction.rawValue + 1) % 4)
     }
 }
 
