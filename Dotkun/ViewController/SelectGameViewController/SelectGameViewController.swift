@@ -19,9 +19,7 @@ class SelectGameViewController: TabBarSlaveViewController {
         
         let statusBarHeight = Util.getStatusBarHeight()
         if gameListTable == nil {
-          //  gameListTable = UITableView(frame: CGRectMake(0, statusBarHeight+100, self.view.bounds.width, self.view.bounds.height-statusBarHeight - masterViewController.getTabBarHeight() - 100))
-            
-            gameListTable = UITableView(frame: CGRectMake(0, statusBarHeight+100, self.view.bounds.width, self.view.bounds.height-statusBarHeight - 50 - 100))
+            gameListTable = UITableView(frame: CGRectMake(0, statusBarHeight+100, self.view.bounds.width, self.view.bounds.height-statusBarHeight - self.getTabBarHeight() - 100))
             gameListTable.registerClass(SelectGameTableCell.self, forCellReuseIdentifier: "SelectGameTableCell")
             gameListTable.backgroundColor = UIColor.clearColor()
             gameListTable.dataSource = self

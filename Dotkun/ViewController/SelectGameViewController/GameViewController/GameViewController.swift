@@ -12,8 +12,8 @@ class GameViewController: BaseViewController {
     
     var updateTimer: NSTimer! = nil
     var gameView: GameView! = nil
-    
-    var dotkuns: [Dotkun] = []
+    var gameController: GameController! = nil
+    var startButton: UIButton! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,28 +28,28 @@ class GameViewController: BaseViewController {
             updateTimer = NSTimer.scheduledTimerWithTimeInterval((1.0/Constants.GAME_FPS), target: self, selector: "onUpdate", userInfo: nil, repeats: true)
         }
         
-        initGame()
-    }
-    
-    func initGame() {
-        dotkuns = []
-        for _ in 0...2047 {
-            let dotkun = Dotkun(color: TestUtil.randomColor(), pos: TestUtil.randomPoint(gameView.bounds))
-            dotkuns.append(dotkun)
-            gameView.addObject(dotkun)
+        if gameController == nil {
+            gameController = GameController();
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        gameController.initGame(gameView)
+        
+        if startButton == nil {
+            startButton = UIButton(frame: CGRectMake(50,300,200,50))
+            startButton.setTitle("StartGame", forState: .Normal)
+            startButton.addTarget(self, action: "startGame", forControlEvents: .TouchUpInside)
+            startButton.backgroundColor = Constants.BACKCOLOR
+            self.view.addSubview(startButton)
+        }
     }
     
     func onUpdate() {
+        gameController.update()
         gameView.setNeedsDisplay()
-        for dotkun in dotkuns {
-            dotkun.move(Util.generateRandom()*2-1, y: Util.generateRandom()*2-1)
-        }
+        startButton.setNeedsDisplay()
     }
     
+    func startGame(){
+        startButton.removeFromSuperview()
+        gameController.startGame()
+    }
 }
