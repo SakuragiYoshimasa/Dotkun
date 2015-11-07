@@ -38,7 +38,7 @@ class Dotkun: GameViewObject {
         UIGraphicsPushContext(context)
         
         self.color.setFill()
-        //CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, 6, 6))
+        CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, 6, 6))
         
         UIColor.brownColor().setStroke()
         CGContextSetLineWidth(context, 1)
