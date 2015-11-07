@@ -9,7 +9,7 @@
 import UIKit
 
 
-class CreateIconViewController: TabBarSlaveViewController {
+class CreateBattleIconViewController: TabBarSlaveViewController {
     
     var drawableView: DrawableView! = nil
     
@@ -135,7 +135,7 @@ class CreateIconViewController: TabBarSlaveViewController {
     }
 }
 
-extension CreateIconViewController: DrawableViewDelegate {
+extension CreateBattleIconViewController: DrawableViewDelegate {
     func onUpdateDrawableView() {
         
     }
@@ -150,20 +150,20 @@ extension CreateIconViewController: DrawableViewDelegate {
     }
 }
 
-extension CreateIconViewController: UIImagePickerControllerDelegate {
+extension CreateBattleIconViewController: UIImagePickerControllerDelegate {
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         picker.dismissViewControllerAnimated(true, completion: nil)
         drawableView.setBackgroundImage(image)
     }
 }
 
-extension CreateIconViewController: UIPopoverPresentationControllerDelegate, UINavigationControllerDelegate {
+extension CreateBattleIconViewController: UIPopoverPresentationControllerDelegate, UINavigationControllerDelegate {
     func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.None
     }
 }
 
-extension CreateIconViewController: ColorPickerViewDelegate {
+extension CreateBattleIconViewController: ColorPickerViewDelegate {
     func onColorChanged(newColor: UIColor) {
         self.setColorButton.backgroundColor = newColor
         drawableView.setLineColor(newColor.CGColor)
