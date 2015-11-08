@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		550D20BE1BEB6B0400B6EC4A /* BattleIconCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550D20BD1BEB6B0400B6EC4A /* BattleIconCollectionCell.swift */; };
 		550D20E41BEE5F2400B6EC4A /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550D20E31BEE5F2400B6EC4A /* ColorPickerViewController.swift */; };
+		555DAA7E1BEEED93006F00B0 /* BattleIconRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555DAA7D1BEEED93006F00B0 /* BattleIconRepository.swift */; };
 		558032C11BE77F54001D9C61 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558032C01BE77F54001D9C61 /* Constants.swift */; };
 		55BF3B2F1BE9DD5400AF67AC /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BF3B2C1BE9DD5400AF67AC /* BaseViewController.swift */; };
 		55BF3B301BE9DD5400AF67AC /* TabBarSlaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BF3B2D1BE9DD5400AF67AC /* TabBarSlaveViewController.swift */; };
@@ -64,6 +65,7 @@
 		1F264AC49FB783E0CC7239C3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		550D20BD1BEB6B0400B6EC4A /* BattleIconCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BattleIconCollectionCell.swift; sourceTree = "<group>"; };
 		550D20E31BEE5F2400B6EC4A /* ColorPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
+		555DAA7D1BEEED93006F00B0 /* BattleIconRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BattleIconRepository.swift; sourceTree = "<group>"; };
 		558032C01BE77F54001D9C61 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		55BF3B2C1BE9DD5400AF67AC /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		55BF3B2D1BE9DD5400AF67AC /* TabBarSlaveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarSlaveViewController.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 				FA01F4FA1BE76206003B738C /* User.swift */,
 				FA1E919B1BE9C1EB00566A94 /* BattleIcon.swift */,
 				FA772F2A1BEEE45100AC6DA1 /* Castle.swift */,
+				555DAA7D1BEEED93006F00B0 /* BattleIconRepository.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -501,6 +504,7 @@
 				FA1E92061BEB5BE000566A94 /* GameUtils.swift in Sources */,
 				55F33D4D1BE8515A007A73E5 /* ProfileViewController.swift in Sources */,
 				FA1E91B01BE9CEC600566A94 /* CreateBattleIconViewController.swift in Sources */,
+				555DAA7E1BEEED93006F00B0 /* BattleIconRepository.swift in Sources */,
 				FA1E91A71BE9CD5A00566A94 /* SelectGameViewController.swift in Sources */,
 				FA1E91AB1BE9CD8100566A94 /* GameView.swift in Sources */,
 				55F33D4B1BE8510E007A73E5 /* HomeTabBarController.swift in Sources */,
