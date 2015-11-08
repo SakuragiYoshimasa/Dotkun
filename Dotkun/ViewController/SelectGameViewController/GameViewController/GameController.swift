@@ -53,7 +53,7 @@ class GameController {
             if !castle.checkAlive() {
                 initFieldCell(castle.getPosition())
                 castle.isVisible = false
-                gameViewController.finishGame()
+                NSNotificationCenter.defaultCenter().postNotificationName("FinishGame", object: nil)
                 continue
             }
         }
@@ -96,7 +96,6 @@ class GameController {
                 break;
             }
         }
-
         frameCounter++
     }
     
@@ -132,12 +131,12 @@ class GameController {
         castles = []
         let allyCastle = Castle(color: Constants.BACKCOLOR, pos: TestUtil.randomPoint(gameView.bounds), id: ObjectId.AllyCastleId)
         let enemyCastle = Castle(color: Constants.BACKCOLOR, pos: TestUtil.randomPoint(gameView.bounds), id: ObjectId.EnemyCastleId)
-        allyCastle.updatePosition(GameSettings.FIELD_WIDTH - 3, y: GameSettings.FIELD_HEIGHT - 3);
+        allyCastle.updatePosition(GameSettings.FIELD_WIDTH - GameSettings.CASTLE_SIZE, y: GameSettings.FIELD_HEIGHT - GameSettings.CASTLE_SIZE);
         enemyCastle.updatePosition(0, y: 0)
         castles.append(allyCastle)
         castles.append(enemyCastle)
-        for x in 0..<3 {
-            for y in 0..<3 {
+        for x in 0..<GameSettings.CASTLE_SIZE {
+            for y in 0..<GameSettings.CASTLE_SIZE {
                 gameFeild[GameSettings.FIELD_WIDTH - 1 - x][GameSettings.FIELD_HEIGHT - 1 - y].state = FieldState.ALLY
                 gameFeild[GameSettings.FIELD_WIDTH - 1 - x][GameSettings.FIELD_HEIGHT - 1 - y].gameObject = allyCastle
                 gameFeild[x][y].state = FieldState.ENEMY

@@ -16,9 +16,10 @@ class GameViewController: BaseViewController {
     var startButton: UIButton! = nil
     var finishTitle: UILabel! = nil
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "finishGame", name: "FinishGame", object: nil)
         if gameView == nil {
             gameView = GameView(frame: CGRectMake(0,Util.getStatusBarHeight(),self.view.bounds.width, self.view.bounds.height-Util.getStatusBarHeight()))
             gameView.backgroundColor = UIColor.whiteColor()
@@ -46,6 +47,7 @@ class GameViewController: BaseViewController {
             finishTitle.text = "Finish Game!"
             finishTitle.backgroundColor = Constants.BACKCOLOR
         }
+  
     }
     
     func onUpdate() {
@@ -60,6 +62,9 @@ class GameViewController: BaseViewController {
     
     func finishGame(){
         self.view.addSubview(finishTitle)
-        //updateTimer.delete(self)
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 }

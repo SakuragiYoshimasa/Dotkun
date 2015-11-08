@@ -16,7 +16,7 @@ struct Position {
 
 struct GameSettings {
     static let FIELD_WIDTH: Int = 60 //120
-    static let FIELD_HEIGHT: Int = 110 //200
+    static let FIELD_HEIGHT: Int = 100 //200
     static let DOT_SIZE: Int = 6 //3
     static let DOTKUN_NUM: Int = 2048
     static let CASTLE_SIZE: Int = 3
