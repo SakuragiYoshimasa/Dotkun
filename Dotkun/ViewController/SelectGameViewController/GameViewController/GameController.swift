@@ -9,15 +9,18 @@ import Foundation
 
 class GameController {
     
-    private var gameFeild = [[FieldCell]](count: GameSettings.FIELD_WIDTH, repeatedValue: [FieldCell](count: GameSettings.FIELD_HEIGHT, repeatedValue: FieldCell(state: FieldState.NONE, dotkun: nil)))
+    private var gameFeild = [[FieldCell]](count: GameSettings.FIELD_WIDTH, repeatedValue: [FieldCell](count: GameSettings.FIELD_HEIGHT, repeatedValue: FieldCell(state: FieldState.NONE, gameObject: nil)))
     var dotkuns: [Dotkun] = []
+    var castles: [Castle] = []
     var frameCounter: Int = 0
     var gameState:GameState = GameState.START
+    var gameViewController: GameViewController! = nil
     
     //------------------------------------------------
     //GameCycle
     //------------------------------------------------
-    func initGame(gameView: GameView){
+    func initGame(gameView: GameView, gvc: GameViewController){
+        gameViewController = gvc
         dotkuns = []
         for i in 0..<GameSettings.DOTKUN_NUM {
             let dotkun = Dotkun(color: TestUtil.randomColor(), pos: TestUtil.randomPoint(gameView.bounds), id: i)
@@ -25,6 +28,7 @@ class GameController {
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
         }
+        initCastle(gameView)
     }
     
     func update(){
@@ -44,7 +48,15 @@ class GameController {
     func updateStartState(){}
     
     func updateGameState(){
-        
+        for castle in castles {
+            if !castle.isVisible {return}
+            if !castle.checkAlive() {
+                initFieldCell(castle.getPosition())
+                castle.isVisible = false
+                gameViewController.finishGame()
+                continue
+            }
+        }
         for dotkun in dotkuns {
             if !dotkun.isVisible {continue}
             if !dotkun.checkAlive() {
@@ -61,14 +73,12 @@ class GameController {
                     dotkun.changeDirection()
                     dotkun.updateFrame(frameCounter)
                 }else{
-                    battle(dotkun, enemyDotkun: getDotkun(dotkun.getPosition() + dotkun.getDirection().getPositionValue()))
-                    //dotkun.changeDirection()
+                    battle(dotkun, enemyGameObject: getGameViewObject(dotkun.getPosition() + dotkun.getDirection().getPositionValue()))
                 }
                 break;
             case .ENEMY:
                 if dotkun.id < GameSettings.DOTKUN_NUM/2 {
-                    battle(dotkun, enemyDotkun: getDotkun(dotkun.getPosition() + dotkun.getDirection().getPositionValue()))
-                    //dotkun.changeDirection()
+                    battle(dotkun, enemyGameObject: getGameViewObject(dotkun.getPosition() + dotkun.getDirection().getPositionValue()))
                 }else{
                     dotkun.changeDirection()
                     dotkun.updateFrame(frameCounter)
@@ -102,20 +112,40 @@ class GameController {
         if id < GameSettings.DOTKUN_NUM/2 {
             dotkun.updatePosition(
                 id % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
-                y: (id / GameSettings.BATTLEICON_WIDTH) + GameSettings.FIELD_HEIGHT - GameSettings.INITIAL_DOT_Y_OFFSET
+                y: (id / GameSettings.BATTLEICON_WIDTH) + GameSettings.FIELD_HEIGHT - GameSettings.INITIAL_DOT_Y_OFFSET - GameSettings.BATTLEICON_HEIGHT
             )
         }else{
             dotkun.updatePosition(
                 id % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
-                y: GameSettings.BATTLEICON_HEIGHT + (id - GameSettings.DOTKUN_NUM/2)/GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_Y_OFFSET
+                y: (id - GameSettings.DOTKUN_NUM/2)/GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_Y_OFFSET
             )
         }
     }
     
-    func battle(allyDotkun: Dotkun, enemyDotkun: Dotkun){
+    func battle(allyDotkun: Dotkun, enemyGameObject: GameViewObject){
         allyDotkun.updateFrame(frameCounter)
-        enemyDotkun.updateFrame(frameCounter)
-        allyDotkun.battleWith(enemyDotkun)
+        enemyGameObject.updateFrame(frameCounter)
+        allyDotkun.battleWith(enemyGameObject)
+    }
+    
+    func initCastle(gameView: GameView){
+        castles = []
+        let allyCastle = Castle(color: Constants.BACKCOLOR, pos: TestUtil.randomPoint(gameView.bounds), id: ObjectId.AllyCastleId)
+        let enemyCastle = Castle(color: Constants.BACKCOLOR, pos: TestUtil.randomPoint(gameView.bounds), id: ObjectId.EnemyCastleId)
+        allyCastle.updatePosition(GameSettings.FIELD_WIDTH - 3, y: GameSettings.FIELD_HEIGHT - 3);
+        enemyCastle.updatePosition(0, y: 0)
+        castles.append(allyCastle)
+        castles.append(enemyCastle)
+        for x in 0..<3 {
+            for y in 0..<3 {
+                gameFeild[GameSettings.FIELD_WIDTH - 1 - x][GameSettings.FIELD_HEIGHT - 1 - y].state = FieldState.ALLY
+                gameFeild[GameSettings.FIELD_WIDTH - 1 - x][GameSettings.FIELD_HEIGHT - 1 - y].gameObject = allyCastle
+                gameFeild[x][y].state = FieldState.ENEMY
+                gameFeild[x][y].gameObject = enemyCastle
+            }
+        }
+        gameView.addObject(allyCastle)
+        gameView.addObject(enemyCastle)
     }
     
     //-------------------------------------------------
@@ -123,11 +153,11 @@ class GameController {
     //-------------------------------------------------
     func initFieldCell(position: Position){
         gameFeild[position.x][position.y].state = FieldState.NONE
-        gameFeild[position.x][position.y].dotkun = nil
+        gameFeild[position.x][position.y].gameObject = nil
     }
     
     func setDotkunToFieldCell(dotkun: Dotkun){
-        gameFeild[dotkun.getPosition().x][dotkun.getPosition().y].dotkun = dotkun
+        gameFeild[dotkun.getPosition().x][dotkun.getPosition().y].gameObject = dotkun
         if dotkun.id < GameSettings.DOTKUN_NUM/2 {
             gameFeild[dotkun.getPosition().x][dotkun.getPosition().y].state = FieldState.ALLY
         }else{
@@ -142,8 +172,8 @@ class GameController {
         return gameFeild[position.x][position.y].state
     }
     
-    func getDotkun(position: Position)->Dotkun{
-        return gameFeild[position.x][position.y].dotkun!
+    func getGameViewObject(position: Position)->GameViewObject{
+        return gameFeild[position.x][position.y].gameObject!
     }
     
     //------------------------------------------------

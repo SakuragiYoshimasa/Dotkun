@@ -14,6 +14,7 @@ class GameViewController: BaseViewController {
     var gameView: GameView! = nil
     var gameController: GameController! = nil
     var startButton: UIButton! = nil
+    var finishTitle: UILabel! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +32,7 @@ class GameViewController: BaseViewController {
         if gameController == nil {
             gameController = GameController();
         }
-        gameController.initGame(gameView)
+        gameController.initGame(gameView, gvc: self)
         
         if startButton == nil {
             startButton = UIButton(frame: CGRectMake(50,300,200,50))
@@ -40,16 +41,25 @@ class GameViewController: BaseViewController {
             startButton.backgroundColor = Constants.BACKCOLOR
             self.view.addSubview(startButton)
         }
+        if finishTitle == nil {
+            finishTitle = UILabel(frame: CGRectMake(50,300,200,50))
+            finishTitle.text = "Finish Game!"
+            finishTitle.backgroundColor = Constants.BACKCOLOR
+        }
     }
     
     func onUpdate() {
         gameController.update()
         gameView.setNeedsDisplay()
-        startButton.setNeedsDisplay()
     }
     
     func startGame(){
         startButton.removeFromSuperview()
         gameController.startGame()
+    }
+    
+    func finishGame(){
+        self.view.addSubview(finishTitle)
+        //updateTimer.delete(self)
     }
 }

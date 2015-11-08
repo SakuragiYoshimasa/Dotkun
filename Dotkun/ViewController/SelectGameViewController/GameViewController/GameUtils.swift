@@ -15,19 +15,20 @@ struct Position {
 }
 
 struct GameSettings {
-    static let FIELD_WIDTH: Int = 120
-    static let FIELD_HEIGHT: Int = 200
-    static let DOT_SIZE: Int = 3
+    static let FIELD_WIDTH: Int = 60 //120
+    static let FIELD_HEIGHT: Int = 110 //200
+    static let DOT_SIZE: Int = 6 //3
     static let DOTKUN_NUM: Int = 2048
+    static let CASTLE_SIZE: Int = 3
     static let BATTLEICON_WIDTH: Int = 32
     static let BATTLEICON_HEIGHT: Int = 32
-    static let INITIAL_DOT_X_OFFSET: Int = 44
-    static let INITIAL_DOT_Y_OFFSET: Int = 45
+    static let INITIAL_DOT_X_OFFSET: Int = 14 //44
+    static let INITIAL_DOT_Y_OFFSET: Int = 10 //45
 }
 
 struct FieldCell {
     var state: FieldState
-    var dotkun: Dotkun? = nil
+    var gameObject: GameViewObject? = nil
 }
 
 func + (p1:Position, p2:Position)->Position {
@@ -72,3 +73,25 @@ enum FieldState{
     case OUT_OF_FIELD
 }
 
+typealias ObjectId = Int
+extension ObjectId {
+    func getObjectType()->FieldState {
+        if self < GameSettings.DOTKUN_NUM/2 {
+            return FieldState.ALLY
+        }else if self < GameSettings.DOTKUN_NUM {
+            return FieldState.ENEMY
+        }/*else if self < GameSettings.DOTKUN_NUM + 1 {
+            return FieldState.ALLY_CASTLE
+        }else if self < GameSettings.DOTKUN_NUM + 2 {
+            return FieldState.ENEMY_CASTLE
+        }*/
+        return FieldState.NONE
+    }
+    
+    static var AllyCastleId: Int {
+        return GameSettings.DOTKUN_NUM + 1
+    }
+    static var EnemyCastleId: Int {
+        return GameSettings.DOTKUN_NUM + 2
+    }
+}

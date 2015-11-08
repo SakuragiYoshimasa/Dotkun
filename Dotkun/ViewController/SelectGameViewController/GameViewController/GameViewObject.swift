@@ -10,6 +10,12 @@ import Foundation
 import UIKit
 
 class GameViewObject {
+    private var _id: Int = 0
+    var id: Int {
+        set{ _id = newValue }
+        get{ return _id }
+    }
+    
     private var _isVisible: Bool = true
     var isVisible: Bool {
         set{
@@ -18,6 +24,19 @@ class GameViewObject {
         get{
             return _isVisible
         }
+    }
+    
+    private var _hp: Int = 0
+    var hp: Int {
+        set{ _hp = newValue }
+        get{ return _hp }
+    }
+    private var spentFrames: Int = 0
+    func getSpentFrames()-> Int {
+        return spentFrames
+    }
+    func updateFrame(frameCounter: Int){
+        spentFrames = frameCounter
     }
     
     func drawOnContext(context: CGContextRef){
