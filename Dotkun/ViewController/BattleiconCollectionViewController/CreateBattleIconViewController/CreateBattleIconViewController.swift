@@ -9,7 +9,7 @@
 import UIKit
 
 
-class CreateBattleIconViewController: TabBarSlaveViewController, DrawableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CreateBattleIconViewController: TabBarSlaveViewController {
     
     var drawableView: DrawableView! = nil
     
@@ -17,6 +17,13 @@ class CreateBattleIconViewController: TabBarSlaveViewController, DrawableViewDel
     var saveButton: UIButton! = nil
     var clearButton: UIButton! = nil
     var loadButton: UIButton! = nil
+    
+    var lineWidthSlider: UISlider! = nil
+    var setColorButton: UIButton! = nil
+    
+    override func viewWillAppear(animated: Bool) {
+        self.lineWidthSlider?.value = Float(sqrt(self.drawableView.getLineWidth()))
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +73,47 @@ class CreateBattleIconViewController: TabBarSlaveViewController, DrawableViewDel
             self.view.addSubview(saveButton)
         }
         
+        if lineWidthSlider == nil {
+            lineWidthSlider = UISlider(frame: CGRectMake(20, self.view.bounds.height - 50 - 25, self.view.bounds.width - 20 - 100, 50))
+            lineWidthSlider.minimumValue = 1.0
+            lineWidthSlider.maximumValue = 10.0
+            lineWidthSlider.addTarget(self, action: "lineWidthChanged:", forControlEvents: .ValueChanged)
+            self.view.addSubview(lineWidthSlider)
+        }
+        
+        if setColorButton == nil {
+            setColorButton = UIButton(frame: CGRect(origin: CGPointZero, size: CGSizeMake(50, 50)))
+            setColorButton.layer.position = CGPointMake(self.view.bounds.width - 50, self.view.bounds.height - 50)
+            setColorButton.backgroundColor = UIColor.redColor()
+            setColorButton.addTarget(self, action: "clickedColorButton:", forControlEvents: .TouchUpInside)
+            self.view.addSubview(setColorButton)
+        }
+    }
+    
+    func clickedColorButton(sender: UIButton!) {
+        let controller = ColorPickerViewController()
+        controller.delegate = self
+        self.presentPopver(controller, sourceView: sender)
+    }
+    
+    func presentPopver(viewController: UIViewController!, sourceView: UIView!) {
+        viewController.modalPresentationStyle = UIModalPresentationStyle.Popover
+        viewController.preferredContentSize = CGSizeMake(300,400)
+        
+        let popoverController = viewController.popoverPresentationController
+        popoverController?.delegate = self
+        
+        // 向き
+        popoverController?.permittedArrowDirections = UIPopoverArrowDirection.Down
+        // どこから出た感じにするか
+        popoverController?.sourceView = sourceView
+        popoverController?.sourceRect = sourceView.bounds
+        
+        self.presentViewController(viewController, animated: true, completion: nil)
+    }
+    
+    func lineWidthChanged(sender: AnyObject?) {
+        self.drawableView.setLineWidth(CGFloat(lineWidthSlider.value * lineWidthSlider.value))
     }
     
     func load() {
@@ -80,11 +128,14 @@ class CreateBattleIconViewController: TabBarSlaveViewController, DrawableViewDel
         }
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-        picker.dismissViewControllerAnimated(true, completion: nil)
-        drawableView.setBackgroundImage(image)
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        print("memoryWarning")
+        // Dispose of any resources that can be recreated.
     }
-    
+}
+
+extension CreateBattleIconViewController: DrawableViewDelegate {
     func onUpdateDrawableView() {
         
     }
@@ -93,18 +144,29 @@ class CreateBattleIconViewController: TabBarSlaveViewController, DrawableViewDel
         /*let alertController = UIAlertController(title: "Saved!", message: "saved to camera roll.", preferredStyle: .Alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
         self.presentViewController(alertController, animated: true, completion: {() -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissViewControllerAnimated(true, completion: nil)
         })*/
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        print("memoryWarning")
-        // Dispose of any resources that can be recreated.
+}
+
+extension CreateBattleIconViewController: UIImagePickerControllerDelegate {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        drawableView.setBackgroundImage(image)
     }
-    
-    
+}
+
+extension CreateBattleIconViewController: UIPopoverPresentationControllerDelegate, UINavigationControllerDelegate {
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.None
+    }
+}
+
+extension CreateBattleIconViewController: ColorPickerViewDelegate {
+    func onColorChanged(newColor: UIColor) {
+        self.setColorButton.backgroundColor = newColor
+        drawableView.setLineColor(newColor.CGColor)
+    }
 }
 
