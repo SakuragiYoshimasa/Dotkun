@@ -13,7 +13,7 @@ import RealmSwift
 class BattleIcon: Object {
     static let realm = try! Realm()
     
-    dynamic private var id = 0
+    dynamic var id = 0
     
     dynamic private var _image: UIImage?
     dynamic var image: UIImage? {
@@ -36,14 +36,6 @@ class BattleIcon: Object {
     }
     dynamic private var imageData: NSData?
     
-    override static func primaryKey() -> String? {
-        return "id"
-    }
-    
-    override static func ignoredProperties() -> [String] {
-        return ["image", "_image"]
-    }
-    
     static func new(image: UIImage?) -> BattleIcon {
         let icon = BattleIcon()
         icon.image = image!
@@ -54,20 +46,19 @@ class BattleIcon: Object {
         return icon
     }
     
-    static func loadAll() -> [BattleIcon] {
-        let battleIcons = realm.objects(BattleIcon).sorted("id", ascending: false)
-        var ret: [BattleIcon] = []
-        for battleIcon in battleIcons {
-            ret.append(battleIcon)
-        }
-        return ret
-    }
-    
     static func lastId() -> Int {
         if let user = realm.objects(BattleIcon).last {
             return user.id + 1
         } else {
             return 1
         }
+    }
+    
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+    
+    override static func ignoredProperties() -> [String] {
+        return ["image", "_image"]
     }
 }

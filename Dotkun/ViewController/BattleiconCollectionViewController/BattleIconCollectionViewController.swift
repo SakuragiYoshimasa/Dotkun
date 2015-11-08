@@ -15,18 +15,10 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
     
     var battleIconCollection: UICollectionView! = nil
     
-    var battleIcons: [BattleIcon] = []
-    
-    
-    static func sampleBattleIcon() -> BattleIcon {
-        let battleIcon = BattleIcon()
-        battleIcon.image = UIImage(named: "ha1f.png")
-        return battleIcon
-    }
+    var battleIconRepository: BattleIconRepository! = nil
     
     override func viewWillAppear(animated: Bool) {
-        print("appear")
-        battleIcons = BattleIcon.loadAll()
+        battleIconRepository.reload()
         self.battleIconCollection.reloadData()
     }
     
@@ -53,6 +45,10 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
             battleIconCollection.registerClass(BattleIconCollectionCell.self, forCellWithReuseIdentifier: "BattleIconCollectionCell")
             self.view.addSubview(battleIconCollection)
         }
+        
+        if battleIconRepository == nil {
+            battleIconRepository = BattleIconRepository()
+        }
     }
     
     func createIcon() {
@@ -69,14 +65,14 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("BattleIconCollectionCell", forIndexPath: indexPath) as! BattleIconCollectionCell
-        cell.setup(battleIcons[indexPath.row])
+        cell.setup(battleIconRepository.get(indexPath.row))
         
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
-        let size: CGSize = CGSizeMake(100, 100)
+        let size: CGSize = CGSizeMake(90, 90)
         
         return size
     }
@@ -94,6 +90,6 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return battleIcons.count
+        return battleIconRepository.getBattleIconCount()
     }
 }
