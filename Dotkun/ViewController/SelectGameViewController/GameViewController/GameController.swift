@@ -58,7 +58,7 @@ class GameController {
             switch checkField(dotkun.getPosition() + dotkun.getDirection().getPositionValue()){
             case .ALLY:
                 if dotkun.id < GameSettings.DOTKUN_NUM/2 {
-                    //dotkun.changeDirection()
+                    dotkun.changeDirection()
                     dotkun.updateFrame(frameCounter)
                 }else{
                     battle(dotkun, enemyDotkun: getDotkun(dotkun.getPosition() + dotkun.getDirection().getPositionValue()))
@@ -70,7 +70,7 @@ class GameController {
                     battle(dotkun, enemyDotkun: getDotkun(dotkun.getPosition() + dotkun.getDirection().getPositionValue()))
                     //dotkun.changeDirection()
                 }else{
-                    //dotkun.changeDirection()
+                    dotkun.changeDirection()
                     dotkun.updateFrame(frameCounter)
                 }
                 break;
