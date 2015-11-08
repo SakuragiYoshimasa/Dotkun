@@ -66,12 +66,12 @@ class GameController {
             }
             if dotkun.getSpentFrames() > frameCounter {continue}
             dotkun.updateDirection()
-            
+            dotkun.updateFrame(frameCounter)
+            if !dotkun.isActionFrame() {continue}
             switch checkField(dotkun.getPosition() + dotkun.getDirection().getPositionValue()){
             case .ALLY:
                 if dotkun.id < GameSettings.DOTKUN_NUM/2 {
                     dotkun.changeDirection()
-                    dotkun.updateFrame(frameCounter)
                 }else{
                     battle(dotkun, enemyGameObject: getGameViewObject(dotkun.getPosition() + dotkun.getDirection().getPositionValue()))
                 }
@@ -81,18 +81,15 @@ class GameController {
                     battle(dotkun, enemyGameObject: getGameViewObject(dotkun.getPosition() + dotkun.getDirection().getPositionValue()))
                 }else{
                     dotkun.changeDirection()
-                    dotkun.updateFrame(frameCounter)
                 }
                 break;
             case .NONE:
                 initFieldCell(dotkun.getPosition())
                 dotkun.updatePosition()
                 setDotkunToFieldCell(dotkun)
-                dotkun.updateFrame(frameCounter)
                 break;
             case .OUT_OF_FIELD:
                 dotkun.changeDirection()
-                dotkun.updateFrame(frameCounter)
                 break;
             }
         }

@@ -19,7 +19,7 @@ struct GameSettings {
     static let FIELD_HEIGHT: Int = 100 //200
     static let DOT_SIZE: Int = 6 //3
     static let DOTKUN_NUM: Int = 2048
-    static let CASTLE_SIZE: Int = 3
+    static let CASTLE_SIZE: Int = 10
     static let BATTLEICON_WIDTH: Int = 32
     static let BATTLEICON_HEIGHT: Int = 32
     static let INITIAL_DOT_X_OFFSET: Int = 14 //44

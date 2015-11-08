@@ -100,6 +100,10 @@ class Dotkun: GameViewObject {
         enemy.hp -= self.power
     }
     
+    func isActionFrame()->Bool {
+        return (getSpentFrames() % self.speed) == 0
+    }
+    
     //端に行った時用、とリあえず回す
     func changeDirection() {
         direction = Direction(rawValue: (direction.rawValue + 1) % 4)
