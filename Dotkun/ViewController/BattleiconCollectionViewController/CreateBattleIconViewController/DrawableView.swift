@@ -133,6 +133,14 @@ class DrawableView: UIView {
         currentSetting.lineColor = color
     }
     
+    func getLineColor() -> CGColorRef {
+        return currentSetting.lineColor
+    }
+    
+    func getLineWidth() -> CGFloat {
+        return currentSetting.lineWidth
+    }
+    
     func setLineWidth(width: CGFloat) {
         currentSetting.lineWidth = width
     }
@@ -237,6 +245,8 @@ class DrawableView: UIView {
         return resizedImage
     }
     
+    
+    // 最下位のレイヤーがImageなら置き換え、違うならinsert
     func setBackgroundImage(image: UIImage) {
         let resizedImage = getResizedImage(image, size: CGSizeMake(self.bounds.width, self.bounds.height))
         
@@ -260,6 +270,7 @@ class DrawableView: UIView {
         delegate?.onFinishSave()
     }
     
+    // アルバムへの保存のdelegate
     func image(image: UIImage, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutablePointer<Void>) {
         if error != nil {
             //プライバシー設定不許可など書き込み失敗時は -3310 (ALAssetsLibraryDataUnavailableError)
