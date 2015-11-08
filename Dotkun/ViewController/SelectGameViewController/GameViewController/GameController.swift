@@ -120,7 +120,7 @@ class GameController {
     
     func battle(allyDotkun: Dotkun, enemyGameObject: GameViewObject){
         allyDotkun.updateFrame(frameCounter)
-        enemyGameObject.updateFrame(frameCounter)
+        //enemyGameObject.updateFrame(frameCounter)
         allyDotkun.battleWith(enemyGameObject)
     }
     
