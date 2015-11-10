@@ -18,13 +18,13 @@ class BattleIconRepository {
         
         if let lastId = self.battleIcons.first?.id {
             // 新しいデータのみロード、古い順に前に追加
-            let loadedData = realm.objects(BattleIcon).filter("id > \(lastId)").sorted("id", ascending: true)
+            let loadedData = realm.objects(BattleIcon).filter("twitterUserId == '\(ModelManager.manager.getAccount().getTwitterUserId())'").filter("id > \(lastId)").sorted("id", ascending: true)
             for battleIcon in loadedData {
                 self.battleIcons.insert(battleIcon, atIndex: 0)
             }
         } else {
             // はじめだけ、新しい順にすべてのデータをロード
-            let loadedData = realm.objects(BattleIcon).sorted("id", ascending: false)
+            let loadedData = realm.objects(BattleIcon).filter("twitterUserId == '\(ModelManager.manager.getAccount().getTwitterUserId())'").sorted("id", ascending: false)
             for battleIcon in loadedData {
                 self.battleIcons.append(battleIcon)
             }

@@ -41,4 +41,8 @@ class User {
     func getTwitterId() -> String! {
         return self.twitterId
     }
+    
+    func getTwitterUserId() -> String! {
+        return self.twitterUserId
+    }
 }
