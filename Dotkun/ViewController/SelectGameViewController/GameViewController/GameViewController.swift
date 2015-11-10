@@ -67,4 +67,21 @@ class GameViewController: BaseViewController {
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first?.locationInView(self.view)
+        //updateColor(colorsView.colorFromPoint(touch!))
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first?.locationInView(self.view)
+       // updateColor(colorsView.colorFromPoint(touch!))
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first?.locationInView(self.view)
+        //updateColor(colorsView.colorFromPoint(touch!))
+        
+        //closeView()
+    }
 }

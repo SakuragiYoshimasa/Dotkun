@@ -6,6 +6,7 @@
 //  Copyright © 2015年 SakuragiYoshimasa. All rights reserved.
 //
 import Foundation
+import UIKit
 
 class GameController {
     
@@ -21,6 +22,7 @@ class GameController {
     //------------------------------------------------
     func initGame(gameView: GameView, gvc: GameViewController){
         gameViewController = gvc
+        initCastle(gameView)
         dotkuns = []
         for i in 0..<GameSettings.DOTKUN_NUM {
             let dotkun = Dotkun(color: TestUtil.randomColor(), pos: TestUtil.randomPoint(gameView.bounds), id: i)
@@ -28,7 +30,7 @@ class GameController {
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
         }
-        initCastle(gameView)
+       
     }
     
     func update(){
@@ -170,6 +172,13 @@ class GameController {
     
     func getGameViewObject(position: Position)->GameViewObject{
         return gameFeild[position.x][position.y].gameObject!
+    }
+    
+    
+    func introductDotkun(centerPoint: CGPoint, radius: Int){
+        //------------------------------
+        //範囲内のDotkunの目標値を定める
+        //------------------------------
     }
     
     //------------------------------------------------

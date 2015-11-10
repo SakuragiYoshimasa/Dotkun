@@ -27,7 +27,7 @@ class Dotkun: GameViewObject {
         self.id = id
         self.hp = 100
         self.power = 25
-        self.speed = 1
+        self.speed = 2
         if id < GameSettings.DOTKUN_NUM/2 {
             self.direction = Direction.UP
         }else{
@@ -41,7 +41,11 @@ class Dotkun: GameViewObject {
         self.color.setFill()
         CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, 6, 6))
         
-        UIColor.brownColor().setStroke()
+        if self.id.getObjectType() == FieldState.ALLY {
+            UIColor.brownColor().setStroke()
+        }else{
+            UIColor.redColor().setStroke()
+        }
         CGContextSetLineWidth(context, 1)
         // 首
         CGContextMoveToPoint(context, position.x, position.y+3)
@@ -80,7 +84,7 @@ class Dotkun: GameViewObject {
     }
     
     func updateDirection(){
-        if targetPosition == nil {
+        if targetPosition != nil {
             
         }
     }

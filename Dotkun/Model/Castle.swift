@@ -21,7 +21,7 @@ class Castle: GameViewObject {
         super.init()
         self.position = pos
         self.id = id
-        self.hp = 1000
+        self.hp = 10000
         self.color = color
     }
     

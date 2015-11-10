@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 
 class GameViewObject {
-    private var _id: Int = 0
-    var id: Int {
+    private var _id: ObjectId = 0
+    var id: ObjectId {
         set{ _id = newValue }
         get{ return _id }
     }
