@@ -36,10 +36,13 @@ class BattleIcon: Object {
     }
     dynamic private var imageData: NSData?
     
+    dynamic var twitterUserId: String!
+    
     static func new(image: UIImage?) -> BattleIcon {
         let icon = BattleIcon()
         icon.image = image!
         icon.id = lastId()
+        icon.twitterUserId = ModelManager.manager.getAccount().getTwitterUserId()
         try! realm.write {
             realm.add(icon, update: true)
         }
