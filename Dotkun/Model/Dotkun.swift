@@ -9,53 +9,50 @@
 import UIKit
 
 class Dotkun: GameViewObject {
-    // 管理用
-    private var _id: Int = 0
-    var id: Int {
-        set{
-            _id = newValue
-        }
-        get{
-            return _id
-        }
-    }
     
     private var color: UIColor! = nil
     private var colorType: ColorType! = nil
-   
-    private var power: Int! = nil
-    private var hp: Int! = nil
-    private var speed: CGFloat! = nil
+    private var power: Int = 0
+    private var speed: Int = 0
     
     private var position: CGPoint! = nil
     private var fieldPosition: Position! = nil
     private var targetPosition: Position! = nil
     private var direction: Direction! = nil
     
-    private var spentFrames: Int = 0
-    
-    init(color: UIColor, pos: CGPoint) {
+    init(color: UIColor, pos: CGPoint, id: Int) {
+        super.init()
         self.color = color
         self.position = pos
-        self.direction = Direction.DOWN
+        self.id = id
+        self.hp = 100
+        self.power = 25
+        self.speed = 2
+        if id < GameSettings.DOTKUN_NUM/2 {
+            self.direction = Direction.UP
+        }else{
+            self.direction = Direction.DOWN
+        }
     }
     
-    func drawOnContext(context: CGContextRef) {
+    override func drawOnContext(context: CGContextRef) {
         UIGraphicsPushContext(context)
         
         self.color.setFill()
         CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, 6, 6))
         
-        UIColor.brownColor().setStroke()
+        if self.id.getObjectType() == FieldState.ALLY {
+            UIColor.brownColor().setStroke()
+        }else{
+            UIColor.redColor().setStroke()
+        }
         CGContextSetLineWidth(context, 1)
-        
         // 首
         CGContextMoveToPoint(context, position.x, position.y+3)
         // 股
         CGContextAddLineToPoint(context, position.x, position.y+8)
         // 右足の先
         CGContextAddLineToPoint(context, position.x+3, position.y+11)
-        
         // 股
         CGContextMoveToPoint(context, position.x, position.y+8)
         // 左足の先
@@ -72,7 +69,7 @@ class Dotkun: GameViewObject {
         UIGraphicsPopContext()
     }
     
-    init() {
+    override init() {
         fieldPosition = Position(x: 0,y: 0)
     }
     
@@ -87,13 +84,9 @@ class Dotkun: GameViewObject {
     }
     
     func updateDirection(){
-        if targetPosition == nil {
+        if targetPosition != nil {
             
         }
-    }
-    
-    func updateFrame(frameCounter: Int){
-        spentFrames = frameCounter
     }
     
     func getPosition()->Position {
@@ -107,17 +100,21 @@ class Dotkun: GameViewObject {
         return direction
     }
     
-    func getSpentFrames()-> Int {
-        return spentFrames
+    func battleWith(enemy: GameViewObject) {
+        enemy.hp -= self.power
     }
     
-    func battleWith(enemy: Dotkun) {
-        //---------------------
+    func isActionFrame()->Bool {
+        return (getSpentFrames() % self.speed) == 0
     }
     
     //端に行った時用、とリあえず回す
     func changeDirection() {
         direction = Direction(rawValue: (direction.rawValue + 1) % 4)
+    }
+    
+    func checkAlive()->Bool {
+        return self.hp > 0
     }
 }
 

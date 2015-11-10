@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol GameViewObject {
-    func drawOnContext(context: CGContextRef)
-}
-
 class GameView: UIView {
     private var objects: [GameViewObject] = []
     
@@ -39,6 +35,7 @@ class GameView: UIView {
         CGContextFillRect(context!, self.bounds)
         
         for object in objects {
+            if !object.isVisible {continue}
             object.drawOnContext(context!)
         }
     }

@@ -14,10 +14,12 @@ class GameViewController: BaseViewController {
     var gameView: GameView! = nil
     var gameController: GameController! = nil
     var startButton: UIButton! = nil
+    var finishTitle: UILabel! = nil
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "finishGame", name: "FinishGame", object: nil)
         if gameView == nil {
             gameView = GameView(frame: CGRectMake(0,Util.getStatusBarHeight(),self.view.bounds.width, self.view.bounds.height-Util.getStatusBarHeight()))
             gameView.backgroundColor = UIColor.whiteColor()
@@ -31,7 +33,7 @@ class GameViewController: BaseViewController {
         if gameController == nil {
             gameController = GameController();
         }
-        gameController.initGame(gameView)
+        gameController.initGame(gameView, gvc: self)
         
         if startButton == nil {
             startButton = UIButton(frame: CGRectMake(50,300,200,50))
@@ -40,16 +42,46 @@ class GameViewController: BaseViewController {
             startButton.backgroundColor = Constants.BACKCOLOR
             self.view.addSubview(startButton)
         }
+        if finishTitle == nil {
+            finishTitle = UILabel(frame: CGRectMake(50,300,200,50))
+            finishTitle.text = "Finish Game!"
+            finishTitle.backgroundColor = Constants.BACKCOLOR
+        }
+  
     }
     
     func onUpdate() {
         gameController.update()
         gameView.setNeedsDisplay()
-        startButton.setNeedsDisplay()
     }
     
     func startGame(){
         startButton.removeFromSuperview()
         gameController.startGame()
+    }
+    
+    func finishGame(){
+        self.view.addSubview(finishTitle)
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first?.locationInView(self.view)
+        //updateColor(colorsView.colorFromPoint(touch!))
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first?.locationInView(self.view)
+       // updateColor(colorsView.colorFromPoint(touch!))
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch = touches.first?.locationInView(self.view)
+        //updateColor(colorsView.colorFromPoint(touch!))
+        
+        //closeView()
     }
 }
