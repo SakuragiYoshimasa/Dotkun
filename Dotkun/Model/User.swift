@@ -7,18 +7,28 @@
 //
 
 import UIKit
+import TwitterKit
 
 class User {
     // DBから取得, autoIncrement
     private var userId: String! = nil
     
-    private var image: UIImage? = UIImage(named: "ha1f.png")
+    private var image: UIImage? = nil
     
     // twitterAccount
-    private var twitterId: String! = "_ha1f"
+    private var twitterId: String? = nil
+    private var twitterUserId: String? = ""
+    var profileImageUrl: String? = nil
     
-    // スクリーンネーム
-    private var userName: String = "はるふ"
+    // 表示する名前
+    private var userName: String = ""
+    
+    init(tUser: TWTRUser) {
+        self.twitterId = tUser.screenName
+        self.twitterUserId = tUser.userID
+        self.userName = tUser.name
+        self.profileImageUrl = tUser.profileImageURL
+    }
     
     func isLoggedIn() -> Bool {
         return !(twitterId == nil)
