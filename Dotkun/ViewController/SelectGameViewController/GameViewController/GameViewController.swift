@@ -15,7 +15,8 @@ class GameViewController: BaseViewController {
     var gameController: GameController! = nil
     var startButton: UIButton! = nil
     var finishTitle: UILabel! = nil
-    
+    var touchFlag: Bool = false
+    var touchCircle: TouchCircle! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,12 +48,19 @@ class GameViewController: BaseViewController {
             finishTitle.text = "Finish Game!"
             finishTitle.backgroundColor = Constants.BACKCOLOR
         }
-  
+        if touchCircle == nil {
+            touchCircle = TouchCircle()
+            gameView.addObject(touchCircle)
+        }
+        
     }
     
     func onUpdate() {
         gameController.update()
         gameView.setNeedsDisplay()
+        if touchFlag {
+            touchCircle.touchInfo.touchRadius += 1.0
+        }
     }
     
     func startGame(){
@@ -70,18 +78,25 @@ class GameViewController: BaseViewController {
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let touch = touches.first?.locationInView(self.view)
-        //updateColor(colorsView.colorFromPoint(touch!))
+        touchCircle.touchInfo.touchPosition = CGPoint(x:(touch?.x)! , y:(touch?.y)!)
+        touchFlag = true
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let touch = touches.first?.locationInView(self.view)
-       // updateColor(colorsView.colorFromPoint(touch!))
+        touchCircle.touchInfo.touchPosition = CGPoint(x:(touch?.x)! , y:(touch?.y)!)
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let touch = touches.first?.locationInView(self.view)
-        //updateColor(colorsView.colorFromPoint(touch!))
+        touchCircle.touchInfo.touchPosition = CGPoint(x:(touch?.x)! , y:(touch?.y)!)
         
-        //closeView()
+        touchFlag = false
+        ///--------------------------------
+        //controllerに命令
+        //---------------------------------
+        gameController.assembleDotkuns(touchCircle.touchInfo)
+        touchCircle.touchInfo.reset()
+        
     }
 }

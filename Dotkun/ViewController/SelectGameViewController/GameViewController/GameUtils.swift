@@ -73,19 +73,20 @@ enum FieldState{
     case OUT_OF_FIELD
 }
 
+typealias GameObjectType = FieldState
 typealias ObjectId = Int
 extension ObjectId {
-    func getObjectType()->FieldState {
+    func getObjectType()->GameObjectType {
         if self < GameSettings.DOTKUN_NUM/2 {
-            return FieldState.ALLY
+            return GameObjectType.ALLY
         }else if self < GameSettings.DOTKUN_NUM {
-            return FieldState.ENEMY
+            return GameObjectType.ENEMY
         }/*else if self < GameSettings.DOTKUN_NUM + 1 {
             return FieldState.ALLY_CASTLE
         }else if self < GameSettings.DOTKUN_NUM + 2 {
             return FieldState.ENEMY_CASTLE
         }*/
-        return FieldState.NONE
+        return GameObjectType.NONE
     }
     
     static var AllyCastleId: Int {

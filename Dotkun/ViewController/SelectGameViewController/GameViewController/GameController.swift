@@ -187,4 +187,8 @@ class GameController {
     func startGame(){
         gameState = GameState.GAME
     }
+    
+    func assembleDotkuns(touchInfo: TouchInfo){
+        
+    }
 }
