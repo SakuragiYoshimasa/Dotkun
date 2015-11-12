@@ -25,10 +25,11 @@ class TouchCircle : GameViewObject {
     
     override func drawOnContext(context: CGContextRef) {
         UIGraphicsPushContext(context)
+        //self.color.set()
         self.color.setFill()
-        //CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, CGFloat(GameSettings.DOT_SIZE * GameSettings.CASTLE_SIZE), CGFloat(GameSettings.DOT_SIZE * GameSettings.CASTLE_SIZE)))
-        CGContextFillEllipseInRect(context, CGRectMake(touchInfo.touchPosition.x, touchInfo.touchPosition.y, touchInfo.touchRadius, touchInfo.touchRadius));
-        //CGContextFillEllipseInRect(context, CGRectMake(touchInfo.touchPosition.x, touchInfo.touchPosition.y, 100, 100));
+        CGContextFillEllipseInRect(context, CGRectMake(getCenterPosition().x, getCenterPosition().y, touchInfo.touchRadius, touchInfo.touchRadius));
+        //CGContextAddEllipseInRect(CGContext?, <#T##rect: CGRect##CGRect#>)
+        
         UIGraphicsPopContext()
     }
     
@@ -38,11 +39,16 @@ class TouchCircle : GameViewObject {
     }
     
     func updatePosition(newPosition: CGPoint){
-        //position = newPosition
+        self.touchInfo.touchPosition = newPosition
+            //+ CGPoint( x: -touchInfo.touchRadius / 2.0, y: -touchInfo.touchRadius / 2.0)
     }
     
     func updateTouchInfo(newTouchinfo: TouchInfo){
         self.touchInfo = newTouchinfo
+    }
+    
+    func getCenterPosition() -> CGPoint{
+        return self.touchInfo.touchPosition + CGPoint( x: -touchInfo.touchRadius / 2.0, y: -touchInfo.touchRadius / 2.0)
     }
     
    /* func getTouchInfo()->TouchInfo {

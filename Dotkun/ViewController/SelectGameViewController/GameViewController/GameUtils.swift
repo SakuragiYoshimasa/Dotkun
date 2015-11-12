@@ -5,6 +5,8 @@
 //  Created by SakuragiYoshimasa on 2015/11/05.
 //  Copyright © 2015年 SakuragiYoshimasa. All rights reserved.
 //
+import UIKit
+
 class GameUtils {
     
 }
@@ -37,6 +39,10 @@ func + (p1:Position, p2:Position)->Position {
 
 func += (inout p1:Position, p2:Position){
     p1 = p1 + p2
+}
+
+func + (p1: CGPoint, p2: CGPoint) -> CGPoint{
+    return CGPoint(x: p1.x + p2.x, y: p1.y + p2.y)
 }
 
 enum GameState {

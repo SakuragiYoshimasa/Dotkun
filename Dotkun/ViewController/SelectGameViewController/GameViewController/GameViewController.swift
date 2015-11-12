@@ -78,19 +78,21 @@ class GameViewController: BaseViewController {
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let touch = touches.first?.locationInView(self.view)
-        touchCircle.touchInfo.touchPosition = CGPoint(x:(touch?.x)! , y:(touch?.y)!)
+        //touchCircle.touchInfo.touchPosition = CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY)
+        touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
         touchFlag = true
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let touch = touches.first?.locationInView(self.view)
-        touchCircle.touchInfo.touchPosition = CGPoint(x:(touch?.x)! , y:(touch?.y)!)
+        //touchCircle.touchInfo.touchPosition = CGPoint(x:(touch?.x)! - gameView.frame.minX, y:(touch?.y)! - gameView.frame.minY)
+        touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let touch = touches.first?.locationInView(self.view)
-        touchCircle.touchInfo.touchPosition = CGPoint(x:(touch?.x)! , y:(touch?.y)!)
-        
+//        touchCircle.touchInfo.touchPosition = CGPoint(x:(touch?.x)! - gameView.frame.minX, y:(touch?.y)! - gameView.frame.minY)
+        touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
         touchFlag = false
         ///--------------------------------
         //controllerに命令
