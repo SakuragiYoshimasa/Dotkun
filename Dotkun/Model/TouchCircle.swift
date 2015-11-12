@@ -16,31 +16,40 @@ struct TouchInfo {
         self.touchRadius = 0
         self.touchPosition = CGPoint(x: 0, y: 0)
     }
+    
+    func getCenterPosition()->CGPoint{
+        return self.touchPosition + CGPoint( x: -touchRadius , y: -touchRadius )
+    }
 }
 
 class TouchCircle : GameViewObject {
+    //----------------------------------------------------------------
+    //Variable
+    //----------------------------------------------------------------
     private var color: UIColor! = nil
     private var touchInfo: TouchInfo
-    private let growthRate: CGFloat = 1.0
+    private let growthRate: CGFloat = 2.0
     
-    override func drawOnContext(context: CGContextRef) {
-        UIGraphicsPushContext(context)
-        //self.color.set()
-        self.color.setFill()
-        CGContextFillEllipseInRect(context, CGRectMake(getCenterPosition().x, getCenterPosition().y, touchInfo.touchRadius, touchInfo.touchRadius));
-        //CGContextAddEllipseInRect(CGContext?, <#T##rect: CGRect##CGRect#>)
-        
-        UIGraphicsPopContext()
+    //----------------------------------------------------------------
+    //Life Cycle
+    //----------------------------------------------------------------
+    override init() {
+        color = Constants.TOUCH_CIRCLE_COLOR
+        touchInfo = TouchInfo()
     }
     
-    override init() {
-        color = Constants.BACKCOLOR
-        touchInfo = TouchInfo()
+    //----------------------------------------------------------------
+    //Game Logic, Draw Call
+    //----------------------------------------------------------------
+    override func drawOnContext(context: CGContextRef) {
+        UIGraphicsPushContext(context)
+        self.color.setFill()
+        CGContextFillEllipseInRect(context, CGRectMake(touchInfo.getCenterPosition().x, touchInfo.getCenterPosition().y, touchInfo.touchRadius * 2, touchInfo.touchRadius * 2));
+        UIGraphicsPopContext()
     }
     
     func updatePosition(newPosition: CGPoint){
         self.touchInfo.touchPosition = newPosition
-            //+ CGPoint( x: -touchInfo.touchRadius / 2.0, y: -touchInfo.touchRadius / 2.0)
     }
     
     func updateTouchInfo(newTouchinfo: TouchInfo){
@@ -49,10 +58,6 @@ class TouchCircle : GameViewObject {
     
     func incrementRadius(){
         self.touchInfo.touchRadius += growthRate
-    }
-    
-    func getCenterPosition() -> CGPoint{
-        return self.touchInfo.touchPosition + CGPoint( x: -touchInfo.touchRadius / 2.0, y: -touchInfo.touchRadius / 2.0)
     }
     
     func getTouchInfo()->TouchInfo {

@@ -9,7 +9,9 @@
 import UIKit
 
 class GameViewController: BaseViewController {
-    
+    //----------------------------------------------------------------
+    //Variable
+    //----------------------------------------------------------------
     var updateTimer: NSTimer! = nil
     var gameView: GameView! = nil
     var gameController: GameController! = nil
@@ -18,6 +20,9 @@ class GameViewController: BaseViewController {
     var touchFlag: Bool = false
     var touchCircle: TouchCircle! = nil
     
+    //----------------------------------------------------------------
+    //Life Cycle
+    //----------------------------------------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "finishGame", name: "FinishGame", object: nil)
@@ -26,16 +31,13 @@ class GameViewController: BaseViewController {
             gameView.backgroundColor = UIColor.whiteColor()
             self.view.addSubview(gameView)
         }
-        
         if updateTimer == nil {
             updateTimer = NSTimer.scheduledTimerWithTimeInterval((1.0/Constants.GAME_FPS), target: self, selector: "onUpdate", userInfo: nil, repeats: true)
         }
-        
         if gameController == nil {
             gameController = GameController();
+            gameController.initGame(gameView, gvc: self)
         }
-        gameController.initGame(gameView, gvc: self)
-        
         if startButton == nil {
             startButton = UIButton(frame: CGRectMake(50,300,200,50))
             startButton.setTitle("StartGame", forState: .Normal)
@@ -52,7 +54,18 @@ class GameViewController: BaseViewController {
             touchCircle = TouchCircle()
             gameView.addObject(touchCircle)
         }
-        
+    }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    //----------------------------------------------------------------
+    //Game Cycle
+    //----------------------------------------------------------------
+    func startGame(){
+        startButton.removeFromSuperview()
+        gameController.startGame()
     }
     
     func onUpdate() {
@@ -63,19 +76,13 @@ class GameViewController: BaseViewController {
         }
     }
     
-    func startGame(){
-        startButton.removeFromSuperview()
-        gameController.startGame()
-    }
-    
     func finishGame(){
         self.view.addSubview(finishTitle)
     }
     
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
+    //---------------------------------------------------------------
+    //Touch Event
+    //---------------------------------------------------------------
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let touch = touches.first?.locationInView(self.view)
         touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))

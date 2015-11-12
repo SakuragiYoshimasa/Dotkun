@@ -8,7 +8,12 @@
 import UIKit
 
 class GameUtils {
-    
+    static func TransScreenToGameFieldPosition(screenPoint: CGPoint) -> Position{
+        return Position(x: Int(screenPoint.x) / GameSettings.DOT_SIZE, y: Int(screenPoint.y) / GameSettings.DOT_SIZE)
+    }
+    static func GetTargetDirection(dotkunPos: Position, targetPos: Position) -> Direction {
+        return Direction.RIGHT
+    }
 }
 
 struct Position {

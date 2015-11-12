@@ -9,8 +9,14 @@
 import UIKit
 
 class GameView: UIView {
+    //----------------------------------------------------------------
+    //Variable
+    //----------------------------------------------------------------
     private var objects: [GameViewObject] = []
     
+    //----------------------------------------------------------------
+    //Life Cycle
+    //----------------------------------------------------------------
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -19,6 +25,9 @@ class GameView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //----------------------------------------------------------------
+    //Manupurate Objects
+    //----------------------------------------------------------------
     func addObject(object: GameViewObject) {
         self.objects.append(object)
     }
