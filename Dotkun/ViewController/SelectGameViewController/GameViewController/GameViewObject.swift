@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 
 class GameViewObject {
+    //----------------------------------------------------------------
+    //Variable
+    //----------------------------------------------------------------
     private var _id: ObjectId = 0
     var id: ObjectId {
         set{ _id = newValue }
@@ -32,13 +35,19 @@ class GameViewObject {
         get{ return _hp }
     }
     private var spentFrames: Int = 0
+    var targetPosition: Position! = nil
+    var fieldPosition: Position! = nil
+    
+    
+    //----------------------------------------------------------------
+    //Method
+    //----------------------------------------------------------------
     func getSpentFrames()-> Int {
         return spentFrames
     }
     func updateFrame(frameCounter: Int){
         spentFrames = frameCounter
     }
-    
     func drawOnContext(context: CGContextRef){
         //抽象クラステーキナー
         fatalError("must be overridden")

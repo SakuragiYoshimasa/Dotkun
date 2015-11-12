@@ -5,8 +5,29 @@
 //  Created by SakuragiYoshimasa on 2015/11/05.
 //  Copyright © 2015年 SakuragiYoshimasa. All rights reserved.
 //
+import UIKit
+
 class GameUtils {
-    
+    static func TransScreenToGameFieldPosition(screenPoint: CGPoint) -> Position{
+        return Position(x: Int(screenPoint.x) / GameSettings.DOT_SIZE, y: Int(screenPoint.y) / GameSettings.DOT_SIZE)
+    }
+    static func GetTargetDirection(dotkunPos: Position, targetPos: Position) -> Direction {
+        var difX = targetPos.x - dotkunPos.x
+        var difY = targetPos.y - dotkunPos.y
+        if abs(difX) > abs(difY) {
+            if difX >= 0 {
+                return Direction.RIGHT
+            }else{
+                return Direction.LEFT
+            }
+        }else{
+            if difY >= 0 {
+                return Direction.DOWN
+            }else{
+                return Direction.UP
+            }
+        }
+    }
 }
 
 struct Position {
@@ -37,6 +58,10 @@ func + (p1:Position, p2:Position)->Position {
 
 func += (inout p1:Position, p2:Position){
     p1 = p1 + p2
+}
+
+func + (p1: CGPoint, p2: CGPoint) -> CGPoint{
+    return CGPoint(x: p1.x + p2.x, y: p1.y + p2.y)
 }
 
 enum GameState {
@@ -73,19 +98,20 @@ enum FieldState{
     case OUT_OF_FIELD
 }
 
+typealias GameObjectType = FieldState
 typealias ObjectId = Int
 extension ObjectId {
-    func getObjectType()->FieldState {
+    func getObjectType()->GameObjectType {
         if self < GameSettings.DOTKUN_NUM/2 {
-            return FieldState.ALLY
+            return GameObjectType.ALLY
         }else if self < GameSettings.DOTKUN_NUM {
-            return FieldState.ENEMY
+            return GameObjectType.ENEMY
         }/*else if self < GameSettings.DOTKUN_NUM + 1 {
             return FieldState.ALLY_CASTLE
         }else if self < GameSettings.DOTKUN_NUM + 2 {
             return FieldState.ENEMY_CASTLE
         }*/
-        return FieldState.NONE
+        return GameObjectType.NONE
     }
     
     static var AllyCastleId: Int {

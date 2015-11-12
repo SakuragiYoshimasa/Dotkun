@@ -10,6 +10,9 @@ import UIKit
 
 class GameController {
     
+    //----------------------------------------------------------------
+    //Variable
+    //----------------------------------------------------------------
     private var gameFeild = [[FieldCell]](count: GameSettings.FIELD_WIDTH, repeatedValue: [FieldCell](count: GameSettings.FIELD_HEIGHT, repeatedValue: FieldCell(state: FieldState.NONE, gameObject: nil)))
     var dotkuns: [Dotkun] = []
     var castles: [Castle] = []
@@ -17,9 +20,9 @@ class GameController {
     var gameState:GameState = GameState.START
     var gameViewController: GameViewController! = nil
     
-    //------------------------------------------------
-    //GameCycle
-    //------------------------------------------------
+    //----------------------------------------------------------------
+    //Game Cycle
+    //----------------------------------------------------------------
     func initGame(gameView: GameView, gvc: GameViewController){
         gameViewController = gvc
         initCastle(gameView)
@@ -103,7 +106,7 @@ class GameController {
     }
     
     //--------------------------------------------------
-    //Dotkun操作
+    //Manupurate Dotkuns
     //--------------------------------------------------
     func setInitialDotkunPosition(dotkun: Dotkun, id: Int){
 
@@ -132,8 +135,6 @@ class GameController {
         let enemyCastle = Castle(color: Constants.BACKCOLOR, pos: TestUtil.randomPoint(gameView.bounds), id: ObjectId.EnemyCastleId)
         allyCastle.updatePosition(GameSettings.FIELD_WIDTH - GameSettings.CASTLE_SIZE, y: GameSettings.FIELD_HEIGHT - GameSettings.CASTLE_SIZE);
         enemyCastle.updatePosition(0, y: 0)
-        castles.append(allyCastle)
-        castles.append(enemyCastle)
         for x in 0..<GameSettings.CASTLE_SIZE {
             for y in 0..<GameSettings.CASTLE_SIZE {
                 gameFeild[GameSettings.FIELD_WIDTH - 1 - x][GameSettings.FIELD_HEIGHT - 1 - y].state = FieldState.ALLY
@@ -142,6 +143,8 @@ class GameController {
                 gameFeild[x][y].gameObject = enemyCastle
             }
         }
+        castles.append(allyCastle)
+        castles.append(enemyCastle)
         gameView.addObject(allyCastle)
         gameView.addObject(enemyCastle)
     }
@@ -174,17 +177,39 @@ class GameController {
         return gameFeild[position.x][position.y].gameObject!
     }
     
-    
-    func introductDotkun(centerPoint: CGPoint, radius: Int){
-        //------------------------------
-        //範囲内のDotkunの目標値を定める
-        //------------------------------
-    }
-    
     //------------------------------------------------
     //イベント
     //------------------------------------------------
     func startGame(){
         gameState = GameState.GAME
+    }
+    
+    func assembleDotkuns(touchInfo: TouchInfo){
+        //------------------------------
+        //範囲内のDotkunの目標値を定める
+        //------------------------------
+        
+        //まずtouchInfoの座標からGameFieldの座標に変換する
+        let center: Position = GameUtils.TransScreenToGameFieldPosition(touchInfo.touchPosition)
+        let radius: Int = Int(touchInfo.touchRadius/CGFloat(GameSettings.DOT_SIZE))
+        print(radius)
+        //そこから距離 radius分だけの味方dotkunのtargetPositionに設定する
+        //とりあえず四角形
+        for x in (-radius)...(radius) {
+            for y in (-abs(radius - abs(x)))...(abs(radius - abs(x))) {
+                
+                if x + center.x < 0 || x + center.x >= GameSettings.FIELD_WIDTH || y + center.y < 0 || y + center.y >= GameSettings.FIELD_HEIGHT {
+                    continue
+                }
+                if let dotkun = gameFeild[x + center.x][y + center.y].gameObject {
+                    if dotkun.id.getObjectType() == GameObjectType.ALLY {
+                        dotkun.targetPosition = center
+                    }
+                }
+                /*if gameFeild[x][y].gameObject?.id.getObjectType() == GameObjectType.ALLY {
+                    gameFeild[x][y].gameObject?.targetPosition = center
+                }*/
+            }
+        }
     }
 }

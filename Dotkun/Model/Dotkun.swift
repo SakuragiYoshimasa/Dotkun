@@ -9,17 +9,19 @@
 import UIKit
 
 class Dotkun: GameViewObject {
-    
+    //----------------------------------------------------------------
+    //Variable
+    //----------------------------------------------------------------
     private var color: UIColor! = nil
     private var colorType: ColorType! = nil
     private var power: Int = 0
     private var speed: Int = 0
-    
     private var position: CGPoint! = nil
-    private var fieldPosition: Position! = nil
-    private var targetPosition: Position! = nil
     private var direction: Direction! = nil
     
+    //----------------------------------------------------------------
+    //Life Cycle
+    //----------------------------------------------------------------
     init(color: UIColor, pos: CGPoint, id: Int) {
         super.init()
         self.color = color
@@ -27,7 +29,8 @@ class Dotkun: GameViewObject {
         self.id = id
         self.hp = 100
         self.power = 25
-        self.speed = 2
+        self.speed = 10
+        self.fieldPosition = Position(x: 0,y: 0)
         if id < GameSettings.DOTKUN_NUM/2 {
             self.direction = Direction.UP
         }else{
@@ -35,6 +38,9 @@ class Dotkun: GameViewObject {
         }
     }
     
+    //----------------------------------------------------------------
+    //Game Logic, Draw Call
+    //----------------------------------------------------------------
     override func drawOnContext(context: CGContextRef) {
         UIGraphicsPushContext(context)
         
@@ -45,6 +51,9 @@ class Dotkun: GameViewObject {
             UIColor.brownColor().setStroke()
         }else{
             UIColor.redColor().setStroke()
+        }
+        if self.targetPosition != nil{
+            UIColor.blueColor().setStroke()
         }
         CGContextSetLineWidth(context, 1)
         // 首
@@ -69,10 +78,6 @@ class Dotkun: GameViewObject {
         UIGraphicsPopContext()
     }
     
-    override init() {
-        fieldPosition = Position(x: 0,y: 0)
-    }
-    
     func updatePosition(x: Int, y: Int){
         self.fieldPosition = Position(x: x, y: y)
         self.position = CGPoint(x: x * GameSettings.DOT_SIZE, y: y * GameSettings.DOT_SIZE)
@@ -85,7 +90,7 @@ class Dotkun: GameViewObject {
     
     func updateDirection(){
         if targetPosition != nil {
-            
+            direction = GameUtils.GetTargetDirection(fieldPosition, targetPos: targetPosition)
         }
     }
     
@@ -108,7 +113,6 @@ class Dotkun: GameViewObject {
         return (getSpentFrames() % self.speed) == 0
     }
     
-    //端に行った時用、とリあえず回す
     func changeDirection() {
         direction = Direction(rawValue: (direction.rawValue + 1) % 4)
     }
