@@ -12,7 +12,21 @@ class GameUtils {
         return Position(x: Int(screenPoint.x) / GameSettings.DOT_SIZE, y: Int(screenPoint.y) / GameSettings.DOT_SIZE)
     }
     static func GetTargetDirection(dotkunPos: Position, targetPos: Position) -> Direction {
-        return Direction.RIGHT
+        var difX = targetPos.x - dotkunPos.x
+        var difY = targetPos.y - dotkunPos.y
+        if abs(difX) > abs(difY) {
+            if difX >= 0 {
+                return Direction.RIGHT
+            }else{
+                return Direction.LEFT
+            }
+        }else{
+            if difY >= 0 {
+                return Direction.DOWN
+            }else{
+                return Direction.UP
+            }
+        }
     }
 }
 
