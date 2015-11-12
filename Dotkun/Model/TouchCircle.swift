@@ -20,8 +20,8 @@ struct TouchInfo {
 
 class TouchCircle : GameViewObject {
     private var color: UIColor! = nil
-   
-    public var touchInfo: TouchInfo
+    private var touchInfo: TouchInfo
+    private let growthRate: CGFloat = 1.0
     
     override func drawOnContext(context: CGContextRef) {
         UIGraphicsPushContext(context)
@@ -47,11 +47,19 @@ class TouchCircle : GameViewObject {
         self.touchInfo = newTouchinfo
     }
     
+    func incrementRadius(){
+        self.touchInfo.touchRadius += growthRate
+    }
+    
     func getCenterPosition() -> CGPoint{
         return self.touchInfo.touchPosition + CGPoint( x: -touchInfo.touchRadius / 2.0, y: -touchInfo.touchRadius / 2.0)
     }
     
-   /* func getTouchInfo()->TouchInfo {
+    func getTouchInfo()->TouchInfo {
         return touchInfo
-    }*/
+    }
+    
+    func reset(){
+        touchInfo.reset()
+    }
 }

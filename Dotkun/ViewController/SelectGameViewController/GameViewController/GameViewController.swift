@@ -59,7 +59,7 @@ class GameViewController: BaseViewController {
         gameController.update()
         gameView.setNeedsDisplay()
         if touchFlag {
-            touchCircle.touchInfo.touchRadius += 1.0
+            touchCircle.incrementRadius()
         }
     }
     
@@ -78,27 +78,23 @@ class GameViewController: BaseViewController {
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let touch = touches.first?.locationInView(self.view)
-        //touchCircle.touchInfo.touchPosition = CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY)
         touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
         touchFlag = true
+        touchCircle.isVisible = true
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let touch = touches.first?.locationInView(self.view)
-        //touchCircle.touchInfo.touchPosition = CGPoint(x:(touch?.x)! - gameView.frame.minX, y:(touch?.y)! - gameView.frame.minY)
         touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
+        touchCircle.isVisible = true
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let touch = touches.first?.locationInView(self.view)
-//        touchCircle.touchInfo.touchPosition = CGPoint(x:(touch?.x)! - gameView.frame.minX, y:(touch?.y)! - gameView.frame.minY)
         touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
         touchFlag = false
-        ///--------------------------------
-        //controllerに命令
-        //---------------------------------
-        gameController.assembleDotkuns(touchCircle.touchInfo)
-        touchCircle.touchInfo.reset()
-        
+        gameController.assembleDotkuns(touchCircle.getTouchInfo())
+        touchCircle.reset()
+        touchCircle.isVisible = false
     }
 }
