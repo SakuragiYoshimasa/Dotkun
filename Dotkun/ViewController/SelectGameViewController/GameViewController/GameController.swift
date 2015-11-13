@@ -28,6 +28,8 @@ class GameController {
         initCastle(gameView)
         dotkuns = []
         for i in 0..<GameSettings.DOTKUN_NUM {
+            //----------------------------
+            //Todo アイコンからピクセルデータを取得
             let dotkun = Dotkun(color: TestUtil.randomColor(), pos: TestUtil.randomPoint(gameView.bounds), id: i)
             setInitialDotkunPosition(dotkun, id: i)
             dotkuns.append(dotkun)
