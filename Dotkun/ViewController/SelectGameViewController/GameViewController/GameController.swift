@@ -27,10 +27,17 @@ class GameController {
         gameViewController = gvc
         initCastle(gameView)
         dotkuns = []
+        var allyImage:UIImage = UIImage(named: "ha1f.png")!
+        
         for i in 0..<GameSettings.DOTKUN_NUM {
             //----------------------------
             //Todo アイコンからピクセルデータを取得
-            let dotkun = Dotkun(color: TestUtil.randomColor(), pos: TestUtil.randomPoint(gameView.bounds), id: i)
+            let dotkun: Dotkun
+            if i < GameSettings.DOTKUN_NUM/2 {
+                dotkun = Dotkun(color: allyImage.getColor(CGPoint(x: i % GameSettings.BATTLEICON_WIDTH, y: i / GameSettings.BATTLEICON_WIDTH)), pos: TestUtil.randomPoint(gameView.bounds), id: i)
+            }else{
+                dotkun = Dotkun(color: TestUtil.randomColor(), pos: TestUtil.randomPoint(gameView.bounds), id: i)
+            }
             setInitialDotkunPosition(dotkun, id: i)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)

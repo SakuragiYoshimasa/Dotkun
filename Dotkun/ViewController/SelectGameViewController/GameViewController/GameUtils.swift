@@ -121,3 +121,21 @@ extension ObjectId {
         return GameSettings.DOTKUN_NUM + 2
     }
 }
+
+let pixelDataByteSize = 4
+
+extension UIImage {
+    
+    func getColor(pos: CGPoint) -> UIColor {
+        
+        let imageData = CGDataProviderCopyData(CGImageGetDataProvider(self.CGImage))
+        let data : UnsafePointer = CFDataGetBytePtr(imageData)
+        let address : Int = Int(32 * pos.y + pos.x)  * pixelDataByteSize
+        let r = CGFloat(data[address])/CGFloat(255.0)
+        let g = CGFloat(data[address+1])/CGFloat(255.0)
+        let b = CGFloat(data[address+2])/CGFloat(255.0)
+        let a = CGFloat(data[address+3])/CGFloat(255.0)
+        print(UIColor(red: r, green: g, blue: b, alpha: a))
+        return UIColor(red: r, green: g, blue: b, alpha: a)
+    }
+}
