@@ -11,6 +11,8 @@ import UIKit
 class Constants {
     static let APPNAME = "Dotkun"
     
+    static let DEBUG: Bool = true
+    
     //-------------------------------------
     // GameSetting
     //-------------------------------------

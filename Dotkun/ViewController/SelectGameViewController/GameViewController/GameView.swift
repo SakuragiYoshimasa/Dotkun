@@ -32,6 +32,7 @@ class GameView: UIView {
         self.objects.append(object)
     }
     
+    
     func clear() {
         self.objects = []
         self.setNeedsDisplay()

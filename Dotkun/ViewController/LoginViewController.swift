@@ -51,6 +51,7 @@ class LoginViewController: UIViewController {
         indicator.startAnimating()
         logInButton.userInteractionEnabled = false
         
+        
         let loginCompletion: TWTRLogInCompletion = { (session, error) in
             if let s = session {
                 print(s.userName)
@@ -60,6 +61,9 @@ class LoginViewController: UIViewController {
                 self.indicator.stopAnimating()
                 self.logInButton.hidden = false
                 self.logInButton.userInteractionEnabled = true
+                if Constants.DEBUG {
+                    self.performSegueWithIdentifier("loggedIn", sender: nil)
+                }
             }
         }
         
