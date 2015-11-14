@@ -30,6 +30,11 @@ class User {
         self.profileImageUrl = tUser.profileImageURL
     }
     
+    init() {
+        self.userId = "_ha1f"
+        self.userName = "はるふ"
+    }
+    
     func isLoggedIn() -> Bool {
         return !(twitterId == nil)
     }

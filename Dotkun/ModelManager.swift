@@ -12,11 +12,10 @@ class ModelManager {
     static let manager = ModelManager()
     
     private var account: User! = nil
-    func getAccount() -> User {
+    func getAccount() -> User! {
         return self.account
     }
     func setAccount(user: User) {
         self.account = user
     }
-    
 }

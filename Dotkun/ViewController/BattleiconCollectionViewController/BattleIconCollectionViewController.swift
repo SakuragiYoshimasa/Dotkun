@@ -17,6 +17,10 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
     
     var battleIconRepository: BattleIconRepository! = nil
     
+    var currentBattleIconImageView: UIImageView! = nil
+    
+    private var selectedId = 0
+    
     override func viewWillAppear(animated: Bool) {
         battleIconRepository.reload()
         self.battleIconCollection.reloadData()
@@ -46,6 +50,12 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
             self.view.addSubview(battleIconCollection)
         }
         
+        if currentBattleIconImageView == nil {
+            currentBattleIconImageView = UIImageView(frame: CGRectMake(0, 0, 64, 64))
+            //currentBattleIconImageView.image = ModelManager.manager.battleIcon.image
+            self.view.addSubview(currentBattleIconImageView)
+        }
+        
         if battleIconRepository == nil {
             battleIconRepository = BattleIconRepository()
         }
@@ -66,6 +76,9 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("BattleIconCollectionCell", forIndexPath: indexPath) as! BattleIconCollectionCell
         cell.setup(battleIconRepository.get(indexPath.row))
+        if indexPath.row == selectedId {
+            cell.select()
+        }
         
         return cell
     }
@@ -79,6 +92,9 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         print("select: \(indexPath.row)")
+        let oldSelectedId = selectedId
+        selectedId = indexPath.row
+        collectionView.reloadItemsAtIndexPaths([NSIndexPath(forRow: oldSelectedId, inSection: 0), indexPath])
     }
     
     func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {

@@ -12,11 +12,20 @@ import UIKit
 class BattleIconCollectionCell: UICollectionViewCell {
     var imageView: UIImageView! = nil
     
+    func select() {
+        self.backgroundColor = UIColor.yellowColor()
+    }
+    
+    func deselect() {
+        self.backgroundColor = UIColor.clearColor()
+    }
+    
     func setup(battleIcon: BattleIcon!) {
-        self.backgroundColor = UIColor.whiteColor()
+        deselect()
         
         if imageView == nil {
-            self.imageView = UIImageView(frame: self.bounds)
+            self.imageView = UIImageView(frame: CGRectMake(5, 5, self.bounds.width-10, self.bounds.height-10))
+            self.imageView.backgroundColor = UIColor.whiteColor()
             self.addSubview(self.imageView)
         }
         

@@ -57,12 +57,14 @@ class LoginViewController: UIViewController {
                 print(s.userName)
                 self.onLoggedIn(s.userID)
             } else {
-                NSLog("Login error: %@", error!.localizedDescription)
-                self.indicator.stopAnimating()
-                self.logInButton.hidden = false
-                self.logInButton.userInteractionEnabled = true
                 if Constants.DEBUG {
+                    ModelManager.manager.setAccount(User())
                     self.performSegueWithIdentifier("loggedIn", sender: nil)
+                } else {
+                    NSLog("Login error: %@", error!.localizedDescription)
+                    self.indicator.stopAnimating()
+                    self.logInButton.hidden = false
+                    self.logInButton.userInteractionEnabled = true
                 }
             }
         }
