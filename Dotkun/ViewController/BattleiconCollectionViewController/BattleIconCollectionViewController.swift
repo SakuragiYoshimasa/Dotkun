@@ -15,11 +15,15 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
     
     var battleIconCollection: UICollectionView! = nil
     
-    var battleIconRepository: BattleIconRepository! = nil
+    let battleIconRepository = BattleIconRepository()
     
     var currentBattleIconImageView: UIImageView! = nil
     
-    private var selectedId = 0
+    private var selectedId = 0 {
+        didSet{
+            currentBattleIconImageView?.image = battleIconRepository.get(selectedId).image
+        }
+    }
     
     override func viewWillAppear(animated: Bool) {
         battleIconRepository.reload()
@@ -30,13 +34,6 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
         super.viewDidLoad()
         
         let tabBarHeight = self.getTabBarHeight()
-        
-        if createButton == nil {
-            createButton = UIButton(frame: CGRectMake(50,50,200,50))
-            createButton.setTitle("createIcon", forState: .Normal)
-            createButton.addTarget(self, action: "createIcon", forControlEvents: .TouchUpInside)
-            self.view.addSubview(createButton)
-        }
         
         if battleIconCollection == nil {
             battleIconCollection = UICollectionView(frame:
@@ -53,11 +50,20 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
         if currentBattleIconImageView == nil {
             currentBattleIconImageView = UIImageView(frame: CGRectMake(0, 0, 64, 64))
             //currentBattleIconImageView.image = ModelManager.manager.battleIcon.image
+            currentBattleIconImageView.layer.position = CGPointMake(self.view.bounds.midX, Util.getStatusBarHeight() + 80)
+            currentBattleIconImageView.backgroundColor = UIColor.whiteColor()
             self.view.addSubview(currentBattleIconImageView)
         }
         
-        if battleIconRepository == nil {
-            battleIconRepository = BattleIconRepository()
+        if createButton == nil {
+            createButton = UIButton(frame: CGRectMake(self.view.bounds.width-80,self.view.bounds.height - tabBarHeight - 70,60,60))
+            createButton.layer.cornerRadius = 30
+            createButton.backgroundColor = UIColor.brownColor()
+            createButton.titleLabel?.font = UIFont.systemFontOfSize(40)
+            createButton.setTitle("+", forState: .Normal)
+            createButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            createButton.addTarget(self, action: "createIcon", forControlEvents: .TouchUpInside)
+            self.view.addSubview(createButton)
         }
     }
     

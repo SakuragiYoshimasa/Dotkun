@@ -13,14 +13,14 @@ class BattleIconCollectionCell: UICollectionViewCell {
     var imageView: UIImageView! = nil
     
     func select() {
-        self.backgroundColor = UIColor.yellowColor()
+        self.backgroundColor = Constants.HILIGHTENED_COLOR
     }
     
     func deselect() {
         self.backgroundColor = UIColor.clearColor()
     }
     
-    func setup(battleIcon: BattleIcon!) {
+    func setup(battleIcon: BattleIcon?) {
         deselect()
         
         if imageView == nil {
