@@ -27,9 +27,15 @@ class Dotkun: GameViewObject {
         self.color = color
         self.position = pos
         self.id = id
-        self.hp = 100
-        self.power = 25
-        self.speed = 10
+        var red: CGFloat     = 1.0
+        var green: CGFloat   = 1.0
+        var blue: CGFloat    = 1.0
+        var alpha: CGFloat   = 1.0
+        color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        self.hp =  Int(red * 255)
+        self.power = Int(green * 100)
+        self.speed = Int(blue * 255) % 5 + 5
+        //print("hp:%d power:%d speed:%d",hp,power,speed)
         self.fieldPosition = Position(x: 0,y: 0)
         if id < GameSettings.DOTKUN_NUM/2 {
             self.direction = Direction.UP
