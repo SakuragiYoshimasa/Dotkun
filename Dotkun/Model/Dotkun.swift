@@ -80,7 +80,7 @@ class Dotkun: GameViewObject {
     
     func updatePosition(x: Int, y: Int){
         self.fieldPosition = Position(x: x, y: y)
-        self.position = CGPoint(x: x * GameSettings.DOT_SIZE, y: y * GameSettings.DOT_SIZE)
+        self.position = CGPoint(x: (CGFloat(x) + 0.5) * GameSettings.DOT_SIZE, y: (CGFloat(y) + 0.5) * GameSettings.DOT_SIZE)
     }
     
     func updatePosition(){

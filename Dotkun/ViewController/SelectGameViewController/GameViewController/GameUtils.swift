@@ -9,7 +9,7 @@ import UIKit
 
 class GameUtils {
     static func TransScreenToGameFieldPosition(screenPoint: CGPoint) -> Position{
-        return Position(x: Int(screenPoint.x) / GameSettings.DOT_SIZE, y: Int(screenPoint.y) / GameSettings.DOT_SIZE)
+        return Position(x: Int(screenPoint.x / GameSettings.DOT_SIZE), y: Int(screenPoint.y / GameSettings.DOT_SIZE))
     }
     static func GetTargetDirection(dotkunPos: Position, targetPos: Position) -> Direction {
         var difX = targetPos.x - dotkunPos.x
@@ -36,15 +36,22 @@ struct Position {
 }
 
 struct GameSettings {
-    static let FIELD_WIDTH: Int = 60 //120
-    static let FIELD_HEIGHT: Int = 100 //200
-    static let DOT_SIZE: Int = 6 //3
-    static let DOTKUN_NUM: Int = 2048
-    static let CASTLE_SIZE: Int = 10
+    static let GANE_VIEW_X_OFFSET: CGFloat = 10
+    static let GAME_VIEW_Y_OFFSET: CGFloat = 20
+    static let GAME_VIEW_WIDTH: CGFloat = UIScreen.mainScreen().bounds.size.width - 2 * GameSettings.GANE_VIEW_X_OFFSET
+    static let GAME_VIEW_HEIGHT: CGFloat = UIScreen.mainScreen().bounds.size.height - 2 * GameSettings.GAME_VIEW_Y_OFFSET //TabBarの高さ引く //取りあえずのパラメータ
+    
     static let BATTLEICON_WIDTH: Int = 32
     static let BATTLEICON_HEIGHT: Int = 32
     static let INITIAL_DOT_X_OFFSET: Int = 14 //44
     static let INITIAL_DOT_Y_OFFSET: Int = 10 //45
+
+    static let FIELD_WIDTH: Int = 60 //120
+    static let FIELD_HEIGHT: Int = 100 //200
+    static let DOT_SIZE: CGFloat = GameSettings.GAME_VIEW_WIDTH / CGFloat(GameSettings.FIELD_WIDTH) //6 //3
+    //static let DOT_SIZE: CGFloat = 6.0 //6 //3
+    static let DOTKUN_NUM: Int = 2048
+    static let CASTLE_SIZE: Int = 10
 }
 
 struct FieldCell {

@@ -31,7 +31,7 @@ class Castle: GameViewObject {
 
     func updatePosition(x: Int, y: Int){
         self.fieldPosition = Position(x: x, y: y)
-        self.position = CGPoint(x: x * GameSettings.DOT_SIZE, y: y * GameSettings.DOT_SIZE)
+        self.position = CGPoint(x: CGFloat(x) * GameSettings.DOT_SIZE, y: CGFloat(y) * GameSettings.DOT_SIZE)
     }
     
     //----------------------------------------------------------------
@@ -40,7 +40,7 @@ class Castle: GameViewObject {
     override func drawOnContext(context: CGContextRef) {
         UIGraphicsPushContext(context)
         self.color.setFill()
-        CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, CGFloat(GameSettings.DOT_SIZE * GameSettings.CASTLE_SIZE), CGFloat(GameSettings.DOT_SIZE * GameSettings.CASTLE_SIZE)))
+        CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE), GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE)))
         UIGraphicsPopContext()
     }
     func getPosition()->Position {

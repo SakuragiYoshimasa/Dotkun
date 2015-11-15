@@ -42,7 +42,6 @@ class GameController {
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
         }
-       
     }
     
     func update(){
@@ -194,30 +193,16 @@ class GameController {
     }
     
     func assembleDotkuns(touchInfo: TouchInfo){
-        //------------------------------
-        //範囲内のDotkunの目標値を定める
-        //------------------------------
-        
-        //まずtouchInfoの座標からGameFieldの座標に変換する
         let center: Position = GameUtils.TransScreenToGameFieldPosition(touchInfo.touchPosition)
         let radius: Int = Int(touchInfo.touchRadius/CGFloat(GameSettings.DOT_SIZE))
-        print(radius)
-        //そこから距離 radius分だけの味方dotkunのtargetPositionに設定する
-        //とりあえず四角形
         for x in (-radius)...(radius) {
             for y in (-abs(radius - abs(x)))...(abs(radius - abs(x))) {
-                
-                if x + center.x < 0 || x + center.x >= GameSettings.FIELD_WIDTH || y + center.y < 0 || y + center.y >= GameSettings.FIELD_HEIGHT {
-                    continue
-                }
+                if x + center.x < 0 || x + center.x >= GameSettings.FIELD_WIDTH || y + center.y < 0 || y + center.y >= GameSettings.FIELD_HEIGHT { continue }
                 if let dotkun = gameFeild[x + center.x][y + center.y].gameObject {
                     if dotkun.id.getObjectType() == GameObjectType.ALLY {
                         dotkun.targetPosition = center
                     }
                 }
-                /*if gameFeild[x][y].gameObject?.id.getObjectType() == GameObjectType.ALLY {
-                    gameFeild[x][y].gameObject?.targetPosition = center
-                }*/
             }
         }
     }
