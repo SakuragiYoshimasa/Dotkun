@@ -12,8 +12,14 @@ import RealmSwift
 class BattleIconRepository {
     
     private var battleIcons: [BattleIcon] = []
+    private var isLoading: Bool = false
     
     func reload() {
+        if isLoading {
+            return
+        }
+        isLoading = true
+        
         let realm = BattleIcon.realm
         
         if let lastId = self.battleIcons.first?.id {
@@ -29,15 +35,39 @@ class BattleIconRepository {
                 self.battleIcons.append(battleIcon)
             }
         }
+        
+        isLoading = false
+    }
+    
+    func getById(id: Int) -> BattleIcon? {
+        if self.battleIcons.isEmpty {
+            self.reload()
+        }
+        for i in self.battleIcons {
+            if i.id == id {
+                return i
+            }
+        }
+        return nil
     }
     
     func getAll() -> [BattleIcon] {
-        self.reload()
+        if self.battleIcons.isEmpty {
+            self.reload()
+        }
         return self.battleIcons
     }
     
-    func get(index: Int) -> BattleIcon {
-        return self.battleIcons[index]
+    func get(index: Int) -> BattleIcon! {
+        if self.battleIcons.isEmpty {
+            self.reload()
+        }
+        while isLoading {}
+        if self.battleIcons.count > index {
+            return self.battleIcons[index]
+        } else {
+            return nil
+        }
     }
     func getBattleIconCount() -> Int {
         return self.battleIcons.count

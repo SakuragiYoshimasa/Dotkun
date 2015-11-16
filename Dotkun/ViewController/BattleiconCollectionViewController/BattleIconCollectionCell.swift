@@ -12,6 +12,8 @@ import UIKit
 class BattleIconCollectionCell: UICollectionViewCell {
     var imageView: UIImageView! = nil
     
+    var battleIcon: BattleIcon! = nil
+    
     func select() {
         self.backgroundColor = Constants.HILIGHTENED_COLOR
     }
@@ -20,7 +22,7 @@ class BattleIconCollectionCell: UICollectionViewCell {
         self.backgroundColor = UIColor.clearColor()
     }
     
-    func setup(battleIcon: BattleIcon?) {
+    func setup(battleIcon: BattleIcon) {
         deselect()
         
         if imageView == nil {
@@ -29,6 +31,7 @@ class BattleIconCollectionCell: UICollectionViewCell {
             self.addSubview(self.imageView)
         }
         
-        self.imageView.image = battleIcon?.image
+        self.imageView.image = battleIcon.image
+        self.battleIcon = battleIcon
     }
 }

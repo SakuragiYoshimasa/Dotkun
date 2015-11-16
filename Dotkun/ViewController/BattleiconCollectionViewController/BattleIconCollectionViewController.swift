@@ -19,14 +19,22 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
     
     var currentBattleIconImageView: UIImageView! = nil
     
-    private var selectedId = 0 {
+    var currentBattleIcon: BattleIcon! = nil {
         didSet{
-            currentBattleIconImageView?.image = battleIconRepository.get(selectedId).image
+            currentBattleIconImageView?.image = currentBattleIcon?.image
         }
     }
+    // 選択されたセルのindex
+    private var selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     
     override func viewWillAppear(animated: Bool) {
         battleIconRepository.reload()
+        if let battleIcon = currentBattleIcon {
+            currentBattleIconImageView?.image = battleIcon.image
+        } else {
+            currentBattleIcon = battleIconRepository.get(0)
+            currentBattleIconImageView?.image = currentBattleIcon?.image
+        }
         self.battleIconCollection.reloadData()
     }
     
@@ -81,8 +89,11 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("BattleIconCollectionCell", forIndexPath: indexPath) as! BattleIconCollectionCell
-        cell.setup(battleIconRepository.get(indexPath.row))
-        if indexPath.row == selectedId {
+        let battleIcon = battleIconRepository.get(indexPath.row)
+        cell.setup(battleIcon)
+        
+        if currentBattleIcon?.id == battleIcon.id {
+            selectedIndexPath = indexPath
             cell.select()
         }
         
@@ -98,9 +109,15 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         print("select: \(indexPath.row)")
-        let oldSelectedId = selectedId
-        selectedId = indexPath.row
-        collectionView.reloadItemsAtIndexPaths([NSIndexPath(forRow: oldSelectedId, inSection: 0), indexPath])
+        if selectedIndexPath != indexPath {
+            let oldIndexPath = selectedIndexPath
+            selectedIndexPath = indexPath
+            
+            let cell = self.battleIconCollection.cellForItemAtIndexPath(indexPath) as! BattleIconCollectionCell
+            currentBattleIcon = cell.battleIcon
+
+            collectionView.reloadItemsAtIndexPaths([oldIndexPath, indexPath])
+        }
     }
     
     func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
