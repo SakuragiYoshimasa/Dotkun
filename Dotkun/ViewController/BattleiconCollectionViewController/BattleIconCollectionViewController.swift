@@ -113,7 +113,12 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
     
     func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
         if action == "cut:" {
-            return true
+            // 選択中のやつは消せない
+            if currentBattleIcon.id == (collectionView.cellForItemAtIndexPath(indexPath) as! BattleIconCollectionCell).battleIcon.id {
+                return false
+            } else {
+                return true
+            }
         }
         return false
     }
