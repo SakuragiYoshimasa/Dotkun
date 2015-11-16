@@ -33,7 +33,9 @@ class CreateBattleIconViewController: TabBarSlaveViewController {
         let statusBarHeight = Util.getStatusBarHeight()
         
         if drawableView == nil {
-            drawableView = DrawableView(frame: CGRectMake(0, 100 + statusBarHeight, self.view.bounds.width, self.view.bounds.width))
+            let drawableViewAreaWidth = CGFloat(Int(min(self.view.bounds.width, self.view.bounds.height - statusBarHeight - 100)/160)*160)
+            
+            drawableView = DrawableView(frame: CGRectMake((self.view.bounds.width-drawableViewAreaWidth)/2, 100 + statusBarHeight, drawableViewAreaWidth, drawableViewAreaWidth))
             drawableView.backgroundColor = UIColor.whiteColor()
             drawableView.delegate = self
             self.view.addSubview(drawableView)
