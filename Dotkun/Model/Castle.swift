@@ -16,6 +16,7 @@ class Castle: GameViewObject {
     //----------------------------------------------------------------
     private var color: UIColor! = nil
     private var position: CGPoint! = nil
+    private var castleImage: UIImage! = nil
     
     //----------------------------------------------------------------
     //Life Cycle
@@ -27,6 +28,7 @@ class Castle: GameViewObject {
         self.hp = 100000
         self.color = color
         self.fieldPosition = Position(x: 0,y: 0)
+        self.castleImage = UIImage(named: "castle.png")
     }
 
     func updatePosition(x: Int, y: Int){
@@ -40,8 +42,9 @@ class Castle: GameViewObject {
     override func drawOnContext(context: CGContextRef) {
         UIGraphicsPushContext(context)
         self.color.setFill()
-        CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE), GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE)))
+        CGContextFillRect(context, CGRectMake(position.x, position.y, GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE), GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE)))
         UIGraphicsPopContext()
+        castleImage.drawInRect(CGRectMake(position.x, position.y, GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE), GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE)))
     }
     func getPosition()->Position {
         if fieldPosition == nil {

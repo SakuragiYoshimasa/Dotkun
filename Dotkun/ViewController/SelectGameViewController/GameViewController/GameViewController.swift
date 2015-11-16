@@ -47,7 +47,7 @@ class GameViewController: BaseViewController {
             self.view.addSubview(startButton)
         }
         if dismissButton == nil {
-            dismissButton = UIButton(frame: CGRectMake(0,0,100,50))
+            dismissButton = UIButton(frame: CGRectMake(0,UIScreen.mainScreen().bounds.height - 50,100,50))
             dismissButton.setTitle("Dismiss", forState: .Normal)
             dismissButton.addTarget(self, action: "dismiss", forControlEvents: .TouchUpInside)
             dismissButton.backgroundColor = Constants.BACKCOLOR
