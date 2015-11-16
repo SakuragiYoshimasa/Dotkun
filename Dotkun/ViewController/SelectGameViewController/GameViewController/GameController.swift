@@ -27,20 +27,27 @@ class GameController {
         gameViewController = gvc
         initCastle(gameView)
         dotkuns = []
-        let allyImage:UIImage = UIImage(named: "ha1f.png")!
+        
+        let allyImage:UIImage = ModelManager.manager.currentBattleIcon.image?.getResizedImage(CGSizeMake(32,32)) ?? UIImage(named: "ha1f.png")!
         let enemyImage: UIImage = UIImage(named: "ha1f.png")!
-        for i in 0..<GameSettings.DOTKUN_NUM {
-            //----------------------------
-            //Todo アイコンからピクセルデータを取得
-            let dotkun: Dotkun
-            if i < GameSettings.DOTKUN_NUM/2 {
-                dotkun = Dotkun(color: allyImage.getColor(CGPoint(x: i % GameSettings.BATTLEICON_WIDTH, y: i / GameSettings.BATTLEICON_WIDTH)), pos: TestUtil.randomPoint(gameView.bounds), id: i)
-            }else{
-                dotkun = Dotkun(color: enemyImage.getColor(CGPoint(x: (i - GameSettings.DOTKUN_NUM/2) % GameSettings.BATTLEICON_WIDTH, y: (i - GameSettings.DOTKUN_NUM/2) / GameSettings.BATTLEICON_WIDTH)), pos: TestUtil.randomPoint(gameView.bounds), id: i)
-            }
+        
+        var i = 0
+        for _ in 0..<GameSettings.DOTKUN_NUM/2 {
+            let dotkun = Dotkun(color: allyImage.getColor(CGPoint(x: i % GameSettings.BATTLEICON_WIDTH, y: i / GameSettings.BATTLEICON_WIDTH)), pos: TestUtil.randomPoint(gameView.bounds), id: i)
             setInitialDotkunPosition(dotkun, id: i)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
+            i++
+        }
+        
+        for _ in 0..<GameSettings.DOTKUN_NUM/2 {
+            //----------------------------
+            //Todo アイコンからピクセルデータを取得
+            let dotkun = Dotkun(color: enemyImage.getColor(CGPoint(x: (i - GameSettings.DOTKUN_NUM/2) % GameSettings.BATTLEICON_WIDTH, y: (i - GameSettings.DOTKUN_NUM/2) / GameSettings.BATTLEICON_WIDTH)), pos: TestUtil.randomPoint(gameView.bounds), id: i)
+            setInitialDotkunPosition(dotkun, id: i)
+            dotkuns.append(dotkun)
+            gameView.addObject(dotkun)
+            i++
         }
     }
     

@@ -15,10 +15,29 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
     
     var battleIconCollection: UICollectionView! = nil
     
-    var battleIconRepository: BattleIconRepository! = nil
+    let battleIconRepository = BattleIconRepository()
+    
+    var currentBattleIconImageView: UIImageView! = nil
+    
+    var currentBattleIcon: BattleIcon! {
+        set{
+            ModelManager.manager.currentBattleIcon = newValue
+            currentBattleIconImageView?.image = ModelManager.manager.currentBattleIcon.image?.getResizedImage(CGSizeMake(32,32))
+        }
+        get{
+            return ModelManager.manager.currentBattleIcon
+        }
+    }
+    // 選択されたセルのindex
+    private var selectedIndexPath = NSIndexPath(forRow: 0, inSection: 0)
     
     override func viewWillAppear(animated: Bool) {
         battleIconRepository.reload()
+        if currentBattleIcon == nil {
+            currentBattleIcon = battleIconRepository.get(0)
+        }
+        
+        currentBattleIconImageView?.image = currentBattleIcon?.image
         self.battleIconCollection.reloadData()
     }
     
@@ -26,13 +45,6 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
         super.viewDidLoad()
         
         let tabBarHeight = self.getTabBarHeight()
-        
-        if createButton == nil {
-            createButton = UIButton(frame: CGRectMake(50,50,200,50))
-            createButton.setTitle("createIcon", forState: .Normal)
-            createButton.addTarget(self, action: "createIcon", forControlEvents: .TouchUpInside)
-            self.view.addSubview(createButton)
-        }
         
         if battleIconCollection == nil {
             battleIconCollection = UICollectionView(frame:
@@ -46,8 +58,23 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
             self.view.addSubview(battleIconCollection)
         }
         
-        if battleIconRepository == nil {
-            battleIconRepository = BattleIconRepository()
+        if currentBattleIconImageView == nil {
+            currentBattleIconImageView = UIImageView(frame: CGRectMake(0, 0, 64, 64))
+            //currentBattleIconImageView.image = ModelManager.manager.battleIcon.image
+            currentBattleIconImageView.layer.position = CGPointMake(self.view.bounds.midX, Util.getStatusBarHeight() + 80)
+            currentBattleIconImageView.backgroundColor = UIColor.whiteColor()
+            self.view.addSubview(currentBattleIconImageView)
+        }
+        
+        if createButton == nil {
+            createButton = UIButton(frame: CGRectMake(self.view.bounds.width-80,self.view.bounds.height - tabBarHeight - 70,60,60))
+            createButton.layer.cornerRadius = 30
+            createButton.backgroundColor = UIColor.brownColor()
+            createButton.titleLabel?.font = UIFont.systemFontOfSize(40)
+            createButton.setTitle("+", forState: .Normal)
+            createButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            createButton.addTarget(self, action: "createIcon", forControlEvents: .TouchUpInside)
+            self.view.addSubview(createButton)
         }
     }
     
@@ -65,7 +92,12 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("BattleIconCollectionCell", forIndexPath: indexPath) as! BattleIconCollectionCell
-        cell.setup(battleIconRepository.get(indexPath.row))
+        let battleIcon = battleIconRepository.get(indexPath.row)
+        cell.setup(battleIcon)
+        
+        if indexPath == selectedIndexPath {
+            cell.select()
+        }
         
         return cell
     }
@@ -79,6 +111,14 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         print("select: \(indexPath.row)")
+        if selectedIndexPath != indexPath {
+            let oldIndexPath = selectedIndexPath
+            selectedIndexPath = indexPath
+            collectionView.reloadItemsAtIndexPaths([oldIndexPath, indexPath])
+        } else {
+            let cell = self.battleIconCollection.cellForItemAtIndexPath(indexPath) as! BattleIconCollectionCell
+            currentBattleIcon = cell.battleIcon
+        }
     }
     
     func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {

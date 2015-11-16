@@ -51,3 +51,13 @@ extension CGPoint {
         self.y += y
     }
 }
+
+extension UIImage {
+    func getResizedImage(size: CGSize) -> UIImage {
+        UIGraphicsBeginImageContext(size)
+        self.drawInRect(CGRect(origin: CGPoint.zero, size: size))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return resizedImage
+    }
+}
