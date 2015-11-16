@@ -49,6 +49,12 @@ class BattleIcon: Object {
         return icon
     }
     
+    static func deleteObject(battleIcon: BattleIcon) {
+        try! realm.write {
+            realm.delete(battleIcon)
+        }
+    }
+    
     static func lastId() -> Int {
         if let user = realm.objects(BattleIcon).last {
             return user.id + 1

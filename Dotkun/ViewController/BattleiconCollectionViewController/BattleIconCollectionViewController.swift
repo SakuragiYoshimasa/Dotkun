@@ -107,6 +107,25 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
         return cell
     }
     
+    func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+        if action == "cut:" {
+            return true
+        }
+        return false
+    }
+    
+    func collectionView(collectionView: UICollectionView, performAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
+        if action == "cut:" {
+            //let cell = self.battleIconCollection.cellForItemAtIndexPath(indexPath) as! BattleIconCollectionCell
+            battleIconRepository.deleteObjectAtIndex(indexPath.row)
+            collectionView.reloadData()
+        }
+    }
+    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
         let size: CGSize = CGSizeMake(90, 90)
