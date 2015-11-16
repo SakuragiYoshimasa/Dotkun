@@ -6,7 +6,7 @@
 //  Copyright © 2015年 SakuragiYoshimasa. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class ModelManager {
     static let manager = ModelManager()
@@ -18,4 +18,6 @@ class ModelManager {
     func setAccount(user: User) {
         self.account = user
     }
+    
+    var currentBattleIcon: BattleIcon! = nil
 }

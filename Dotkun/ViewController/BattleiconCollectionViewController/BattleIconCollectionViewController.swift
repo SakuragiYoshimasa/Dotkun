@@ -19,9 +19,13 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
     
     var currentBattleIconImageView: UIImageView! = nil
     
-    var currentBattleIcon: BattleIcon! = nil {
-        didSet{
-            currentBattleIconImageView?.image = currentBattleIcon?.image
+    var currentBattleIcon: BattleIcon! {
+        set{
+            ModelManager.manager.currentBattleIcon = newValue
+            currentBattleIconImageView?.image = ModelManager.manager.currentBattleIcon?.image
+        }
+        get{
+            return ModelManager.manager.currentBattleIcon
         }
     }
     // 選択されたセルのindex
@@ -92,8 +96,9 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
         let battleIcon = battleIconRepository.get(indexPath.row)
         cell.setup(battleIcon)
         
-        if currentBattleIcon?.id == battleIcon.id {
-            selectedIndexPath = indexPath
+        //if currentBattleIcon?.id == battleIcon.id {
+        if indexPath == selectedIndexPath {
+            //selectedIndexPath = indexPath
             cell.select()
         }
         
@@ -112,11 +117,10 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
         if selectedIndexPath != indexPath {
             let oldIndexPath = selectedIndexPath
             selectedIndexPath = indexPath
-            
+            collectionView.reloadItemsAtIndexPaths([oldIndexPath, indexPath])
+        } else {
             let cell = self.battleIconCollection.cellForItemAtIndexPath(indexPath) as! BattleIconCollectionCell
             currentBattleIcon = cell.battleIcon
-
-            collectionView.reloadItemsAtIndexPaths([oldIndexPath, indexPath])
         }
     }
     
