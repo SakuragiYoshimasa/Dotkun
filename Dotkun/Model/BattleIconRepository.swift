@@ -58,7 +58,7 @@ class BattleIconRepository {
         return self.battleIcons
     }
     
-    func get(index: Int) -> BattleIcon! {
+    func get(index: Int) -> BattleIcon? {
         if self.battleIcons.isEmpty {
             self.reload()
         }
