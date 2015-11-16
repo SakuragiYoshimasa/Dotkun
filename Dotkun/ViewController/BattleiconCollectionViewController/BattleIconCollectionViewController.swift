@@ -34,7 +34,9 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
     override func viewWillAppear(animated: Bool) {
         battleIconRepository.reload()
         if currentBattleIcon == nil {
-            currentBattleIcon = battleIconRepository.get(0)
+            if let battleIcon = battleIconRepository.get(0) {
+                currentBattleIcon = battleIcon
+            }
         }
         
         currentBattleIconImageView?.image = currentBattleIcon?.image
@@ -92,8 +94,9 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("BattleIconCollectionCell", forIndexPath: indexPath) as! BattleIconCollectionCell
-        let battleIcon = battleIconRepository.get(indexPath.row)
-        cell.setup(battleIcon)
+        if let battleIcon = battleIconRepository.get(indexPath.row) {
+            cell.setup(battleIcon)
+        }
         
         if indexPath == selectedIndexPath {
             cell.select()
