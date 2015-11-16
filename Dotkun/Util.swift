@@ -65,16 +65,64 @@ extension UIImage {
         let pixelDataByteSize = 4
         let imageData = CGDataProviderCopyData(CGImageGetDataProvider(self.CGImage))
         let data : UnsafePointer = CFDataGetBytePtr(imageData)
-        let address : Int = Int(32 * pos.y + pos.x)  * pixelDataByteSize
-        /*let r = CGFloat(data[address+2])/CGFloat(255.0)
-        let g = CGFloat(data[address+1])/CGFloat(255.0)
-        let b = CGFloat(data[address])/CGFloat(255.0)*/
-        let r = CGFloat(data[address])/CGFloat(255.0)
-        let g = CGFloat(data[address+1])/CGFloat(255.0)
-        let b = CGFloat(data[address+2])/CGFloat(255.0)
+        var address : Int = Int(32 * pos.y + pos.x)  * pixelDataByteSize
         
-        let a = CGFloat(data[address+3])/CGFloat(255.0)
-        print(UIColor(red: r, green: g, blue: b, alpha: a))
+        
+        //通常が3
+        //描いた奴は8194
+        let r: CGFloat
+        let g: CGFloat
+        let b: CGFloat
+        let a: CGFloat
+        let alphaInfo = CGImageGetAlphaInfo(self.CGImage)
+        
+        switch(alphaInfo) {
+        case .First:
+            a = CGFloat(data[address])/CGFloat(255.0)
+            address += pixelDataByteSize
+            break
+        case .Only:
+            a = CGFloat(data[address])/CGFloat(255.0)
+            address += pixelDataByteSize
+            break
+        default:
+            a = CGFloat(data[address+3])/CGFloat(255.0)
+        }
+        
+        let info = CGImageGetBitmapInfo(self.CGImage).rawValue
+        if ((info & CGBitmapInfo.ByteOrder32Little.rawValue) > 0) || ((info & CGBitmapInfo.ByteOrder16Little.rawValue) > 0) {
+            r = CGFloat(data[address+2])/CGFloat(255.0)
+            g = CGFloat(data[address+1])/CGFloat(255.0)
+            b = CGFloat(data[address])/CGFloat(255.0)
+        } else {
+            r = CGFloat(data[address])/CGFloat(255.0)
+            g = CGFloat(data[address+1])/CGFloat(255.0)
+            b = CGFloat(data[address+2])/CGFloat(255.0)
+        }
+        
+        /*
+        // 通常が3、描いたやつは2
+        print(CGImageAlphaInfo.Last.rawValue)//3
+        print(CGImageAlphaInfo.None.rawValue)//0
+        print(CGImageAlphaInfo.NoneSkipFirst.rawValue)//6
+        print(CGImageAlphaInfo.NoneSkipLast.rawValue)//5
+        print(CGImageAlphaInfo.First.rawValue)//4
+        print(CGImageAlphaInfo.Only.rawValue)//7
+        */
+
+        /*
+        // 通常が3、描いたやつは8194
+        print(CGBitmapInfo.AlphaInfoMask.rawValue)//31
+        print(CGBitmapInfo.ByteOrder16Big.rawValue)//12288
+        print(CGBitmapInfo.ByteOrder16Little.rawValue)//4096
+        print(CGBitmapInfo.ByteOrder32Big.rawValue)//16384
+        print(CGBitmapInfo.ByteOrder32Little.rawValue)//8192
+        print(CGBitmapInfo.ByteOrderDefault.rawValue)//0
+        print(CGBitmapInfo.ByteOrderMask.rawValue)//28672
+        */
+        
+        
+        //print(UIColor(red: r, green: g, blue: b, alpha: a))
         return UIColor(red: r, green: g, blue: b, alpha: a)
     }
 }
