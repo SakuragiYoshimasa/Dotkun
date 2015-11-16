@@ -27,13 +27,23 @@ class GameController {
         gameViewController = gvc
         initCastle(gameView)
         dotkuns = []
+        
+        let allyImage:UIImage = ModelManager.manager.currentBattleIcon.getResizedImage(CGSizeMake(32,32)) ?? UIImage(named: "ha1f.png")!
+        
+        let enemyImage: UIImage = UIImage(named: "ha1f.png")!
         for i in 0..<GameSettings.DOTKUN_NUM {
-            let dotkun = Dotkun(color: TestUtil.randomColor(), pos: TestUtil.randomPoint(gameView.bounds), id: i)
+            //----------------------------
+            //Todo アイコンからピクセルデータを取得
+            let dotkun: Dotkun
+            if i < GameSettings.DOTKUN_NUM/2 {
+                dotkun = Dotkun(color: allyImage.getColor(CGPoint(x: i % GameSettings.BATTLEICON_WIDTH, y: i / GameSettings.BATTLEICON_WIDTH)), pos: TestUtil.randomPoint(gameView.bounds), id: i)
+            }else{
+                dotkun = Dotkun(color: enemyImage.getColor(CGPoint(x: (i - GameSettings.DOTKUN_NUM/2) % GameSettings.BATTLEICON_WIDTH, y: (i - GameSettings.DOTKUN_NUM/2) / GameSettings.BATTLEICON_WIDTH)), pos: TestUtil.randomPoint(gameView.bounds), id: i)
+            }
             setInitialDotkunPosition(dotkun, id: i)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
         }
-       
     }
     
     func update(){
@@ -75,14 +85,14 @@ class GameController {
             if !dotkun.isActionFrame() {continue}
             switch checkField(dotkun.getPosition() + dotkun.getDirection().getPositionValue()){
             case .ALLY:
-                if dotkun.id < GameSettings.DOTKUN_NUM/2 {
+                if dotkun.id.getObjectType() == GameObjectType.ALLY {
                     dotkun.changeDirection()
                 }else{
                     battle(dotkun, enemyGameObject: getGameViewObject(dotkun.getPosition() + dotkun.getDirection().getPositionValue()))
                 }
                 break;
             case .ENEMY:
-                if dotkun.id < GameSettings.DOTKUN_NUM/2 {
+                if dotkun.id.getObjectType() == GameObjectType.ALLY {
                     battle(dotkun, enemyGameObject: getGameViewObject(dotkun.getPosition() + dotkun.getDirection().getPositionValue()))
                 }else{
                     dotkun.changeDirection()
@@ -185,30 +195,16 @@ class GameController {
     }
     
     func assembleDotkuns(touchInfo: TouchInfo){
-        //------------------------------
-        //範囲内のDotkunの目標値を定める
-        //------------------------------
-        
-        //まずtouchInfoの座標からGameFieldの座標に変換する
         let center: Position = GameUtils.TransScreenToGameFieldPosition(touchInfo.touchPosition)
         let radius: Int = Int(touchInfo.touchRadius/CGFloat(GameSettings.DOT_SIZE))
-        print(radius)
-        //そこから距離 radius分だけの味方dotkunのtargetPositionに設定する
-        //とりあえず四角形
         for x in (-radius)...(radius) {
             for y in (-abs(radius - abs(x)))...(abs(radius - abs(x))) {
-                
-                if x + center.x < 0 || x + center.x >= GameSettings.FIELD_WIDTH || y + center.y < 0 || y + center.y >= GameSettings.FIELD_HEIGHT {
-                    continue
-                }
+                if x + center.x < 0 || x + center.x >= GameSettings.FIELD_WIDTH || y + center.y < 0 || y + center.y >= GameSettings.FIELD_HEIGHT { continue }
                 if let dotkun = gameFeild[x + center.x][y + center.y].gameObject {
                     if dotkun.id.getObjectType() == GameObjectType.ALLY {
                         dotkun.targetPosition = center
                     }
                 }
-                /*if gameFeild[x][y].gameObject?.id.getObjectType() == GameObjectType.ALLY {
-                    gameFeild[x][y].gameObject?.targetPosition = center
-                }*/
             }
         }
     }

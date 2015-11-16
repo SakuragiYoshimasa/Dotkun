@@ -28,7 +28,7 @@ class TouchCircle : GameViewObject {
     //----------------------------------------------------------------
     private var color: UIColor! = nil
     private var touchInfo: TouchInfo
-    private let growthRate: CGFloat = 2.0
+    private let growthRate: CGFloat = 5.0
     
     //----------------------------------------------------------------
     //Life Cycle

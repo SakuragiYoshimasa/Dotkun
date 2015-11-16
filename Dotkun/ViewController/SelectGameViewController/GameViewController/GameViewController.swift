@@ -5,7 +5,6 @@
 //  Created by 山口智生 on 2015/11/03.
 //  Copyright © 2015年 SakuragiYoshimasa. All rights reserved.
 //
-
 import UIKit
 
 class GameViewController: BaseViewController {
@@ -27,7 +26,8 @@ class GameViewController: BaseViewController {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "finishGame", name: "FinishGame", object: nil)
         if gameView == nil {
-            gameView = GameView(frame: CGRectMake(0,Util.getStatusBarHeight(),self.view.bounds.width, self.view.bounds.height-Util.getStatusBarHeight()))
+            //gameView = GameView(frame: CGRectMake(0,Util.getStatusBarHeight(),self.view.bounds.width, self.view.bounds.height-Util.getStatusBarHeight()))
+            gameView = GameView(frame: CGRectMake(GameSettings.GANE_VIEW_X_OFFSET,Util.getStatusBarHeight(),GameSettings.GAME_VIEW_WIDTH, GameSettings.GAME_VIEW_HEIGHT))
             gameView.backgroundColor = UIColor.whiteColor()
             self.view.addSubview(gameView)
         }
