@@ -57,6 +57,14 @@ class BattleIcon: Object {
         }
     }
     
+    func getResizedImage(size: CGSize) -> UIImage {
+        UIGraphicsBeginImageContext(size)
+        self.image?.drawInRect(CGRect(origin: CGPoint.zero, size: size))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return resizedImage
+    }
+    
     override static func primaryKey() -> String? {
         return "id"
     }

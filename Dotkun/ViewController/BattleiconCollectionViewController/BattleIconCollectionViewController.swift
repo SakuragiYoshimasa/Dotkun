@@ -96,9 +96,7 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
         let battleIcon = battleIconRepository.get(indexPath.row)
         cell.setup(battleIcon)
         
-        //if currentBattleIcon?.id == battleIcon.id {
         if indexPath == selectedIndexPath {
-            //selectedIndexPath = indexPath
             cell.select()
         }
         
