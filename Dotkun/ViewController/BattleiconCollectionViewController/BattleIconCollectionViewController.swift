@@ -22,7 +22,7 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
     var currentBattleIcon: BattleIcon! {
         set{
             ModelManager.manager.currentBattleIcon = newValue
-            currentBattleIconImageView?.image = ModelManager.manager.currentBattleIcon?.image
+            currentBattleIconImageView?.image = ModelManager.manager.currentBattleIcon.image?.getResizedImage(CGSizeMake(32,32))
         }
         get{
             return ModelManager.manager.currentBattleIcon
@@ -33,12 +33,11 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
     
     override func viewWillAppear(animated: Bool) {
         battleIconRepository.reload()
-        if let battleIcon = currentBattleIcon {
-            currentBattleIconImageView?.image = battleIcon.image
-        } else {
+        if currentBattleIcon == nil {
             currentBattleIcon = battleIconRepository.get(0)
-            currentBattleIconImageView?.image = currentBattleIcon?.image
         }
+        
+        currentBattleIconImageView?.image = currentBattleIcon?.image
         self.battleIconCollection.reloadData()
     }
     
