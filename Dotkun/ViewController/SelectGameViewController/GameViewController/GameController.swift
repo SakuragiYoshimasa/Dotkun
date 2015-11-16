@@ -28,7 +28,7 @@ class GameController {
         initCastle(gameView)
         dotkuns = []
         
-        let allyImage:UIImage = ModelManager.manager.currentBattleIcon.image?.getResizedImage(CGSizeMake(32,32)) ?? UIImage(named: "ha1f.png")!
+        let allyImage:UIImage = ModelManager.manager.currentBattleIcon?.image?.getResizedImage(CGSizeMake(32,32)) ?? UIImage(named: "ha1f.png")!
         let enemyImage: UIImage = UIImage(named: "ha1f.png")!
         
         var i = 0

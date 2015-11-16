@@ -18,6 +18,7 @@ class GameViewController: BaseViewController {
     var finishTitle: UILabel! = nil
     var touchFlag: Bool = false
     var touchCircle: TouchCircle! = nil
+    var dismissButton: UIButton! = nil
     
     //----------------------------------------------------------------
     //Life Cycle
@@ -45,6 +46,14 @@ class GameViewController: BaseViewController {
             startButton.backgroundColor = Constants.BACKCOLOR
             self.view.addSubview(startButton)
         }
+        if dismissButton == nil {
+            dismissButton = UIButton(frame: CGRectMake(0,0,100,50))
+            dismissButton.setTitle("Dismiss", forState: .Normal)
+            dismissButton.addTarget(self, action: "dismiss", forControlEvents: .TouchUpInside)
+            dismissButton.backgroundColor = Constants.BACKCOLOR
+            self.view.addSubview(dismissButton)
+            
+        }
         if finishTitle == nil {
             finishTitle = UILabel(frame: CGRectMake(50,300,200,50))
             finishTitle.text = "Finish Game!"
@@ -58,6 +67,10 @@ class GameViewController: BaseViewController {
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func dismiss(){
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     //----------------------------------------------------------------
