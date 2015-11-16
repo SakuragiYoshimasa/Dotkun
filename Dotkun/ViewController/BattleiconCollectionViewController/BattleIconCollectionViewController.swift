@@ -57,6 +57,8 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
             battleIconCollection.delegate = self
             battleIconCollection.dataSource = self
             battleIconCollection.registerClass(BattleIconCollectionCell.self, forCellWithReuseIdentifier: "BattleIconCollectionCell")
+            battleIconCollection.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "empty")
+            
             self.view.addSubview(battleIconCollection)
         }
         
@@ -134,5 +136,18 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return battleIconRepository.getBattleIconCount()
+    }
+    
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        if kind == UICollectionElementKindSectionFooter {
+            return collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: "empty", forIndexPath: indexPath)
+        } else {
+            return collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: "empty", forIndexPath: indexPath)
+        }
+    }
+    
+    //footerのサイズを返す
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewFlowLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSizeMake(collectionView.bounds.width, 50)
     }
 }
