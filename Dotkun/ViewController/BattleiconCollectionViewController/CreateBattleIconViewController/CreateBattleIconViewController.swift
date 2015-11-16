@@ -30,15 +30,17 @@ class CreateBattleIconViewController: TabBarSlaveViewController {
         
         let buttonWidth = self.view.bounds.width/4
         
+        let statusBarHeight = Util.getStatusBarHeight()
+        
         if drawableView == nil {
-            drawableView = DrawableView(frame: CGRectMake(0, 100, self.view.bounds.width, self.view.bounds.width))
+            drawableView = DrawableView(frame: CGRectMake(0, 100 + statusBarHeight, self.view.bounds.width, self.view.bounds.width))
             drawableView.backgroundColor = UIColor.whiteColor()
             drawableView.delegate = self
             self.view.addSubview(drawableView)
         }
         
         if undoButton == nil {
-            undoButton = UIButton(frame: CGRectMake(0, Util.getStatusBarHeight(), buttonWidth, 100))
+            undoButton = UIButton(frame: CGRectMake(0, statusBarHeight, buttonWidth, 100))
             undoButton.backgroundColor = UIColor.yellowColor()
             undoButton.setTitle("undo", forState: .Normal)
             undoButton.setTitleColor(UIColor.brownColor(), forState: .Normal)
@@ -47,7 +49,7 @@ class CreateBattleIconViewController: TabBarSlaveViewController {
         }
         
         if loadButton == nil {
-            loadButton = UIButton(frame: CGRectMake(buttonWidth*1, Util.getStatusBarHeight(), buttonWidth, 100))
+            loadButton = UIButton(frame: CGRectMake(buttonWidth*1, statusBarHeight, buttonWidth, 100))
             loadButton.backgroundColor = UIColor.orangeColor()
             loadButton.setTitle("load", forState: .Normal)
             loadButton.setTitleColor(UIColor.brownColor(), forState: .Normal)
@@ -56,7 +58,7 @@ class CreateBattleIconViewController: TabBarSlaveViewController {
         }
         
         if clearButton == nil {
-            clearButton = UIButton(frame: CGRectMake(buttonWidth*2, Util.getStatusBarHeight(), buttonWidth, 100))
+            clearButton = UIButton(frame: CGRectMake(buttonWidth*2, statusBarHeight, buttonWidth, 100))
             clearButton.backgroundColor = UIColor.greenColor()
             clearButton.setTitle("clear", forState: .Normal)
             clearButton.setTitleColor(UIColor.brownColor(), forState: .Normal)
@@ -65,7 +67,7 @@ class CreateBattleIconViewController: TabBarSlaveViewController {
         }
         
         if saveButton == nil {
-            saveButton = UIButton(frame: CGRectMake(buttonWidth*3, Util.getStatusBarHeight(), buttonWidth, 100))
+            saveButton = UIButton(frame: CGRectMake(buttonWidth*3, statusBarHeight, buttonWidth, 100))
             saveButton.backgroundColor = UIColor.cyanColor()
             saveButton.setTitle("save", forState: .Normal)
             saveButton.setTitleColor(UIColor.brownColor(), forState: .Normal)
@@ -141,11 +143,6 @@ extension CreateBattleIconViewController: DrawableViewDelegate {
     }
     
     func onFinishSave() {
-        /*let alertController = UIAlertController(title: "Saved!", message: "saved to camera roll.", preferredStyle: .Alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-        self.presentViewController(alertController, animated: true, completion: {() -> Void in
-        self.dismissViewControllerAnimated(true, completion: nil)
-        })*/
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 }
