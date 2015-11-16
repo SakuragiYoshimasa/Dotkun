@@ -32,8 +32,8 @@ class Dotkun: GameViewObject {
         var blue: CGFloat    = 1.0
         var alpha: CGFloat   = 1.0
         color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        self.hp =  Int(red * 255) + 1
-        self.power = Int(green * 100) + 1
+        self.hp =  Int(red * 255) + 100
+        self.power = Int(green * 100) + 10
         self.speed = Int(blue * 255) % 5 + 5
         print("hp:%d power:%d speed:%d",hp,power,speed)
         self.fieldPosition = Position(x: 0,y: 0)
@@ -97,6 +97,9 @@ class Dotkun: GameViewObject {
     func updateDirection(){
         if targetPosition != nil {
             direction = GameUtils.GetTargetDirection(fieldPosition, targetPos: targetPosition)
+            if targetPosition == fieldPosition {
+                targetPosition = nil
+            }
         }
     }
     

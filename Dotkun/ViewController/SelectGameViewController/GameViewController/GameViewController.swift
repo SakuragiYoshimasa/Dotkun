@@ -97,6 +97,9 @@ class GameViewController: BaseViewController {
     //Touch Event
     //---------------------------------------------------------------
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if gameController.gameState == .START {
+            return
+        }
         let touch = touches.first?.locationInView(self.view)
         touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
         touchFlag = true
@@ -104,12 +107,18 @@ class GameViewController: BaseViewController {
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if gameController.gameState == .START {
+            return
+        }
         let touch = touches.first?.locationInView(self.view)
         touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
         touchCircle.isVisible = true
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if gameController.gameState == .START {
+            return
+        }
         let touch = touches.first?.locationInView(self.view)
         touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
         touchFlag = false
