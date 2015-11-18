@@ -39,7 +39,7 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
             }
         }
         
-        currentBattleIconImageView?.image = currentBattleIcon?.image
+        currentBattleIconImageView?.image = ModelManager.manager.currentBattleIcon.image?.getResizedImage(CGSizeMake(32,32))
         self.battleIconCollection.reloadData()
     }
     
@@ -57,6 +57,8 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
             battleIconCollection.delegate = self
             battleIconCollection.dataSource = self
             battleIconCollection.registerClass(BattleIconCollectionCell.self, forCellWithReuseIdentifier: "BattleIconCollectionCell")
+            battleIconCollection.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "empty")
+            
             self.view.addSubview(battleIconCollection)
         }
         
@@ -105,6 +107,30 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
         return cell
     }
     
+    func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+        if action == "cut:" {
+            // 選択中のやつは消せない
+            if currentBattleIcon.id == (collectionView.cellForItemAtIndexPath(indexPath) as! BattleIconCollectionCell).battleIcon.id {
+                return false
+            } else {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func collectionView(collectionView: UICollectionView, performAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
+        if action == "cut:" {
+            //let cell = self.battleIconCollection.cellForItemAtIndexPath(indexPath) as! BattleIconCollectionCell
+            battleIconRepository.deleteObjectAtIndex(indexPath.row)
+            collectionView.reloadData()
+        }
+    }
+    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
         let size: CGSize = CGSizeMake(90, 90)
@@ -134,5 +160,18 @@ extension BattleIconCollectionViewController: UICollectionViewDataSource, UIColl
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return battleIconRepository.getBattleIconCount()
+    }
+    
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        if kind == UICollectionElementKindSectionFooter {
+            return collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: "empty", forIndexPath: indexPath)
+        } else {
+            return collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: "empty", forIndexPath: indexPath)
+        }
+    }
+    
+    //footerのサイズを返す
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewFlowLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSizeMake(collectionView.bounds.width, 50)
     }
 }

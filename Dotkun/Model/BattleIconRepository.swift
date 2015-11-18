@@ -39,6 +39,13 @@ class BattleIconRepository {
         isLoading = false
     }
     
+    func deleteObjectAtIndex(index: Int) {
+        if index < self.battleIcons.count {
+            BattleIcon.deleteObject(self.battleIcons[index])
+            self.battleIcons.removeAtIndex(index)
+        }
+    }
+    
     func getById(id: Int) -> BattleIcon? {
         if self.battleIcons.isEmpty {
             self.reload()

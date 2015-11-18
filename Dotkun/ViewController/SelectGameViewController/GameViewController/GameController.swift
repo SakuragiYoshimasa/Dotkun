@@ -28,22 +28,28 @@ class GameController {
         initCastle(gameView)
         dotkuns = []
         
-        let allyImage:UIImage = ModelManager.manager.currentBattleIcon?.image?.getResizedImage(CGSizeMake(32,32)) ?? UIImage(named: "ha1f.png")!
+        let allyImage:UIImage = ModelManager.manager.currentBattleIcon?.image?.getResizedImage(CGSizeMake(CGFloat(GameSettings.BATTLEICON_WIDTH),CGFloat(GameSettings.BATTLEICON_HEIGHT))) ?? UIImage(named: "ha1f.png")!
         let enemyImage: UIImage = UIImage(named: "ha1f.png")!
         
         var i = 0
-        for _ in 0..<GameSettings.DOTKUN_NUM/2 {
-            let dotkun = Dotkun(color: allyImage.getColor(CGPoint(x: i % GameSettings.BATTLEICON_WIDTH, y: i / GameSettings.BATTLEICON_WIDTH)), pos: TestUtil.randomPoint(gameView.bounds), id: i)
+        // 自軍
+        for _ in 0..<(GameSettings.DOTKUN_NUM/2) {
+            let dotkun = Dotkun(color: allyImage.getColor(CGPoint(
+                x: i % GameSettings.BATTLEICON_WIDTH,
+                y: i / GameSettings.BATTLEICON_HEIGHT)),
+                pos: TestUtil.randomPoint(gameView.bounds), id: i)
             setInitialDotkunPosition(dotkun, id: i)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
             i++
         }
         
-        for _ in 0..<GameSettings.DOTKUN_NUM/2 {
-            //----------------------------
-            //Todo アイコンからピクセルデータを取得
-            let dotkun = Dotkun(color: enemyImage.getColor(CGPoint(x: (i - GameSettings.DOTKUN_NUM/2) % GameSettings.BATTLEICON_WIDTH, y: (i - GameSettings.DOTKUN_NUM/2) / GameSettings.BATTLEICON_WIDTH)), pos: TestUtil.randomPoint(gameView.bounds), id: i)
+        // 敵軍
+        for _ in 0..<(GameSettings.DOTKUN_NUM/2) {
+            let dotkun = Dotkun(color: enemyImage.getColor(CGPoint(
+                x: GameSettings.BATTLEICON_WIDTH - ((i - GameSettings.DOTKUN_NUM/2) % GameSettings.BATTLEICON_WIDTH) - 1,
+                y: GameSettings.BATTLEICON_HEIGHT - ((i - GameSettings.DOTKUN_NUM/2) / GameSettings.BATTLEICON_HEIGHT) - 1)
+                ), pos: TestUtil.randomPoint(gameView.bounds), id: i)
             setInitialDotkunPosition(dotkun, id: i)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)

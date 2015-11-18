@@ -49,7 +49,7 @@ struct GameSettings {
     static let FIELD_WIDTH: Int = 60 //120
     static let FIELD_HEIGHT: Int = 100 //200
     static let DOT_SIZE: CGFloat = GameSettings.GAME_VIEW_WIDTH / CGFloat(GameSettings.FIELD_WIDTH) //6 //3
-    static let DOTKUN_NUM: Int = 2048
+    static let DOTKUN_NUM: Int = GameSettings.BATTLEICON_WIDTH * GameSettings.BATTLEICON_HEIGHT * 2
     static let CASTLE_SIZE: Int = 10
 }
 
