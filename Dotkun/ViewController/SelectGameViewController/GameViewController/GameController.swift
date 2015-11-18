@@ -37,7 +37,7 @@ class GameController {
             let dotkun = Dotkun(color: allyImage.getColor(CGPoint(
                 x: i % GameSettings.BATTLEICON_WIDTH,
                 y: i / GameSettings.BATTLEICON_HEIGHT)),
-                pos: TestUtil.randomPoint(gameView.bounds), id: i)
+                pos: TestUtil.randomPoint(gameView.bounds), id: i, gf: gameFeild)
             setInitialDotkunPosition(dotkun, id: i)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
@@ -49,7 +49,7 @@ class GameController {
             let dotkun = Dotkun(color: enemyImage.getColor(CGPoint(
                 x: GameSettings.BATTLEICON_WIDTH - ((i - GameSettings.DOTKUN_NUM/2) % GameSettings.BATTLEICON_WIDTH) - 1,
                 y: GameSettings.BATTLEICON_HEIGHT - ((i - GameSettings.DOTKUN_NUM/2) / GameSettings.BATTLEICON_HEIGHT) - 1)
-                ), pos: TestUtil.randomPoint(gameView.bounds), id: i)
+                ), pos: TestUtil.randomPoint(gameView.bounds), id: i, gf: gameFeild)
             setInitialDotkunPosition(dotkun, id: i)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
@@ -86,14 +86,25 @@ class GameController {
         for dotkun in dotkuns {
             if !dotkun.isVisible {continue}
             if !dotkun.checkAlive() {
-                initFieldCell(dotkun.getPosition()) //とりあえず見えんくするだけでええかな？
+                initFieldCell(dotkun.getPosition())
                 dotkun.isVisible = false
                 continue
             }
-            if dotkun.getSpentFrames() > frameCounter {continue}
-            dotkun.updateDirection()
+            
+            //dotkun.update(frameCounter) // frameCounter,checkField(dotkun.getPosition() + dotkun.getDirection().getPositionValue()
+            /*switch dotkun.update() {
+            case .GO: break
+            initFieldCell(dotkun.getPosition())
+            dotkun.updatePosition()
+            setDotkunToFieldCell(dotkun)
+            case .BATTLE: break
+            default: break
+            }*/
+            
+            //if dotkun.getSpentFrames() > frameCounter {continue}
             dotkun.updateFrame(frameCounter)
             if !dotkun.isActionFrame() {continue}
+            dotkun.updateDirection()
             switch checkField(dotkun.getPosition() + dotkun.getDirection().getPositionValue()){
             case .ALLY:
                 if dotkun.id.getObjectType() == GameObjectType.ALLY {
@@ -145,7 +156,7 @@ class GameController {
     }
     
     func battle(allyDotkun: Dotkun, enemyGameObject: GameViewObject){
-        allyDotkun.updateFrame(frameCounter)
+        //allyDotkun.updateFrame(frameCounter)
         allyDotkun.battleWith(enemyGameObject)
     }
     

@@ -8,6 +8,12 @@
 
 import UIKit
 
+enum DotkunAction {
+    case GO
+    case BATTLE
+    case CHANGE_DIRECTION
+}
+
 class Dotkun: GameViewObject {
     //----------------------------------------------------------------
     //Variable
@@ -18,15 +24,16 @@ class Dotkun: GameViewObject {
     private var speed: Int = 0
     private var position: CGPoint! = nil
     private var direction: Direction! = nil
-    
+    private var gameFeild: [[FieldCell]]! = nil
     //----------------------------------------------------------------
     //Life Cycle
     //----------------------------------------------------------------
-    init(color: UIColor, pos: CGPoint, id: Int) {
+    init(color: UIColor, pos: CGPoint, id: Int, gf: [[FieldCell]]) {
         super.init()
         self.color = color
         self.position = pos
         self.id = id
+        self.gameFeild = gf
         var red: CGFloat     = 1.0
         var green: CGFloat   = 1.0
         var blue: CGFloat    = 1.0
@@ -83,6 +90,64 @@ class Dotkun: GameViewObject {
         UIGraphicsPopContext()
     }
     
+    /*func update(frameCounter: Int){
+        updateFrame(frameCounter)
+
+        if !isActionFrame() {return}
+        updateDirection()
+        //switch checkField(dotkun.getPosition() + dotkun.getDirection().getPositionValue()){
+        switch checkField(getPosition() + getDirection().getPositionValue()) {
+        case .ALLY:
+            if id.getObjectType() == GameObjectType.ALLY {
+                changeDirection()
+            }else{
+                //battle(dotkun, enemyGameObject: getGameViewObject(getPosition() + getDirection().getPositionValue()))
+            }
+            break;
+        case .ENEMY:
+            if id.getObjectType() == GameObjectType.ALLY {
+                //battle(dotkun, enemyGameObject: getGameViewObject(getPosition() + getDirection().getPositionValue()))
+            }else{
+                changeDirection()
+            }
+            break;
+        case .NONE:
+            initFieldCell(getPosition())
+            updatePosition()
+            setDotkunToFieldCell(self)
+            break;
+        case .OUT_OF_FIELD:
+            changeDirection()
+            break;
+        }
+    }
+    
+    func initFieldCell(position: Position){
+        gameFeild[position.x][position.y].state = FieldState.NONE
+        gameFeild[position.x][position.y].gameObject = nil
+    }
+    
+    func setDotkunToFieldCell(dotkun: Dotkun){
+        gameFeild[dotkun.getPosition().x][dotkun.getPosition().y].gameObject = dotkun
+        if dotkun.id < GameSettings.DOTKUN_NUM/2 {
+            gameFeild[dotkun.getPosition().x][dotkun.getPosition().y].state = FieldState.ALLY
+        }else{
+            gameFeild[dotkun.getPosition().x][dotkun.getPosition().y].state = FieldState.ENEMY
+        }
+    }
+    
+    func checkField(position:Position)->FieldState{
+        if(position.x >= GameSettings.FIELD_WIDTH || position.x < 0 || position.y >= GameSettings.FIELD_HEIGHT || position.y < 0) {
+            return .OUT_OF_FIELD
+        }
+        return gameFeild[position.x][position.y].state
+    }
+    
+    func getGameViewObject(position: Position)->GameViewObject{
+        return gameFeild[position.x][position.y].gameObject!
+    }
+    */
+    
     func updatePosition(x: Int, y: Int){
         self.fieldPosition = Position(x: x, y: y)
         self.position = CGPoint(x: (CGFloat(x) + 0.5) * GameSettings.DOT_SIZE, y: (CGFloat(y) + 0.5) * GameSettings.DOT_SIZE)
@@ -133,3 +198,4 @@ class Dotkun: GameViewObject {
 enum ColorType {
     
 }
+
