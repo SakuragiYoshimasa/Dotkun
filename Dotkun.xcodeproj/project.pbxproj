@@ -41,6 +41,7 @@
 		FA1E92041BEB5BCC00566A94 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E92031BEB5BCC00566A94 /* GameController.swift */; };
 		FA1E92061BEB5BE000566A94 /* GameUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E92051BEB5BE000566A94 /* GameUtils.swift */; };
 		FA772F2B1BEEE45100AC6DA1 /* Castle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA772F2A1BEEE45100AC6DA1 /* Castle.swift */; };
+		FAAFABCD1BF9CDA300CC3CEE /* castle.png in Resources */ = {isa = PBXBuildFile; fileRef = FAAFABCC1BF9CDA300CC3CEE /* castle.png */; };
 		FAE5C4791BEE2B5F00E5872B /* GameViewObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE5C4781BEE2B5F00E5872B /* GameViewObject.swift */; };
 		FAEDDAB21BF3307C0032B025 /* TouchCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEDDAB11BF3307C0032B025 /* TouchCircle.swift */; };
 /* End PBXBuildFile section */
@@ -105,6 +106,7 @@
 		FA1E92031BEB5BCC00566A94 /* GameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
 		FA1E92051BEB5BE000566A94 /* GameUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameUtils.swift; sourceTree = "<group>"; };
 		FA772F2A1BEEE45100AC6DA1 /* Castle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Castle.swift; sourceTree = "<group>"; };
+		FAAFABCC1BF9CDA300CC3CEE /* castle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = castle.png; sourceTree = "<group>"; };
 		FAE5C4781BEE2B5F00E5872B /* GameViewObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewObject.swift; sourceTree = "<group>"; };
 		FAEDDAB11BF3307C0032B025 /* TouchCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TouchCircle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,6 +150,7 @@
 		55F33D601BE899C4007A73E5 /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				FAAFABCC1BF9CDA300CC3CEE /* castle.png */,
 				55F33D611BE899EA007A73E5 /* ha1f.png */,
 			);
 			path = Media;
@@ -416,6 +419,7 @@
 				FA01F4CF1BE75AE5003B738C /* LaunchScreen.storyboard in Resources */,
 				FA01F4CC1BE75AE5003B738C /* Assets.xcassets in Resources */,
 				FA01F4CA1BE75AE5003B738C /* Main.storyboard in Resources */,
+				FAAFABCD1BF9CDA300CC3CEE /* castle.png in Resources */,
 				55F33D621BE899EA007A73E5 /* ha1f.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

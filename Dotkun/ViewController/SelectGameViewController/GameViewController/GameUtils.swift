@@ -49,9 +49,7 @@ struct GameSettings {
     static let FIELD_WIDTH: Int = 60 //120
     static let FIELD_HEIGHT: Int = 100 //200
     static let DOT_SIZE: CGFloat = GameSettings.GAME_VIEW_WIDTH / CGFloat(GameSettings.FIELD_WIDTH) //6 //3
-    //static let DOT_SIZE: CGFloat = 6.0 //6 //3
     static let DOTKUN_NUM: Int = GameSettings.BATTLEICON_WIDTH * GameSettings.BATTLEICON_HEIGHT * 2
-
     static let CASTLE_SIZE: Int = 10
 }
 
@@ -66,6 +64,10 @@ func + (p1:Position, p2:Position)->Position {
 
 func += (inout p1:Position, p2:Position){
     p1 = p1 + p2
+}
+
+func == (p1: Position, p2: Position)->Bool {
+    return p1.x == p2.x && p1.y == p2.y
 }
 
 func + (p1: CGPoint, p2: CGPoint) -> CGPoint{

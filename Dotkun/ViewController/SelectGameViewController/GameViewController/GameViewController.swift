@@ -37,7 +37,7 @@ class GameViewController: BaseViewController {
         }
         if gameController == nil {
             gameController = GameController();
-            gameController.initGame(gameView, gvc: self)
+            gameController.initGame(gameView)
         }
         if startButton == nil {
             startButton = UIButton(frame: CGRectMake(50,300,200,50))
@@ -47,7 +47,7 @@ class GameViewController: BaseViewController {
             self.view.addSubview(startButton)
         }
         if dismissButton == nil {
-            dismissButton = UIButton(frame: CGRectMake(0,0,100,50))
+            dismissButton = UIButton(frame: CGRectMake(0,UIScreen.mainScreen().bounds.height - 50,100,50))
             dismissButton.setTitle("Dismiss", forState: .Normal)
             dismissButton.addTarget(self, action: "dismiss", forControlEvents: .TouchUpInside)
             dismissButton.backgroundColor = Constants.BACKCOLOR
@@ -78,6 +78,7 @@ class GameViewController: BaseViewController {
     //----------------------------------------------------------------
     func startGame(){
         startButton.removeFromSuperview()
+        finishTitle.removeFromSuperview()
         gameController.startGame()
     }
     
@@ -97,6 +98,9 @@ class GameViewController: BaseViewController {
     //Touch Event
     //---------------------------------------------------------------
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if gameController.gameState == .START {
+            return
+        }
         let touch = touches.first?.locationInView(self.view)
         touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
         touchFlag = true
@@ -104,12 +108,18 @@ class GameViewController: BaseViewController {
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if gameController.gameState == .START {
+            return
+        }
         let touch = touches.first?.locationInView(self.view)
         touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
         touchCircle.isVisible = true
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if gameController.gameState == .START {
+            return
+        }
         let touch = touches.first?.locationInView(self.view)
         touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
         touchFlag = false

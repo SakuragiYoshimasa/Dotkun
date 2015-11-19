@@ -8,6 +8,12 @@
 
 import UIKit
 
+enum DotkunAction {
+    case GO
+    case BATTLE
+    case CHANGE_DIRECTION
+}
+
 class Dotkun: GameViewObject {
     //----------------------------------------------------------------
     //Variable
@@ -18,27 +24,39 @@ class Dotkun: GameViewObject {
     private var speed: Int = 0
     private var position: CGPoint! = nil
     private var direction: Direction! = nil
-    
     //----------------------------------------------------------------
     //Life Cycle
     //----------------------------------------------------------------
-    init(color: UIColor, pos: CGPoint, id: Int) {
+    init(color: UIColor, id: Int) {
         super.init()
         self.color = color
-        self.position = pos
         self.id = id
         var red: CGFloat     = 1.0
         var green: CGFloat   = 1.0
         var blue: CGFloat    = 1.0
         var alpha: CGFloat   = 1.0
         color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        self.hp =  Int(red * 255) + 1
-        self.power = Int(green * 100) + 1
-        self.speed = Int(blue * 255) % 5 + 5
-        self.fieldPosition = Position(x: 0,y: 0)
+        let sum: CGFloat = sqrt(red * red + green * green + blue * blue)
+        if sum != 0 {
+            self.hp =  Int(red * 255 / sum) + 100
+            self.power = Int(green * 100 / sum) + 10
+            self.speed = Int(10 - blue * 10 / sum) + 1
+        }else{
+            self.hp = 100
+            self.power = 10
+            self.speed = 11
+        }
         if id < GameSettings.DOTKUN_NUM/2 {
+            updatePosition(
+                id % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
+                y: (id / GameSettings.BATTLEICON_WIDTH) + GameSettings.FIELD_HEIGHT - GameSettings.INITIAL_DOT_Y_OFFSET - GameSettings.BATTLEICON_HEIGHT
+            )
             self.direction = Direction.UP
         }else{
+            updatePosition(
+                id % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
+                y: (id - GameSettings.DOTKUN_NUM/2)/GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_Y_OFFSET
+            )
             self.direction = Direction.DOWN
         }
     }
@@ -82,7 +100,7 @@ class Dotkun: GameViewObject {
         
         UIGraphicsPopContext()
     }
-    
+        
     func updatePosition(x: Int, y: Int){
         self.fieldPosition = Position(x: x, y: y)
         self.position = CGPoint(x: (CGFloat(x) + 0.5) * GameSettings.DOT_SIZE, y: (CGFloat(y) + 0.5) * GameSettings.DOT_SIZE)
@@ -96,6 +114,9 @@ class Dotkun: GameViewObject {
     func updateDirection(){
         if targetPosition != nil {
             direction = GameUtils.GetTargetDirection(fieldPosition, targetPos: targetPosition)
+            if targetPosition == fieldPosition {
+                targetPosition = nil
+            }
         }
     }
     
@@ -114,8 +135,8 @@ class Dotkun: GameViewObject {
         enemy.hp -= self.power
     }
     
-    func isActionFrame()->Bool {
-        return (getSpentFrames() % self.speed) == 0
+    func isActionFrame(frameCounter: Int)->Bool {
+        return (frameCounter % self.speed) == 0
     }
     
     func changeDirection() {
