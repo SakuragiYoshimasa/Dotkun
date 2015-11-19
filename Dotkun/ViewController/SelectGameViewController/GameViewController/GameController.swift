@@ -37,8 +37,8 @@ class GameController {
             let dotkun = Dotkun(color: allyImage.getColor(CGPoint(
                 x: i % GameSettings.BATTLEICON_WIDTH,
                 y: i / GameSettings.BATTLEICON_HEIGHT)),
-                pos: TestUtil.randomPoint(gameView.bounds), id: i, gf: gameFeild)
-            setInitialDotkunPosition(dotkun, id: i)
+                id: i)
+            setDotkunToFieldCell(dotkun)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
             i++
@@ -49,8 +49,8 @@ class GameController {
             let dotkun = Dotkun(color: enemyImage.getColor(CGPoint(
                 x: GameSettings.BATTLEICON_WIDTH - ((i - GameSettings.DOTKUN_NUM/2) % GameSettings.BATTLEICON_WIDTH) - 1,
                 y: GameSettings.BATTLEICON_HEIGHT - ((i - GameSettings.DOTKUN_NUM/2) / GameSettings.BATTLEICON_HEIGHT) - 1)
-                ), pos: TestUtil.randomPoint(gameView.bounds), id: i, gf: gameFeild)
-            setInitialDotkunPosition(dotkun, id: i)
+                ), id: i)
+            setDotkunToFieldCell(dotkun)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
             i++
@@ -90,36 +90,18 @@ class GameController {
                 dotkun.isVisible = false
                 continue
             }
-            
-            //dotkun.update(frameCounter) // frameCounter,checkField(dotkun.getPosition() + dotkun.getDirection().getPositionValue()
-            /*switch dotkun.update() {
-            case .GO: break
-            initFieldCell(dotkun.getPosition())
-            dotkun.updatePosition()
-            setDotkunToFieldCell(dotkun)
-            case .BATTLE: break
-            default: break
-            }*/
-            
-            //if dotkun.getSpentFrames() > frameCounter {continue}
-            dotkun.updateFrame(frameCounter)
-            if !dotkun.isActionFrame() {continue}
+            if !dotkun.isActionFrame(frameCounter) {continue}
             dotkun.updateDirection()
-            switch checkField(dotkun.getPosition() + dotkun.getDirection().getPositionValue()){
-            case .ALLY:
-                if dotkun.id.getObjectType() == GameObjectType.ALLY {
+            let nextPosition: Position = dotkun.getPosition() + dotkun.getDirection().getPositionValue()
+            let fieldState: FieldState = checkField(nextPosition)
+            switch fieldState {
+            case .ALLY, .ENEMY:
+                if dotkun.id.getObjectType() == fieldState {
                     dotkun.changeDirection()
                 }else{
-                    battle(dotkun, enemyGameObject: getGameViewObject(dotkun.getPosition() + dotkun.getDirection().getPositionValue()))
+                    battle(dotkun, enemyGameObject: getGameViewObject(nextPosition))
                 }
-                break;
-            case .ENEMY:
-                if dotkun.id.getObjectType() == GameObjectType.ALLY {
-                    battle(dotkun, enemyGameObject: getGameViewObject(dotkun.getPosition() + dotkun.getDirection().getPositionValue()))
-                }else{
-                    dotkun.changeDirection()
-                }
-                break;
+                break
             case .NONE:
                 initFieldCell(dotkun.getPosition())
                 dotkun.updatePosition()
@@ -140,23 +122,7 @@ class GameController {
     //--------------------------------------------------
     //Manupurate Dotkuns
     //--------------------------------------------------
-    func setInitialDotkunPosition(dotkun: Dotkun, id: Int){
-
-        if id < GameSettings.DOTKUN_NUM/2 {
-            dotkun.updatePosition(
-                id % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
-                y: (id / GameSettings.BATTLEICON_WIDTH) + GameSettings.FIELD_HEIGHT - GameSettings.INITIAL_DOT_Y_OFFSET - GameSettings.BATTLEICON_HEIGHT
-            )
-        }else{
-            dotkun.updatePosition(
-                id % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
-                y: (id - GameSettings.DOTKUN_NUM/2)/GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_Y_OFFSET
-            )
-        }
-    }
-    
     func battle(allyDotkun: Dotkun, enemyGameObject: GameViewObject){
-        //allyDotkun.updateFrame(frameCounter)
         allyDotkun.battleWith(enemyGameObject)
     }
     
@@ -190,11 +156,7 @@ class GameController {
     
     func setDotkunToFieldCell(dotkun: Dotkun){
         gameFeild[dotkun.getPosition().x][dotkun.getPosition().y].gameObject = dotkun
-        if dotkun.id < GameSettings.DOTKUN_NUM/2 {
-            gameFeild[dotkun.getPosition().x][dotkun.getPosition().y].state = FieldState.ALLY
-        }else{
-            gameFeild[dotkun.getPosition().x][dotkun.getPosition().y].state = FieldState.ENEMY
-        }
+        gameFeild[dotkun.getPosition().x][dotkun.getPosition().y].state = dotkun.id.getObjectType()
     }
     
     func checkField(position:Position)->FieldState{

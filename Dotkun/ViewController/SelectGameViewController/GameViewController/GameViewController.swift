@@ -78,6 +78,7 @@ class GameViewController: BaseViewController {
     //----------------------------------------------------------------
     func startGame(){
         startButton.removeFromSuperview()
+        finishTitle.removeFromSuperview()
         gameController.startGame()
     }
     
