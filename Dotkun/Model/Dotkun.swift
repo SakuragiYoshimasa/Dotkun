@@ -27,20 +27,25 @@ class Dotkun: GameViewObject {
     //----------------------------------------------------------------
     //Life Cycle
     //----------------------------------------------------------------
-    //init(color: UIColor, pos: CGPoint, id: Int) {
     init(color: UIColor, id: Int) {
         super.init()
         self.color = color
-        //self.position = pos
         self.id = id
         var red: CGFloat     = 1.0
         var green: CGFloat   = 1.0
         var blue: CGFloat    = 1.0
         var alpha: CGFloat   = 1.0
         color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        self.hp =  Int(red * 255) + 100
-        self.power = Int(green * 100) + 10
-        self.speed = Int(blue * 255) % 5 + 5
+        let sum: CGFloat = sqrt(red * red + green * green + blue * blue)
+        if sum != 0 {
+            self.hp =  Int(red * 255 / sum) + 100
+            self.power = Int(green * 100 / sum) + 10
+            self.speed = Int(10 - blue * 10 / sum) + 1
+        }else{
+            self.hp = 100
+            self.power = 10
+            self.speed = 11
+        }
         if id < GameSettings.DOTKUN_NUM/2 {
             updatePosition(
                 id % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
@@ -146,4 +151,3 @@ class Dotkun: GameViewObject {
 enum ColorType {
     
 }
-

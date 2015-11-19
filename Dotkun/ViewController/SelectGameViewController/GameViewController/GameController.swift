@@ -18,13 +18,11 @@ class GameController {
     var castles: [Castle] = []
     var frameCounter: Int = 0
     var gameState:GameState = GameState.START
-    var gameViewController: GameViewController! = nil
     
     //----------------------------------------------------------------
     //Game Cycle
     //----------------------------------------------------------------
-    func initGame(gameView: GameView, gvc: GameViewController){
-        gameViewController = gvc
+    func initGame(gameView: GameView){
         initCastle(gameView)
         dotkuns = []
         
@@ -99,7 +97,7 @@ class GameController {
                 if dotkun.id.getObjectType() == fieldState {
                     dotkun.changeDirection()
                 }else{
-                    battle(dotkun, enemyGameObject: getGameViewObject(nextPosition))
+                    dotkun.battleWith(getGameViewObject(nextPosition))
                 }
                 break
             case .NONE:
@@ -122,10 +120,6 @@ class GameController {
     //--------------------------------------------------
     //Manupurate Dotkuns
     //--------------------------------------------------
-    func battle(allyDotkun: Dotkun, enemyGameObject: GameViewObject){
-        allyDotkun.battleWith(enemyGameObject)
-    }
-    
     func initCastle(gameView: GameView){
         castles = []
         let allyCastle = Castle(color: Constants.BACKCOLOR, pos: TestUtil.randomPoint(gameView.bounds), id: ObjectId.AllyCastleId)

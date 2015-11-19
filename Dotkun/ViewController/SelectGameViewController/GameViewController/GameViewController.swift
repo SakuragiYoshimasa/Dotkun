@@ -37,7 +37,7 @@ class GameViewController: BaseViewController {
         }
         if gameController == nil {
             gameController = GameController();
-            gameController.initGame(gameView, gvc: self)
+            gameController.initGame(gameView)
         }
         if startButton == nil {
             startButton = UIButton(frame: CGRectMake(50,300,200,50))
