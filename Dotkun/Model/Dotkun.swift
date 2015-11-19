@@ -41,6 +41,7 @@ class Dotkun: GameViewObject {
             self.hp =  Int(red * 255 / sum) + 100
             self.power = Int(green * 100 / sum) + 10
             self.speed = Int(10 - blue * 10 / sum) + 1
+            //print("hp",hp,"  power:",power, "  speed:", speed)
         }else{
             self.hp = 100
             self.power = 10

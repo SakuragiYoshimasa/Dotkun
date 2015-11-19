@@ -83,11 +83,14 @@ class GameViewController: BaseViewController {
     }
     
     func onUpdate() {
+        //let start = NSDate()
         gameController.update()
         gameView.setNeedsDisplay()
         if touchFlag {
             touchCircle.incrementRadius()
         }
+        //let elapsed = NSDate().timeIntervalSinceDate(start)
+        //print(elapsed)
     }
     
     func finishGame(){
