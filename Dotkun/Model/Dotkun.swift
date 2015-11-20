@@ -72,9 +72,9 @@ class Dotkun: GameViewObject {
         CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, 6, 6))
         
         if self.id.getObjectType() == FieldState.ALLY {
-            UIColor.brownColor().setStroke()
+            Constants.ALLY_DOTKUN_COLOR.setStroke()
         }else{
-            UIColor.redColor().setStroke()
+            Constants.ENEMY_DOTKUN_COLOR.setStroke()
         }
         if self.targetPosition != nil{
             UIColor.blueColor().setStroke()

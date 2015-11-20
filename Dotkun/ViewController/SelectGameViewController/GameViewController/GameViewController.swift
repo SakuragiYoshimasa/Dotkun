@@ -25,9 +25,9 @@ class GameViewController: BaseViewController {
     //----------------------------------------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = Constants.GAME_FRAME_COLOR
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "finishGame", name: "FinishGame", object: nil)
         if gameView == nil {
-            //gameView = GameView(frame: CGRectMake(0,Util.getStatusBarHeight(),self.view.bounds.width, self.view.bounds.height-Util.getStatusBarHeight()))
             gameView = GameView(frame: CGRectMake(GameSettings.GANE_VIEW_X_OFFSET,Util.getStatusBarHeight(),GameSettings.GAME_VIEW_WIDTH, GameSettings.GAME_VIEW_HEIGHT))
             gameView.backgroundColor = UIColor.whiteColor()
             self.view.addSubview(gameView)

@@ -39,7 +39,7 @@ struct GameSettings {
     static let GANE_VIEW_X_OFFSET: CGFloat = 10
     static let GAME_VIEW_Y_OFFSET: CGFloat = 20
     static let GAME_VIEW_WIDTH: CGFloat = UIScreen.mainScreen().bounds.size.width - 2 * GameSettings.GANE_VIEW_X_OFFSET
-    static let GAME_VIEW_HEIGHT: CGFloat = UIScreen.mainScreen().bounds.size.height - 2 * GameSettings.GAME_VIEW_Y_OFFSET //TabBarの高さ引く //取りあえずのパラメータ
+    static let GAME_VIEW_HEIGHT: CGFloat = GameSettings.DOT_SIZE * CGFloat(GameSettings.FIELD_HEIGHT)
     
     static let BATTLEICON_WIDTH: Int = 32
     static let BATTLEICON_HEIGHT: Int = 32
