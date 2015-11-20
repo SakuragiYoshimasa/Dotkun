@@ -101,6 +101,23 @@ class GameViewController: BaseViewController {
     //Touch Event
     //---------------------------------------------------------------
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        makeCircle(touches, withEvent: event)
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        makeCircle(touches, withEvent: event)
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        endMakeCircle(touches, withEvent: event)
+    }
+    
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        if touches == nil { return }
+        endMakeCircle(touches!, withEvent: event)
+    }
+    
+    func makeCircle(touches: Set<UITouch>, withEvent event: UIEvent?){
         if gameController.gameState == .START {
             return
         }
@@ -110,16 +127,7 @@ class GameViewController: BaseViewController {
         touchCircle.isVisible = true
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if gameController.gameState == .START {
-            return
-        }
-        let touch = touches.first?.locationInView(self.view)
-        touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
-        touchCircle.isVisible = true
-    }
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    func endMakeCircle(touches: Set<UITouch>, withEvent event: UIEvent?){
         if gameController.gameState == .START {
             return
         }
