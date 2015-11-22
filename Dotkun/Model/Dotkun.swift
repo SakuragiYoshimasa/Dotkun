@@ -41,6 +41,7 @@ class Dotkun: GameViewObject {
             self.hp =  Int(red * 255 / sum) + 100
             self.power = Int(green * 100 / sum) + 10
             self.speed = Int(10 - blue * 10 / sum) + 1
+            //print("hp",hp,"  power:",power, "  speed:", speed)
         }else{
             self.hp = 100
             self.power = 10
@@ -71,9 +72,9 @@ class Dotkun: GameViewObject {
         CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, 6, 6))
         
         if self.id.getObjectType() == FieldState.ALLY {
-            UIColor.brownColor().setStroke()
+            Constants.ALLY_DOTKUN_COLOR.setStroke()
         }else{
-            UIColor.redColor().setStroke()
+            Constants.ENEMY_DOTKUN_COLOR.setStroke()
         }
         if self.targetPosition != nil{
             UIColor.blueColor().setStroke()

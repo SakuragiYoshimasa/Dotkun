@@ -81,6 +81,7 @@ class GameController {
                 continue
             }
         }
+        
         for dotkun in dotkuns {
             if !dotkun.isVisible {continue}
             if !dotkun.checkAlive() {

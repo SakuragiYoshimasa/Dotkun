@@ -25,9 +25,9 @@ class GameViewController: BaseViewController {
     //----------------------------------------------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = Constants.GAME_FRAME_COLOR
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "finishGame", name: "FinishGame", object: nil)
         if gameView == nil {
-            //gameView = GameView(frame: CGRectMake(0,Util.getStatusBarHeight(),self.view.bounds.width, self.view.bounds.height-Util.getStatusBarHeight()))
             gameView = GameView(frame: CGRectMake(GameSettings.GANE_VIEW_X_OFFSET,Util.getStatusBarHeight(),GameSettings.GAME_VIEW_WIDTH, GameSettings.GAME_VIEW_HEIGHT))
             gameView.backgroundColor = UIColor.whiteColor()
             self.view.addSubview(gameView)
@@ -83,11 +83,14 @@ class GameViewController: BaseViewController {
     }
     
     func onUpdate() {
+        //let start = NSDate()
         gameController.update()
         gameView.setNeedsDisplay()
         if touchFlag {
             touchCircle.incrementRadius()
         }
+        //let elapsed = NSDate().timeIntervalSinceDate(start)
+        //print(elapsed)
     }
     
     func finishGame(){
@@ -98,6 +101,23 @@ class GameViewController: BaseViewController {
     //Touch Event
     //---------------------------------------------------------------
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        makeCircle(touches, withEvent: event)
+    }
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        makeCircle(touches, withEvent: event)
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        endMakeCircle(touches, withEvent: event)
+    }
+    
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        if touches == nil { return }
+        endMakeCircle(touches!, withEvent: event)
+    }
+    
+    func makeCircle(touches: Set<UITouch>, withEvent event: UIEvent?){
         if gameController.gameState == .START {
             return
         }
@@ -107,16 +127,7 @@ class GameViewController: BaseViewController {
         touchCircle.isVisible = true
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if gameController.gameState == .START {
-            return
-        }
-        let touch = touches.first?.locationInView(self.view)
-        touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
-        touchCircle.isVisible = true
-    }
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    func endMakeCircle(touches: Set<UITouch>, withEvent event: UIEvent?){
         if gameController.gameState == .START {
             return
         }
