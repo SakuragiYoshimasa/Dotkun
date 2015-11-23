@@ -154,7 +154,7 @@ class GameController {
         gameFeild[dotkun.getPosition().x][dotkun.getPosition().y].state = dotkun.id.getObjectType()
     }
     
-    func checkField(position:Position)->FieldState{
+    func checkField(position:Position) -> FieldState {
         if(position.x >= GameSettings.FIELD_WIDTH || position.x < 0 || position.y >= GameSettings.FIELD_HEIGHT || position.y < 0) {
             return .OUT_OF_FIELD
         }
@@ -175,10 +175,10 @@ class GameController {
     func assembleDotkuns(touchInfo: TouchInfo){
         let center: Position = GameUtils.TransScreenToGameFieldPosition(touchInfo.touchPosition)
         let radius: Int = Int(touchInfo.touchRadius/CGFloat(GameSettings.DOT_SIZE))
-        for x in (-radius)...(radius) {
-            for y in (-abs(radius - abs(x)))...(abs(radius - abs(x))) {
-                if x + center.x < 0 || x + center.x >= GameSettings.FIELD_WIDTH || y + center.y < 0 || y + center.y >= GameSettings.FIELD_HEIGHT { continue }
-                if let dotkun = gameFeild[x + center.x][y + center.y].gameObject {
+        for x in max((center.x - radius), 0)...min((center.x + radius), GameSettings.FIELD_WIDTH-1) {
+            let tmp = Int(sqrt(pow(Double(radius), 2) - pow(Double(x-center.x),2)))
+            for y in max((center.y-tmp), 0)...min((center.y+tmp), GameSettings.FIELD_HEIGHT-1) {
+                if let dotkun = gameFeild[x][y].gameObject {
                     if dotkun.id.getObjectType() == GameObjectType.ALLY {
                         dotkun.targetPosition = center
                     }
