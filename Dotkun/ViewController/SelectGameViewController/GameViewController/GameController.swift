@@ -175,7 +175,7 @@ class GameController {
         let center: Position = GameUtils.TransScreenToGameFieldPosition(touchInfo.touchPosition)
         let radius: Int = Int(touchInfo.touchRadius/CGFloat(GameSettings.DOT_SIZE))
         for x in max((center.x - radius), 0)...min((center.x + radius), GameSettings.FIELD_WIDTH-1) {
-            let tmp = Int(sqrt(pow(Double(radius), 2) - pow(Double(abs(x-center.x)),2)))
+            let tmp = Int(sqrt(pow(Double(radius), 2) - pow(Double(x-center.x),2)))
             for y in max((center.y-tmp), 0)...min((center.y+tmp), GameSettings.FIELD_HEIGHT-1) {
                 if let dotkun = gameFeild[x][y].gameObject {
                     if dotkun.id.getObjectType() == GameObjectType.ALLY {
