@@ -55,7 +55,7 @@ struct GameSettings {
 
 struct FieldCell {
     var state: FieldState
-    var gameObject: GameViewObject? = nil
+    var gameObject: GameObject? = nil
 }
 
 func + (p1:Position, p2:Position)->Position {

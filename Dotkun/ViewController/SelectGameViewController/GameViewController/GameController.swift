@@ -93,7 +93,7 @@ class GameController {
                 if dotkun.id.getObjectType() == fieldState {
                     dotkun.changeDirection()
                 }else{
-                    dotkun.battleWith(getGameViewObject(nextPosition))
+                    dotkun.battleWith(getGameObject(nextPosition))
                 }
                 break
             case .NONE:
@@ -116,10 +116,9 @@ class GameController {
     //--------------------------------------------------
     //Manupurate Dotkuns
     //--------------------------------------------------
-    func initCastle(gameView: GameView){
-        castles = []
-        let allyCastle = Castle(color: Constants.BACKCOLOR, pos: TestUtil.randomPoint(gameView.bounds), id: ObjectId.AllyCastleId)
-        let enemyCastle = Castle(color: Constants.BACKCOLOR, pos: TestUtil.randomPoint(gameView.bounds), id: ObjectId.EnemyCastleId)
+    func initCastle(gameView: GameView) {
+        let allyCastle = Castle(color: Constants.BACKCOLOR, pos: CGPoint.zero, id: ObjectId.AllyCastleId)
+        let enemyCastle = Castle(color: Constants.BACKCOLOR, pos: CGPoint.zero, id: ObjectId.EnemyCastleId)
         allyCastle.updatePosition(GameSettings.FIELD_WIDTH - GameSettings.CASTLE_SIZE, y: GameSettings.FIELD_HEIGHT - GameSettings.CASTLE_SIZE);
         enemyCastle.updatePosition(0, y: 0)
         for x in 0..<GameSettings.CASTLE_SIZE {
@@ -130,8 +129,7 @@ class GameController {
                 gameFeild[x][y].gameObject = enemyCastle
             }
         }
-        castles.append(allyCastle)
-        castles.append(enemyCastle)
+        self.castles = [allyCastle, enemyCastle]
         gameView.addObject(allyCastle)
         gameView.addObject(enemyCastle)
     }
@@ -156,7 +154,7 @@ class GameController {
         return gameFeild[position.x][position.y].state
     }
     
-    func getGameViewObject(position: Position)->GameViewObject{
+    func getGameObject(position: Position)->GameObject{
         return gameFeild[position.x][position.y].gameObject!
     }
     

@@ -10,7 +10,7 @@ import Foundation
 
 import UIKit
 
-class Castle: GameViewObject {
+class Castle: GameObject {
     //----------------------------------------------------------------
     //Variable
     //----------------------------------------------------------------

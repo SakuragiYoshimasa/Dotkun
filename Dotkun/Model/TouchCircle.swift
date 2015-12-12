@@ -12,12 +12,12 @@ struct TouchInfo {
     var touchRadius: CGFloat = 0
     var touchPosition: CGPoint! = CGPoint(x: 0,y: 0)
     
-    mutating func reset(){
+    mutating func reset() {
         self.touchRadius = 0
         self.touchPosition = CGPoint(x: 0, y: 0)
     }
     
-    func getCenterPosition()->CGPoint{
+    func getCenterPosition() -> CGPoint {
         return self.touchPosition + CGPoint( x: -touchRadius , y: -touchRadius )
     }
 }
@@ -52,19 +52,19 @@ class TouchCircle : GameViewObject {
         self.touchInfo.touchPosition = newPosition
     }
     
-    func updateTouchInfo(newTouchinfo: TouchInfo){
+    func updateTouchInfo(newTouchinfo: TouchInfo) {
         self.touchInfo = newTouchinfo
     }
     
-    func incrementRadius(){
+    func incrementRadius() {
         self.touchInfo.touchRadius += growthRate
     }
     
-    func getTouchInfo()->TouchInfo {
+    func getTouchInfo() -> TouchInfo {
         return touchInfo
     }
     
-    func reset(){
+    func reset() {
         touchInfo.reset()
     }
 }

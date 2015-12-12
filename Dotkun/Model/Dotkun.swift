@@ -14,7 +14,7 @@ enum DotkunAction {
     case CHANGE_DIRECTION
 }
 
-class Dotkun: GameViewObject {
+class Dotkun: GameObject {
     //----------------------------------------------------------------
     //Variable
     //----------------------------------------------------------------
@@ -132,7 +132,7 @@ class Dotkun: GameViewObject {
         return direction
     }
     
-    func battleWith(enemy: GameViewObject) {
+    func battleWith(enemy: GameObject) {
         enemy.hp -= self.power
     }
     
