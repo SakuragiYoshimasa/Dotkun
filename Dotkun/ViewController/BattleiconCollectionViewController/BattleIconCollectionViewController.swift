@@ -39,7 +39,7 @@ class BattleIconCollectionViewController: TabBarSlaveViewController {
             }
         }
         
-        currentBattleIconImageView?.image = ModelManager.manager.currentBattleIcon.image?.getResizedImage(CGSizeMake(32,32))
+        currentBattleIconImageView?.image = ModelManager.manager.currentBattleIcon?.image?.getResizedImage(CGSizeMake(32,32))
         self.battleIconCollection.reloadData()
     }
     

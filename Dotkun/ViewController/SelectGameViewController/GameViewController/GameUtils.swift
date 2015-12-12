@@ -12,8 +12,8 @@ class GameUtils {
         return Position(x: Int(screenPoint.x / GameSettings.DOT_SIZE), y: Int(screenPoint.y / GameSettings.DOT_SIZE))
     }
     static func GetTargetDirection(dotkunPos: Position, targetPos: Position) -> Direction {
-        var difX = targetPos.x - dotkunPos.x
-        var difY = targetPos.y - dotkunPos.y
+        let difX = targetPos.x - dotkunPos.x
+        let difY = targetPos.y - dotkunPos.y
         if abs(difX) > abs(difY) {
             if difX >= 0 {
                 return Direction.RIGHT
@@ -41,8 +41,8 @@ struct GameSettings {
     static let GAME_VIEW_WIDTH: CGFloat = UIScreen.mainScreen().bounds.size.width - 2 * GameSettings.GANE_VIEW_X_OFFSET
     static let GAME_VIEW_HEIGHT: CGFloat = GameSettings.DOT_SIZE * CGFloat(GameSettings.FIELD_HEIGHT)
     
-    static let BATTLEICON_WIDTH: Int = 32
-    static let BATTLEICON_HEIGHT: Int = 32
+    static let BATTLEICON_WIDTH: Int = 16
+    static let BATTLEICON_HEIGHT: Int = 16
     static let INITIAL_DOT_X_OFFSET: Int = 14 //44
     static let INITIAL_DOT_Y_OFFSET: Int = 10 //45
 
