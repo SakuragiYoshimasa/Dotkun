@@ -15,13 +15,6 @@ class Castle: GameObject {
     //Variable
     //----------------------------------------------------------------
     private var color: UIColor! = nil
-    private var position: CGPoint! {
-        if let pos = self.fieldPosition {
-            return CGPoint(x: CGFloat(pos.x) * GameSettings.DOT_SIZE, y: CGFloat(pos.y) * GameSettings.DOT_SIZE)
-        } else {
-          return nil
-        }
-    }
     private var castleImage: UIImage! = nil
     
     //----------------------------------------------------------------
@@ -44,11 +37,15 @@ class Castle: GameObject {
     //
     //----------------------------------------------------------------
     override func drawOnContext(context: CGContextRef) {
-        UIGraphicsPushContext(context)
-        self.color.setFill()
-        CGContextFillRect(context, CGRectMake(position.x, position.y, GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE), GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE)))
-        UIGraphicsPopContext()
-        castleImage.drawInRect(CGRectMake(position.x, position.y, GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE), GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE)))
+        if let pos = self.fieldPosition {
+            UIGraphicsPushContext(context)
+            self.color.setFill()
+            let castleRect = CGRect(origin: CGPoint(x: CGFloat(pos.x) * GameSettings.DOT_SIZE, y: CGFloat(pos.y) * GameSettings.DOT_SIZE), size: CGSize(width: GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE), height: GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE)))
+            CGContextFillRect(context, castleRect)
+            castleImage.drawInRect(castleRect)
+            UIGraphicsPopContext()
+        }
+        
     }
     func getPosition() -> Position {
         if fieldPosition == nil {
