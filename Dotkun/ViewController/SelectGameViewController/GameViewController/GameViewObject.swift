@@ -55,8 +55,16 @@ class GameObject: GameViewObject {
     
     private var _hp: Int = 0
     var hp: Int {
-        set{ _hp = newValue }
-        get{ return _hp }
+        set {
+            _hp = newValue
+        }
+        get {
+            return _hp
+        }
+    }
+    
+    func checkAlive() -> Bool {
+        return self.hp > 0
     }
     
     var targetPosition: Position! = nil

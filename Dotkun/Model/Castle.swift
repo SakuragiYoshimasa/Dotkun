@@ -52,8 +52,4 @@ class Castle: GameObject {
         }
         return self.fieldPosition
     }
-    
-    func checkAlive()->Bool {
-        return self.hp > 0
-    }
 }

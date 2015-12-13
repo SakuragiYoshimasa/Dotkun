@@ -59,7 +59,13 @@ struct GameSettings {
 }
 
 struct FieldCell {
-    var state: FieldState
+    var state: FieldState {
+        if let gameObject = self.gameObject {
+            return gameObject.type
+        } else {
+            return GameObjectType.NONE
+        }
+    }
     var gameObject: GameObject? = nil
 }
 

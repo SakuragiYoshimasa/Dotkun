@@ -143,10 +143,6 @@ class Dotkun: GameObject {
     func changeDirection() {
         direction = Direction(rawValue: (direction.rawValue + 1) % 4)
     }
-    
-    func checkAlive()->Bool {
-        return self.hp > 0
-    }
 }
 
 enum ColorType {
