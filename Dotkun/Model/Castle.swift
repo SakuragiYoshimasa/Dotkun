@@ -15,25 +15,25 @@ class Castle: GameObject {
     //Variable
     //----------------------------------------------------------------
     private var color: UIColor! = nil
-    private var position: CGPoint! = nil
+    private var position: CGPoint {
+        return CGPoint(x: CGFloat(self.fieldPosition.x) * GameSettings.DOT_SIZE, y: CGFloat(self.fieldPosition.y) * GameSettings.DOT_SIZE)
+    }
     private var castleImage: UIImage! = nil
     
     //----------------------------------------------------------------
     //Life Cycle
     //----------------------------------------------------------------
-    init(color: UIColor, pos: CGPoint, id: Int) {
+    init(color: UIColor, pos: Position, id: Int) {
         super.init()
-        self.position = pos
         self.id = id
         self.hp = 100000
         self.color = color
-        self.fieldPosition = Position(x: 0,y: 0)
+        self.fieldPosition = pos
         self.castleImage = UIImage(named: "castle.png")
     }
 
     func updatePosition(x: Int, y: Int){
         self.fieldPosition = Position(x: x, y: y)
-        self.position = CGPoint(x: CGFloat(x) * GameSettings.DOT_SIZE, y: CGFloat(y) * GameSettings.DOT_SIZE)
     }
     
     //----------------------------------------------------------------

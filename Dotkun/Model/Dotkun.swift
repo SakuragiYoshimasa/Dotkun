@@ -43,19 +43,6 @@ class Dotkun: GameObject {
             self.power = 10
             self.speed = 11
         }
-        /*if id < GameSettings.DOTKUN_NUM/2 {
-            updatePosition(
-                id % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
-                y: (id / GameSettings.BATTLEICON_WIDTH) + GameSettings.FIELD_HEIGHT - GameSettings.INITIAL_DOT_Y_OFFSET - GameSettings.BATTLEICON_HEIGHT
-            )
-            self.direction = Direction.UP
-        }else{
-            updatePosition(
-                id % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
-                y: (id - GameSettings.DOTKUN_NUM/2)/GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_Y_OFFSET
-            )
-            self.direction = Direction.DOWN
-        }*/
     }
     
     //----------------------------------------------------------------

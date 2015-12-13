@@ -42,8 +42,8 @@ class GameController {
     //----------------------------------------------------------------
     //Variable
     //----------------------------------------------------------------
-    
     private let gameFeild = GameField()
+    private var gameView: GameView! = nil
     var dotkuns: [Dotkun] = []
     var castles: [Castle] = []
     var frameCounter: Int = 0
@@ -53,7 +53,8 @@ class GameController {
     //Game Cycle
     //----------------------------------------------------------------
     func initGame(gameView: GameView){
-        initCastle(gameView)
+        self.gameView = gameView
+        initCastle()
         dotkuns = []
         
         let allyImage = (ModelManager.manager.currentBattleIcon?.image ??  UIImage(named: "ha1f.png")!).getResizedImage(CGSizeMake(CGFloat(GameSettings.BATTLEICON_WIDTH),CGFloat(GameSettings.BATTLEICON_HEIGHT))).getFlatImage()
@@ -85,7 +86,7 @@ class GameController {
             gameView.addObject(dotkun)
             
             dotkun.updatePosition(
-                (i+GameSettings.DOTKUN_NUM/2) % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
+                i % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
                 y: i/GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_Y_OFFSET
             )
             dotkun.setDirection(Direction.DOWN)
@@ -108,9 +109,13 @@ class GameController {
     
     func updateStartState(){}
     
+    // アップデートごとの処理
     func updateGameState(){
+        // 城
         for castle in castles {
+            // 城がどっちか死んでたら処理しない
             if !castle.isVisible {return}
+            
             if !castle.checkAlive() {
                 gameFeild.clearCell(castle.getPosition())
                 castle.isVisible = false
@@ -128,8 +133,8 @@ class GameController {
             }
             if !dotkun.isActionFrame(frameCounter) {continue}
             dotkun.updateDirection()
-            let nextPosition: Position = dotkun.getPosition() + dotkun.getDirection().getPositionValue()
-            let fieldState: FieldState = checkField(nextPosition)
+            let nextPosition = dotkun.getPosition() + dotkun.getDirection().getPositionValue()
+            let fieldState = gameFeild.getState(nextPosition)
             switch fieldState {
             case .ALLY, .ENEMY:
                 if dotkun.type == fieldState {
@@ -160,11 +165,15 @@ class GameController {
     //--------------------------------------------------
     //Manupurate Dotkuns
     //--------------------------------------------------
-    func initCastle(gameView: GameView) {
-        let allyCastle = Castle(color: Constants.BACKCOLOR, pos: CGPoint.zero, id: ObjectId.AllyCastleId)
-        let enemyCastle = Castle(color: Constants.BACKCOLOR, pos: CGPoint.zero, id: ObjectId.EnemyCastleId)
-        allyCastle.updatePosition(GameSettings.FIELD_WIDTH - GameSettings.CASTLE_SIZE, y: GameSettings.FIELD_HEIGHT - GameSettings.CASTLE_SIZE);
-        enemyCastle.updatePosition(0, y: 0)
+    func initCastle() {
+        // posは左上座標
+        let allyCastle = Castle(color: Constants.BACKCOLOR,
+            pos: Position(x: GameSettings.FIELD_WIDTH - GameSettings.CASTLE_SIZE, y: GameSettings.FIELD_HEIGHT - GameSettings.CASTLE_SIZE),
+            id: ObjectId.AllyCastleId)
+        let enemyCastle = Castle(color: Constants.BACKCOLOR,
+            pos: Position(x: 0,y: 0),
+            id: ObjectId.EnemyCastleId)
+        // castle領域を埋める
         for x in 0..<GameSettings.CASTLE_SIZE {
             for y in 0..<GameSettings.CASTLE_SIZE {
                 gameFeild.setGameObject(Position(x: GameSettings.FIELD_WIDTH - 1 - x, y: GameSettings.FIELD_HEIGHT - 1 - y), object: allyCastle)
@@ -172,18 +181,8 @@ class GameController {
             }
         }
         self.castles = [allyCastle, enemyCastle]
-        gameView.addObject(allyCastle)
-        gameView.addObject(enemyCastle)
-    }
-    
-    //-------------------------------------------------
-    //セル操作
-    //-------------------------------------------------
-    func checkField(position:Position) -> FieldState {
-        if(position.x >= GameSettings.FIELD_WIDTH || position.x < 0 || position.y >= GameSettings.FIELD_HEIGHT || position.y < 0) {
-            return .OUT_OF_FIELD
-        }
-        return gameFeild.getState(position)
+        self.gameView.addObject(allyCastle)
+        self.gameView.addObject(enemyCastle)
     }
 
     //------------------------------------------------
