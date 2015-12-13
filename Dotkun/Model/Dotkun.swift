@@ -85,14 +85,19 @@ class Dotkun: GameObject {
         UIGraphicsPopContext()
     }
         
-    func updatePosition(x: Int, y: Int){
-        self.fieldPosition = Position(x: x, y: y)
+    func setPosition(x: Int, y: Int) {
+        self.fieldPosition.x = x
+        self.fieldPosition.y = y
         self.position = CGPoint(x: (CGFloat(x) + 0.5) * GameSettings.DOT_SIZE, y: (CGFloat(y) + 0.5) * GameSettings.DOT_SIZE)
     }
     
-    func updatePosition(){
-        self.fieldPosition? += self.direction.getPositionValue()
-        updatePosition(fieldPosition.x, y: fieldPosition.y)
+    func setPosition(pos: Position) {
+        self.fieldPosition = pos
+        self.position = CGPoint(x: (CGFloat(pos.x) + 0.5) * GameSettings.DOT_SIZE, y: (CGFloat(pos.y) + 0.5) * GameSettings.DOT_SIZE)
+    }
+    
+    func updatePosition() {
+        self.setPosition(self.fieldPosition! + self.direction.getPositionValue())
     }
     
     func updateDirection(){

@@ -68,7 +68,7 @@ class GameController {
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
             
-            dotkun.updatePosition(
+            dotkun.setPosition(
                 i % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
                 y: (i / GameSettings.BATTLEICON_WIDTH) + GameSettings.FIELD_HEIGHT - GameSettings.INITIAL_DOT_Y_OFFSET - GameSettings.BATTLEICON_HEIGHT
             )
@@ -85,7 +85,7 @@ class GameController {
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
             
-            dotkun.updatePosition(
+            dotkun.setPosition(
                 i % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
                 y: i/GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_Y_OFFSET
             )
