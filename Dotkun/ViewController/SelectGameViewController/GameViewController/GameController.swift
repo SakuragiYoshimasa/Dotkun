@@ -66,6 +66,12 @@ class GameController {
             gameFeild.setGameObject(dotkun.getPosition(), object: dotkun)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
+            
+            dotkun.updatePosition(
+                i % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
+                y: (i / GameSettings.BATTLEICON_WIDTH) + GameSettings.FIELD_HEIGHT - GameSettings.INITIAL_DOT_Y_OFFSET - GameSettings.BATTLEICON_HEIGHT
+            )
+            dotkun.setDirection(Direction.UP)
         }
         
         // 敵軍
@@ -77,6 +83,12 @@ class GameController {
             gameFeild.setGameObject(dotkun.getPosition(), object: dotkun)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
+            
+            dotkun.updatePosition(
+                (i+GameSettings.DOTKUN_NUM/2) % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
+                y: i/GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_Y_OFFSET
+            )
+            dotkun.setDirection(Direction.DOWN)
         }
     }
     

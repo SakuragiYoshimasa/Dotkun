@@ -35,8 +35,12 @@ class GameObject: GameViewObject {
     //----------------------------------------------------------------
     private var _id: ObjectId = 0
     var id: ObjectId {
-        set{ _id = newValue }
-        get{ return _id }
+        set{
+            _id = newValue
+        }
+        get{
+            return _id
+        }
     }
     
     var type: FieldState {

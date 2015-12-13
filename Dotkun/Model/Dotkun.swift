@@ -31,11 +31,7 @@ class Dotkun: GameObject {
         super.init()
         self.color = color
         self.id = id
-        var red: CGFloat     = 1.0
-        var green: CGFloat   = 1.0
-        var blue: CGFloat    = 1.0
-        var alpha: CGFloat   = 1.0
-        color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        let (red, green, blue, _) = color.getRGBA()
         let sum: CGFloat = sqrt(red * red + green * green + blue * blue)
         if sum != 0 {
             self.hp =  Int(red * 255 / sum) + 100
@@ -47,7 +43,7 @@ class Dotkun: GameObject {
             self.power = 10
             self.speed = 11
         }
-        if id < GameSettings.DOTKUN_NUM/2 {
+        /*if id < GameSettings.DOTKUN_NUM/2 {
             updatePosition(
                 id % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
                 y: (id / GameSettings.BATTLEICON_WIDTH) + GameSettings.FIELD_HEIGHT - GameSettings.INITIAL_DOT_Y_OFFSET - GameSettings.BATTLEICON_HEIGHT
@@ -59,7 +55,7 @@ class Dotkun: GameObject {
                 y: (id - GameSettings.DOTKUN_NUM/2)/GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_Y_OFFSET
             )
             self.direction = Direction.DOWN
-        }
+        }*/
     }
     
     //----------------------------------------------------------------
@@ -121,22 +117,25 @@ class Dotkun: GameObject {
         }
     }
     
-    func getPosition()->Position {
+    func getPosition() -> Position {
         if fieldPosition == nil {
             fieldPosition = Position(x:0, y:0)
         }
         return self.fieldPosition
     }
     
-    func getDirection()->Direction {
+    func getDirection() -> Direction {
         return direction
+    }
+    func setDirection(direction: Direction) {
+        self.direction = direction
     }
     
     func battleWith(enemy: GameObject) {
         enemy.hp -= self.power
     }
     
-    func isActionFrame(frameCounter: Int)->Bool {
+    func isActionFrame(frameCounter: Int) -> Bool {
         return (frameCounter % self.speed) == 0
     }
     

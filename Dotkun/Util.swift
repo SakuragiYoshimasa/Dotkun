@@ -45,13 +45,14 @@ extension UIColor {
         return UIColor(red: r, green: g, blue: b, alpha: alpha)
     }
     
+    func getRGBA() -> (CGFloat, CGFloat, CGFloat, CGFloat) {
+        var red: CGFloat = 1.0, green: CGFloat = 1.0, blue: CGFloat = 1.0, alpha: CGFloat = 1.0
+        self.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        return (r: red, g: green, b: blue, a: alpha)
+    }
+    
     // alphaを取得
     var alpha: CGFloat {
-        /*var r: CGFloat! = nil
-        var g: CGFloat! = nil
-        var b: CGFloat! = nil
-        var a: CGFloat! = nil
-        self.getRed(&r, green: &g, blue: &b, alpha: &a)*/
         return CGColorGetAlpha(self.CGColor)
     }
 }
