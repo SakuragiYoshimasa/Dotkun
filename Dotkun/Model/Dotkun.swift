@@ -22,15 +22,26 @@ class Dotkun: GameObject {
     private var colorType: ColorType! = nil
     private var power: Int = 0
     private var speed: Int = 0
-    private var position: CGPoint! = nil
+    private var position: CGPoint! {
+        if let pos = fieldPosition {
+            return CGPoint(x: (CGFloat(pos.x) + 0.5) * GameSettings.DOT_SIZE, y: (CGFloat(pos.y) + 0.5) * GameSettings.DOT_SIZE)
+        } else {
+            return nil
+        }
+    }
     private var direction: Direction! = nil
     //----------------------------------------------------------------
     //Life Cycle
     //----------------------------------------------------------------
-    init(color: UIColor, id: Int) {
+    init(color: UIColor, id: Int, pos: Position) {
         super.init()
         self.color = color
         self.id = id
+        self.calculateParameters(color)
+        self.fieldPosition = pos
+    }
+    
+    func calculateParameters(color: UIColor) {
         let (red, green, blue, _) = color.getRGBA()
         let sum: CGFloat = sqrt(red * red + green * green + blue * blue)
         if sum != 0 {
@@ -43,6 +54,7 @@ class Dotkun: GameObject {
             self.power = 10
             self.speed = 11
         }
+
     }
     
     //----------------------------------------------------------------
@@ -88,12 +100,10 @@ class Dotkun: GameObject {
     func setPosition(x: Int, y: Int) {
         self.fieldPosition.x = x
         self.fieldPosition.y = y
-        self.position = CGPoint(x: (CGFloat(x) + 0.5) * GameSettings.DOT_SIZE, y: (CGFloat(y) + 0.5) * GameSettings.DOT_SIZE)
     }
     
     func setPosition(pos: Position) {
         self.fieldPosition = pos
-        self.position = CGPoint(x: (CGFloat(pos.x) + 0.5) * GameSettings.DOT_SIZE, y: (CGFloat(pos.y) + 0.5) * GameSettings.DOT_SIZE)
     }
     
     func updatePosition() {

@@ -52,7 +52,7 @@ class GameController {
     //----------------------------------------------------------------
     //Game Cycle
     //----------------------------------------------------------------
-    func initGame(gameView: GameView){
+    func initGame(gameView: GameView) {
         self.gameView = gameView
         initCastle()
         dotkuns = []
@@ -63,15 +63,11 @@ class GameController {
         // 自軍
         for i in 0..<(GameSettings.DOTKUN_NUM/2) {
             let dotkunColor = allyImage.getColor(CGPoint(x: i % GameSettings.BATTLEICON_WIDTH, y: i / GameSettings.BATTLEICON_HEIGHT))
-            let dotkun = Dotkun(color: dotkunColor, id: i)
+            let dotkun = Dotkun(color: dotkunColor, id: i, pos: Position(x: i % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
+                y: (i / GameSettings.BATTLEICON_WIDTH) + GameSettings.FIELD_HEIGHT - GameSettings.INITIAL_DOT_Y_OFFSET - GameSettings.BATTLEICON_HEIGHT))
             gameFeild.setGameObject(dotkun.getPosition(), object: dotkun)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
-            
-            dotkun.setPosition(
-                i % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
-                y: (i / GameSettings.BATTLEICON_WIDTH) + GameSettings.FIELD_HEIGHT - GameSettings.INITIAL_DOT_Y_OFFSET - GameSettings.BATTLEICON_HEIGHT
-            )
             dotkun.setDirection(Direction.UP)
         }
         
@@ -80,15 +76,11 @@ class GameController {
             let dotkun = Dotkun(color: enemyImage.getColor(CGPoint(
                 x: GameSettings.BATTLEICON_WIDTH - (i % GameSettings.BATTLEICON_WIDTH) - 1,
                 y: GameSettings.BATTLEICON_HEIGHT - (i / GameSettings.BATTLEICON_HEIGHT) - 1)
-                ), id: i+GameSettings.DOTKUN_NUM/2)
+                ), id: i+GameSettings.DOTKUN_NUM/2, pos: Position(x: i % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
+                y: i/GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_Y_OFFSET))
             gameFeild.setGameObject(dotkun.getPosition(), object: dotkun)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
-            
-            dotkun.setPosition(
-                i % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
-                y: i/GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_Y_OFFSET
-            )
             dotkun.setDirection(Direction.DOWN)
         }
     }

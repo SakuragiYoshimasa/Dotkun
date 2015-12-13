@@ -55,7 +55,6 @@ struct GameSettings {
     
     static let TOUCHCIRCLE_GROWTH_RATE: CGFloat = 5.0
     
-    
 }
 
 struct FieldCell {

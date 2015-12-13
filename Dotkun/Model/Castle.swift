@@ -15,8 +15,12 @@ class Castle: GameObject {
     //Variable
     //----------------------------------------------------------------
     private var color: UIColor! = nil
-    private var position: CGPoint {
-        return CGPoint(x: CGFloat(self.fieldPosition.x) * GameSettings.DOT_SIZE, y: CGFloat(self.fieldPosition.y) * GameSettings.DOT_SIZE)
+    private var position: CGPoint! {
+        if let pos = self.fieldPosition {
+            return CGPoint(x: CGFloat(pos.x) * GameSettings.DOT_SIZE, y: CGFloat(pos.y) * GameSettings.DOT_SIZE)
+        } else {
+          return nil
+        }
     }
     private var castleImage: UIImage! = nil
     
