@@ -39,6 +39,20 @@ class GameObject: GameViewObject {
         get{ return _id }
     }
     
+    var type: FieldState {
+        if self.id < GameSettings.DOTKUN_NUM/2 {
+            return GameObjectType.ALLY
+        }else if self.id < GameSettings.DOTKUN_NUM {
+            return GameObjectType.ENEMY
+        } else if self.id <= GameSettings.DOTKUN_NUM+1 {
+            return GameObjectType.ALLY
+        } else if self.id <= GameSettings.DOTKUN_NUM+2 {
+            return GameObjectType.ENEMY
+        } else {
+            return GameObjectType.NONE
+        }
+    }
+    
     private var _hp: Int = 0
     var hp: Int {
         set{ _hp = newValue }

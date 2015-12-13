@@ -36,6 +36,7 @@ struct Position {
 }
 
 struct GameSettings {
+    // GameViewの位置、サイズ
     static let GANE_VIEW_X_OFFSET: CGFloat = 10
     static let GAME_VIEW_Y_OFFSET: CGFloat = 20
     static let GAME_VIEW_WIDTH: CGFloat = UIScreen.mainScreen().bounds.size.width - 2 * GameSettings.GANE_VIEW_X_OFFSET
@@ -51,6 +52,10 @@ struct GameSettings {
     static let DOT_SIZE: CGFloat = GameSettings.GAME_VIEW_WIDTH / CGFloat(GameSettings.FIELD_WIDTH) //6 //3
     static let DOTKUN_NUM: Int = GameSettings.BATTLEICON_WIDTH * GameSettings.BATTLEICON_HEIGHT * 2
     static let CASTLE_SIZE: Int = 10
+    
+    static let TOUCHCIRCLE_GROWTH_RATE: CGFloat = 5.0
+    
+    
 }
 
 struct FieldCell {
@@ -86,7 +91,7 @@ enum Direction : Int {
     case DOWN = 2
     case LEFT = 3
     
-    func getPositionValue()->Position {
+    func getPositionValue() -> Position {
         switch self {
         case .UP:
             return Position(x: 0, y: -1);
@@ -101,7 +106,7 @@ enum Direction : Int {
 }
 
 //ID 0~1023;ALLY 1024~2047::Enemy
-enum FieldState{
+enum FieldState {
     case NONE
     case ALLY
     case ENEMY
@@ -109,21 +114,9 @@ enum FieldState{
 }
 
 typealias GameObjectType = FieldState
+
 typealias ObjectId = Int
 extension ObjectId {
-    func getObjectType()->GameObjectType {
-        if self < GameSettings.DOTKUN_NUM/2 {
-            return GameObjectType.ALLY
-        }else if self < GameSettings.DOTKUN_NUM {
-            return GameObjectType.ENEMY
-        }/*else if self < GameSettings.DOTKUN_NUM + 1 {
-            return FieldState.ALLY_CASTLE
-        }else if self < GameSettings.DOTKUN_NUM + 2 {
-            return FieldState.ENEMY_CASTLE
-        }*/
-        return GameObjectType.NONE
-    }
-    
     static var AllyCastleId: Int {
         return GameSettings.DOTKUN_NUM + 1
     }

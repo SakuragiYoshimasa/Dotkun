@@ -71,7 +71,7 @@ class Dotkun: GameObject {
         self.color.setFill()
         CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, 6, 6))
         
-        if self.id.getObjectType() == FieldState.ALLY {
+        if self.type == FieldState.ALLY {
             Constants.ALLY_DOTKUN_COLOR.setStroke()
         }else{
             Constants.ENEMY_DOTKUN_COLOR.setStroke()

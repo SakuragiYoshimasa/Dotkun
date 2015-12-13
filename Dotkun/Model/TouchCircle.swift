@@ -28,7 +28,6 @@ class TouchCircle : GameViewObject {
     //----------------------------------------------------------------
     private var color: UIColor! = nil
     private var touchInfo: TouchInfo
-    private let growthRate: CGFloat = 5.0
     
     //----------------------------------------------------------------
     //Life Cycle
@@ -57,7 +56,7 @@ class TouchCircle : GameViewObject {
     }
     
     func incrementRadius() {
-        self.touchInfo.touchRadius += growthRate
+        self.touchInfo.touchRadius += GameSettings.TOUCHCIRCLE_GROWTH_RATE
     }
     
     func getTouchInfo() -> TouchInfo {

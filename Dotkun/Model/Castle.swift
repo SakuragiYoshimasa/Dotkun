@@ -46,7 +46,7 @@ class Castle: GameObject {
         UIGraphicsPopContext()
         castleImage.drawInRect(CGRectMake(position.x, position.y, GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE), GameSettings.DOT_SIZE * CGFloat(GameSettings.CASTLE_SIZE)))
     }
-    func getPosition()->Position {
+    func getPosition() -> Position {
         if fieldPosition == nil {
             fieldPosition = Position(x:0, y:0)
         }
