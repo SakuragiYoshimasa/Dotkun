@@ -105,7 +105,9 @@ class GameViewController: BaseViewController {
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        startMakeCircle(touches, withEvent: event)
+        if let touch = touches.first?.locationInView(self.view) {
+            touchCircle.setPosition(CGPoint(x: touch.x - gameView.frame.minX , y: touch.y - gameView.frame.minY))
+        }
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
