@@ -124,7 +124,7 @@ class GameController {
                 continue
             }
             if !dotkun.isActionFrame(frameCounter) {continue}
-            dotkun.updateDirection()
+            updateDotkunDirection(dotkun)
             let nextPosition = dotkun.getPosition().advancedBy(dotkun.getDirection())
             let fieldState = gameFeild.getState(nextPosition)
             switch fieldState {
@@ -148,6 +148,49 @@ class GameController {
             }
         }
         frameCounter++
+    }
+    
+    func updateDotkunDirection(dotkun: Dotkun) {
+        if dotkun.targetPosition != nil {
+            
+            let difX = dotkun.targetPosition.x - dotkun.getPosition().x
+            let difY = dotkun.targetPosition.y - dotkun.getPosition().y
+            var res = Direction.RIGHT
+            if abs(difX) > abs(difY) {
+                if difX >= 0 {
+                     res = Direction.RIGHT
+                } else {
+                    res = Direction.LEFT
+                }
+            }else{
+                if difY >= 0 {
+                    res = Direction.DOWN
+                } else {
+                    res = Direction.UP
+                }
+            }
+            // 雑ながら、移動先がからじゃなかったら修正。どうやったら綺麗にできる？
+            if self.gameFeild.getState(dotkun.getPosition().advancedBy(res)) != FieldState.NONE {
+                if abs(difX) > abs(difY) {
+                    if difY >= 0 {
+                        res = Direction.DOWN
+                    } else {
+                        res = Direction.UP
+                    }
+                }else{
+                    if difX >= 0 {
+                        res = Direction.RIGHT
+                    } else {
+                        res = Direction.LEFT
+                    }
+                }
+            }
+
+            dotkun.setDirection(res)
+            if dotkun.targetPosition == dotkun.fieldPosition {
+                dotkun.targetPosition = nil
+            }
+        }
     }
     
     func updateFinishState(){
