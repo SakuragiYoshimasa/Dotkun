@@ -101,11 +101,11 @@ class GameViewController: BaseViewController {
     //Touch Event
     //---------------------------------------------------------------
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        makeCircle(touches, withEvent: event)
+        startMakeCircle(touches, withEvent: event)
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        makeCircle(touches, withEvent: event)
+        startMakeCircle(touches, withEvent: event)
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -118,7 +118,7 @@ class GameViewController: BaseViewController {
         }
     }
     
-    func makeCircle(touches: Set<UITouch>, withEvent event: UIEvent?){
+    func startMakeCircle(touches: Set<UITouch>, withEvent event: UIEvent?){
         if gameController.gameState == .START {
             return
         }
