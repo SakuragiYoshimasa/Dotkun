@@ -47,11 +47,11 @@ class TouchCircle : GameViewObject {
         UIGraphicsPopContext()
     }
     
-    func updatePosition(newPosition: CGPoint){
+    func setPosition(newPosition: CGPoint){
         self.touchInfo.touchPosition = newPosition
     }
     
-    func updateTouchInfo(newTouchinfo: TouchInfo) {
+    func setTouchInfo(newTouchinfo: TouchInfo) {
         self.touchInfo = newTouchinfo
     }
     

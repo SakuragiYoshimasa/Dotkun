@@ -113,8 +113,9 @@ class GameViewController: BaseViewController {
     }
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        if touches == nil { return }
-        endMakeCircle(touches!, withEvent: event)
+        if let unwrappedTouches = touches {
+            endMakeCircle(unwrappedTouches, withEvent: event)
+        }
     }
     
     func makeCircle(touches: Set<UITouch>, withEvent event: UIEvent?){
@@ -122,7 +123,7 @@ class GameViewController: BaseViewController {
             return
         }
         let touch = touches.first?.locationInView(self.view)
-        touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
+        touchCircle.setPosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
         touchFlag = true
         touchCircle.isVisible = true
     }
@@ -132,7 +133,7 @@ class GameViewController: BaseViewController {
             return
         }
         let touch = touches.first?.locationInView(self.view)
-        touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
+        touchCircle.setPosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
         touchFlag = false
         gameController.assembleDotkuns(touchCircle.getTouchInfo())
         touchCircle.reset()
