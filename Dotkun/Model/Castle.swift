@@ -47,10 +47,4 @@ class Castle: GameObject {
         }
         
     }
-    func getPosition() -> Position {
-        if fieldPosition == nil {
-            fieldPosition = Position(x:0, y:0)
-        }
-        return self.fieldPosition
-    }
 }

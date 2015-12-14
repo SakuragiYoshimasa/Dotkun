@@ -71,6 +71,13 @@ class GameObject: GameViewObject {
         return self.hp > 0
     }
     
+    func getPosition() -> Position {
+        if fieldPosition == nil {
+            fieldPosition = Position(x:0, y:0)
+        }
+        return self.fieldPosition
+    }
+    
     var targetPosition: Position! = nil
     var fieldPosition: Position! = nil
 }

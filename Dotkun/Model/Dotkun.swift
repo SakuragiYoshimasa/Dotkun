@@ -117,13 +117,6 @@ class Dotkun: GameObject {
         }
     }
     
-    func getPosition() -> Position {
-        if fieldPosition == nil {
-            fieldPosition = Position(x:0, y:0)
-        }
-        return self.fieldPosition
-    }
-    
     func getDirection() -> Direction {
         return direction
     }
