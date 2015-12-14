@@ -105,12 +105,12 @@ class Dotkun: GameObject {
     }
     
     func updatePosition() {
-        self.setPosition(self.fieldPosition! + self.direction.getPositionValue())
+        self.setPosition(self.fieldPosition.advancedBy(self.direction))
     }
     
     func updateDirection(){
         if targetPosition != nil {
-            direction = GameUtils.GetTargetDirection(fieldPosition, targetPos: targetPosition)
+            self.direction = GameUtils.GetTargetDirection(fieldPosition, targetPos: targetPosition)
             if targetPosition == fieldPosition {
                 targetPosition = nil
             }

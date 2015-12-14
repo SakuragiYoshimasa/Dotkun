@@ -64,6 +64,10 @@ class GameViewController: BaseViewController {
             gameView.addObject(touchCircle)
         }
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -107,6 +111,8 @@ class GameViewController: BaseViewController {
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if let touch = touches.first?.locationInView(self.view) {
             touchCircle.setPosition(CGPoint(x: touch.x - gameView.frame.minX , y: touch.y - gameView.frame.minY))
+        } else {
+            touchFlag = false
         }
     }
     

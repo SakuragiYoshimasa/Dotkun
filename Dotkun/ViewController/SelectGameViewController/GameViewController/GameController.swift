@@ -55,7 +55,7 @@ class GameController {
     func initGame(gameView: GameView) {
         self.gameView = gameView
         initCastle()
-        dotkuns = []
+        self.dotkuns = []
         
         let allyImage = (ModelManager.manager.currentBattleIcon?.image ??  UIImage(named: "ha1f.png")!).getResizedImage(CGSizeMake(CGFloat(GameSettings.BATTLEICON_WIDTH),CGFloat(GameSettings.BATTLEICON_HEIGHT))).getFlatImage()
         let enemyImage = UIImage(named: "ha1f.png")!.getResizedImage(CGSizeMake(CGFloat(GameSettings.BATTLEICON_WIDTH),CGFloat(GameSettings.BATTLEICON_HEIGHT))).getFlatImage()
@@ -125,7 +125,7 @@ class GameController {
             }
             if !dotkun.isActionFrame(frameCounter) {continue}
             dotkun.updateDirection()
-            let nextPosition = dotkun.getPosition() + dotkun.getDirection().getPositionValue()
+            let nextPosition = dotkun.getPosition().advancedBy(dotkun.getDirection())
             let fieldState = gameFeild.getState(nextPosition)
             switch fieldState {
             case .ALLY, .ENEMY:

@@ -33,6 +33,18 @@ class GameUtils {
 struct Position {
     var x: Int
     var y: Int
+    func advancedBy(direction: Direction) -> Position {
+        switch direction {
+        case .UP:
+            return Position(x: self.x, y: self.y-1);
+        case .RIGHT:
+            return Position(x: self.x+1, y: self.y);
+        case .DOWN:
+            return Position(x: self.x, y: self.y+1);
+        case .LEFT:
+            return Position(x: self.x-1, y: self.y);
+        }
+    }
 }
 
 struct GameSettings {
@@ -95,19 +107,6 @@ enum Direction : Int {
     case RIGHT = 1
     case DOWN = 2
     case LEFT = 3
-    
-    func getPositionValue() -> Position {
-        switch self {
-        case .UP:
-            return Position(x: 0, y: -1);
-        case .RIGHT:
-            return Position(x: 1, y: 0);
-        case .DOWN:
-            return Position(x: 0, y: 1);
-        case .LEFT:
-            return Position(x: -1, y: 0);
-        }
-    }
 }
 
 //ID 0~1023;ALLY 1024~2047::Enemy
