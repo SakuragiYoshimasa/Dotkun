@@ -122,21 +122,23 @@ class GameViewController: BaseViewController {
         if gameController.gameState == .START {
             return
         }
-        let touch = touches.first?.locationInView(self.view)
-        touchCircle.setPosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
-        touchFlag = true
-        touchCircle.isVisible = true
+        if let touch = touches.first?.locationInView(self.view) {
+            touchCircle.setPosition(CGPoint(x: touch.x - gameView.frame.minX , y: touch.y - gameView.frame.minY))
+            touchFlag = true
+            touchCircle.isVisible = true
+        }
     }
     
     func endMakeCircle(touches: Set<UITouch>, withEvent event: UIEvent?){
         if gameController.gameState == .START {
             return
         }
-        let touch = touches.first?.locationInView(self.view)
-        touchCircle.setPosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
-        touchFlag = false
-        gameController.assembleDotkuns(touchCircle.getTouchInfo())
-        touchCircle.reset()
-        touchCircle.isVisible = false
+        if let touch = touches.first?.locationInView(self.view) {
+            touchCircle.setPosition(CGPoint(x: touch.x - gameView.frame.minX , y: touch.y - gameView.frame.minY))
+            touchFlag = false
+            gameController.assembleDotkuns(touchCircle.getTouchInfo())
+            touchCircle.reset()
+            touchCircle.isVisible = false
+        }
     }
 }
