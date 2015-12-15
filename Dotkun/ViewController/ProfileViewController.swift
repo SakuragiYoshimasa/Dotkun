@@ -15,7 +15,6 @@ class ProfileViewController: TabBarSlaveViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         if imageView == nil {
             imageView = UIImageView(frame: CGRect(origin: CGPointZero, size: CGSizeMake(200, 200)))
@@ -32,14 +31,14 @@ class ProfileViewController: TabBarSlaveViewController {
             self.view.addSubview(namelabel)
         }
         
-        fitAccount()
+        self.fitAccount()
     }
     
     func fitAccount() {
         let account = ModelManager.manager.getAccount()
         imageView.image = account.getImage()
         namelabel.text = account.getTwitterId()
-        
+
     }
     
     override func didReceiveMemoryWarning() {

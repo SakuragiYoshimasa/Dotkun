@@ -32,6 +32,7 @@ class Util {
 }
 
 extension UIColor {
+    /** "ff00ff"みたいなStringをUIColorに変換 */
     func colorFromRGB(rgb: String, alpha: CGFloat) -> UIColor {
         let scanner = NSScanner(string: rgb)
         var rgbInt: UInt32 = 0
@@ -43,6 +44,17 @@ extension UIColor {
         
         return UIColor(red: r, green: g, blue: b, alpha: alpha)
     }
+    
+    func getRGBA() -> (CGFloat, CGFloat, CGFloat, CGFloat) {
+        var red: CGFloat = 1.0, green: CGFloat = 1.0, blue: CGFloat = 1.0, alpha: CGFloat = 1.0
+        self.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        return (r: red, g: green, b: blue, a: alpha)
+    }
+    
+    // alphaを取得
+    var alpha: CGFloat {
+        return CGColorGetAlpha(self.CGColor)
+    }
 }
 
 extension CGPoint {
@@ -53,6 +65,7 @@ extension CGPoint {
 }
 
 extension UIImage {
+    // リサイズ
     func getResizedImage(size: CGSize) -> UIImage {
         UIGraphicsBeginImageContext(size)
         self.drawInRect(CGRect(origin: CGPoint.zero, size: size))
@@ -61,19 +74,34 @@ extension UIImage {
         return resizedImage
     }
     
+    // 透過色をいい感じ白にする
+    func getFlatImage() -> UIImage {
+        UIGraphicsBeginImageContext(self.size)
+        let context = UIGraphicsGetCurrentContext()
+        UIColor.whiteColor().setFill()
+        CGContextFillRect(context, CGRect(origin: CGPoint.zero, size: self.size))
+        self.drawInRect(CGRect(origin: CGPoint.zero, size: self.size))
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+    
     func getColor(pos: CGPoint) -> UIColor {
+        // 範囲オーバー
+        if pos.x > self.size.width ||  pos.y > self.size.height || pos.x < 0 || pos.y < 0 {
+            return UIColor.whiteColor()
+        }
+        
         let pixelDataByteSize = 4
         let imageData = CGDataProviderCopyData(CGImageGetDataProvider(self.CGImage))
         let data : UnsafePointer = CFDataGetBytePtr(imageData)
-        var address : Int = Int(32 * pos.y + pos.x)  * pixelDataByteSize
+        var address = Int(self.size.width * pos.y + pos.x)  * pixelDataByteSize
         
         
         //通常が3
         //描いた奴は8194
-        let r: CGFloat
-        let g: CGFloat
-        let b: CGFloat
-        let a: CGFloat
+        let r: CGFloat, g: CGFloat, b: CGFloat, a: CGFloat
+        
         let alphaInfo = CGImageGetAlphaInfo(self.CGImage)
         
         switch(alphaInfo) {

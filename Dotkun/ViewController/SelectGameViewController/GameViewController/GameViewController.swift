@@ -64,6 +64,10 @@ class GameViewController: BaseViewController {
             gameView.addObject(touchCircle)
         }
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -101,11 +105,15 @@ class GameViewController: BaseViewController {
     //Touch Event
     //---------------------------------------------------------------
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        makeCircle(touches, withEvent: event)
+        startMakeCircle(touches, withEvent: event)
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        makeCircle(touches, withEvent: event)
+        if let touch = touches.first?.locationInView(self.view) {
+            touchCircle.setPosition(CGPoint(x: touch.x - gameView.frame.minX , y: touch.y - gameView.frame.minY))
+        } else {
+            touchFlag = false
+        }
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -113,29 +121,32 @@ class GameViewController: BaseViewController {
     }
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        if touches == nil { return }
-        endMakeCircle(touches!, withEvent: event)
+        if let unwrappedTouches = touches {
+            endMakeCircle(unwrappedTouches, withEvent: event)
+        }
     }
     
-    func makeCircle(touches: Set<UITouch>, withEvent event: UIEvent?){
+    func startMakeCircle(touches: Set<UITouch>, withEvent event: UIEvent?){
         if gameController.gameState == .START {
             return
         }
-        let touch = touches.first?.locationInView(self.view)
-        touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
-        touchFlag = true
-        touchCircle.isVisible = true
+        if let touch = touches.first?.locationInView(self.view) {
+            touchCircle.setPosition(CGPoint(x: touch.x - gameView.frame.minX , y: touch.y - gameView.frame.minY))
+            touchFlag = true
+            touchCircle.isVisible = true
+        }
     }
     
     func endMakeCircle(touches: Set<UITouch>, withEvent event: UIEvent?){
         if gameController.gameState == .START {
             return
         }
-        let touch = touches.first?.locationInView(self.view)
-        touchCircle.updatePosition(CGPoint(x:(touch?.x)! - gameView.frame.minX , y:(touch?.y)! - gameView.frame.minY))
-        touchFlag = false
-        gameController.assembleDotkuns(touchCircle.getTouchInfo())
-        touchCircle.reset()
-        touchCircle.isVisible = false
+        if let touch = touches.first?.locationInView(self.view) {
+            touchCircle.setPosition(CGPoint(x: touch.x - gameView.frame.minX , y: touch.y - gameView.frame.minY))
+            touchFlag = false
+            gameController.assembleDotkuns(touchCircle.getTouchInfo())
+            touchCircle.reset()
+            touchCircle.isVisible = false
+        }
     }
 }

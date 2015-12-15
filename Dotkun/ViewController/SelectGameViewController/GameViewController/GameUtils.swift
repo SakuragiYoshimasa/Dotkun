@@ -12,8 +12,8 @@ class GameUtils {
         return Position(x: Int(screenPoint.x / GameSettings.DOT_SIZE), y: Int(screenPoint.y / GameSettings.DOT_SIZE))
     }
     static func GetTargetDirection(dotkunPos: Position, targetPos: Position) -> Direction {
-        var difX = targetPos.x - dotkunPos.x
-        var difY = targetPos.y - dotkunPos.y
+        let difX = targetPos.x - dotkunPos.x
+        let difY = targetPos.y - dotkunPos.y
         if abs(difX) > abs(difY) {
             if difX >= 0 {
                 return Direction.RIGHT
@@ -33,16 +33,29 @@ class GameUtils {
 struct Position {
     var x: Int
     var y: Int
+    func advancedBy(direction: Direction) -> Position {
+        switch direction {
+        case .UP:
+            return Position(x: self.x, y: self.y-1);
+        case .RIGHT:
+            return Position(x: self.x+1, y: self.y);
+        case .DOWN:
+            return Position(x: self.x, y: self.y+1);
+        case .LEFT:
+            return Position(x: self.x-1, y: self.y);
+        }
+    }
 }
 
 struct GameSettings {
+    // GameViewの位置、サイズ
     static let GANE_VIEW_X_OFFSET: CGFloat = 10
     static let GAME_VIEW_Y_OFFSET: CGFloat = 20
     static let GAME_VIEW_WIDTH: CGFloat = UIScreen.mainScreen().bounds.size.width - 2 * GameSettings.GANE_VIEW_X_OFFSET
     static let GAME_VIEW_HEIGHT: CGFloat = GameSettings.DOT_SIZE * CGFloat(GameSettings.FIELD_HEIGHT)
     
-    static let BATTLEICON_WIDTH: Int = 32
-    static let BATTLEICON_HEIGHT: Int = 32
+    static let BATTLEICON_WIDTH: Int = 16
+    static let BATTLEICON_HEIGHT: Int = 16
     static let INITIAL_DOT_X_OFFSET: Int = 14 //44
     static let INITIAL_DOT_Y_OFFSET: Int = 10 //45
 
@@ -51,11 +64,20 @@ struct GameSettings {
     static let DOT_SIZE: CGFloat = GameSettings.GAME_VIEW_WIDTH / CGFloat(GameSettings.FIELD_WIDTH) //6 //3
     static let DOTKUN_NUM: Int = GameSettings.BATTLEICON_WIDTH * GameSettings.BATTLEICON_HEIGHT * 2
     static let CASTLE_SIZE: Int = 10
+    
+    static let TOUCHCIRCLE_GROWTH_RATE: CGFloat = 5.0
+    
 }
 
 struct FieldCell {
-    var state: FieldState
-    var gameObject: GameViewObject? = nil
+    var state: FieldState {
+        if let gameObject = self.gameObject {
+            return gameObject.type
+        } else {
+            return GameObjectType.NONE
+        }
+    }
+    var gameObject: GameObject? = nil
 }
 
 func + (p1:Position, p2:Position)->Position {
@@ -85,23 +107,10 @@ enum Direction : Int {
     case RIGHT = 1
     case DOWN = 2
     case LEFT = 3
-    
-    func getPositionValue()->Position {
-        switch self {
-        case .UP:
-            return Position(x: 0, y: -1);
-        case .RIGHT:
-            return Position(x: 1, y: 0);
-        case .DOWN:
-            return Position(x: 0, y: 1);
-        case .LEFT:
-            return Position(x: -1, y: 0);
-        }
-    }
 }
 
 //ID 0~1023;ALLY 1024~2047::Enemy
-enum FieldState{
+enum FieldState {
     case NONE
     case ALLY
     case ENEMY
@@ -109,21 +118,9 @@ enum FieldState{
 }
 
 typealias GameObjectType = FieldState
+
 typealias ObjectId = Int
 extension ObjectId {
-    func getObjectType()->GameObjectType {
-        if self < GameSettings.DOTKUN_NUM/2 {
-            return GameObjectType.ALLY
-        }else if self < GameSettings.DOTKUN_NUM {
-            return GameObjectType.ENEMY
-        }/*else if self < GameSettings.DOTKUN_NUM + 1 {
-            return FieldState.ALLY_CASTLE
-        }else if self < GameSettings.DOTKUN_NUM + 2 {
-            return FieldState.ENEMY_CASTLE
-        }*/
-        return GameObjectType.NONE
-    }
-    
     static var AllyCastleId: Int {
         return GameSettings.DOTKUN_NUM + 1
     }

@@ -39,6 +39,7 @@ class LoginViewController: UIViewController {
         logInButton.addTarget(self, action: "tryLogin", forControlEvents: .TouchUpInside)
         self.view.addSubview(logInButton)
         logInButton.hidden = true
+        logInButton.userInteractionEnabled = false
         
         indicator.hidesWhenStopped = true
         indicator.activityIndicatorViewStyle = .Gray
@@ -49,22 +50,33 @@ class LoginViewController: UIViewController {
     
     func tryLogin() {
         indicator.startAnimating()
-        logInButton.userInteractionEnabled = false
         
-        
-        let loginCompletion: TWTRLogInCompletion = { (session, error) in
+        let loginCompletion: TWTRLogInCompletion = {[unowned self] (session, error) in
             if let s = session {
+                // ログイン成功したら詳細データを取得する
                 print(s.userName)
-                self.onLoggedIn(s.userID)
+                let client = TWTRAPIClient(userID: s.userID)
+                client.loadUserWithID(s.userID) {[unowned self] user, error in
+                    self.indicator.stopAnimating()
+                    if let u = user {
+                        print(u.profileImageURL)
+                        ModelManager.manager.setAccount(User(tUser: u))
+                        self.performSegueWithIdentifier("loggedIn", sender: nil)
+                    } else {
+                        // データ取得失敗時
+                        Twitter.sharedInstance().sessionStore.logOutUserID(s.userID)
+                        self.onFailLogin()
+                    }
+                }
             } else {
+                // ログイン失敗
                 if Constants.DEBUG {
+                    // デバッグモードならゲストとしてゲームを起動
                     ModelManager.manager.setAccount(User())
                     self.performSegueWithIdentifier("loggedIn", sender: nil)
                 } else {
                     NSLog("Login error: %@", error!.localizedDescription)
-                    self.indicator.stopAnimating()
-                    self.logInButton.hidden = false
-                    self.logInButton.userInteractionEnabled = true
+                    self.onFailLogin()
                 }
             }
         }
@@ -78,23 +90,11 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func onLoggedIn(userId: String) {
-        let client = TWTRAPIClient(userID: userId)
-        
-        print("client: \(client.userID)")
-
-        client.loadUserWithID(userId) { user, error in
-            self.indicator.stopAnimating()
-            if let u = user {
-                print(u.profileImageURL)
-                ModelManager.manager.setAccount(User(tUser: u))
-                self.performSegueWithIdentifier("loggedIn", sender: nil)
-            } else {
-                print("login Error!")
-                self.logInButton.hidden = false
-                self.logInButton.userInteractionEnabled = true
-            }
-        }
+    func onFailLogin() {
+        print("login Error!")
+        self.indicator.stopAnimating()
+        self.logInButton.hidden = false
+        self.logInButton.userInteractionEnabled = true
     }
     
     override func didReceiveMemoryWarning() {

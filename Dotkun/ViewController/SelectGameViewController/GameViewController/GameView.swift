@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+// Viewに関する部分のみ扱う、ゲームのロジックは書かない
 class GameView: UIView {
     //----------------------------------------------------------------
     //Variable
@@ -31,7 +33,6 @@ class GameView: UIView {
     func addObject(object: GameViewObject) {
         self.objects.append(object)
     }
-    
     
     func clear() {
         self.objects = []

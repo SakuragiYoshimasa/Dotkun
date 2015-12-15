@@ -12,12 +12,12 @@ struct TouchInfo {
     var touchRadius: CGFloat = 0
     var touchPosition: CGPoint! = CGPoint(x: 0,y: 0)
     
-    mutating func reset(){
+    mutating func reset() {
         self.touchRadius = 0
         self.touchPosition = CGPoint(x: 0, y: 0)
     }
     
-    func getCenterPosition()->CGPoint{
+    func getCenterPosition() -> CGPoint {
         return self.touchPosition + CGPoint( x: -touchRadius , y: -touchRadius )
     }
 }
@@ -28,7 +28,6 @@ class TouchCircle : GameViewObject {
     //----------------------------------------------------------------
     private var color: UIColor! = nil
     private var touchInfo: TouchInfo
-    private let growthRate: CGFloat = 5.0
     
     //----------------------------------------------------------------
     //Life Cycle
@@ -48,23 +47,23 @@ class TouchCircle : GameViewObject {
         UIGraphicsPopContext()
     }
     
-    func updatePosition(newPosition: CGPoint){
+    func setPosition(newPosition: CGPoint){
         self.touchInfo.touchPosition = newPosition
     }
     
-    func updateTouchInfo(newTouchinfo: TouchInfo){
+    func setTouchInfo(newTouchinfo: TouchInfo) {
         self.touchInfo = newTouchinfo
     }
     
-    func incrementRadius(){
-        self.touchInfo.touchRadius += growthRate
+    func incrementRadius() {
+        self.touchInfo.touchRadius += GameSettings.TOUCHCIRCLE_GROWTH_RATE
     }
     
-    func getTouchInfo()->TouchInfo {
+    func getTouchInfo() -> TouchInfo {
         return touchInfo
     }
     
-    func reset(){
+    func reset() {
         touchInfo.reset()
     }
 }
