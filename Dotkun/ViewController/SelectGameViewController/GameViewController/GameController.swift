@@ -135,7 +135,9 @@ class GameController {
         for dotkun in aliveDotkuns {
             guard dotkun.isActionFrame(frameCounter) else { continue }
             
+            // targetに基いてdirectionを設定
             updateDotkunDirection(dotkun)
+            
             let nextPosition = dotkun.getPosition().advancedBy(dotkun.getDirection())
             switch gameFeild.getState(nextPosition) {
             case .ALLY:
@@ -161,6 +163,7 @@ class GameController {
         }
         // 攻撃フェーズ
         for dotkun in aliveDotkuns {
+            guard dotkun.isActionFrame(frameCounter) else { continue }
             let nextPosition = dotkun.getPosition().advancedBy(dotkun.getDirection())
             if let dotkun2 = gameFeild.getGameObject(nextPosition) {
                 if dotkun2.type != dotkun.type {
@@ -183,10 +186,11 @@ class GameController {
     }
     
     func updateDotkunDirection(dotkun: Dotkun) {
-        if dotkun.targetPosition != nil {
+        // targetがないときは維持
+        if let targetPos = dotkun.targetPosition {
             
-            let difX = dotkun.targetPosition.x - dotkun.getPosition().x
-            let difY = dotkun.targetPosition.y - dotkun.getPosition().y
+            let difX = targetPos.x - dotkun.getPosition().x
+            let difY = targetPos.y - dotkun.getPosition().y
             var res = Direction.RIGHT
             if abs(difX) > abs(difY) {
                 if difX >= 0 {
@@ -219,7 +223,7 @@ class GameController {
             }
 
             dotkun.setDirection(res)
-            if dotkun.targetPosition == dotkun.fieldPosition {
+            if targetPos == dotkun.fieldPosition {
                 dotkun.targetPosition = nil
             }
         }
