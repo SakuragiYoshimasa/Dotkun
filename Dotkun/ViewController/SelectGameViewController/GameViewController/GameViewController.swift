@@ -127,7 +127,7 @@ class GameViewController: BaseViewController {
     }
     
     func startMakeCircle(touches: Set<UITouch>, withEvent event: UIEvent?){
-        if gameController.gameState == .START {
+        guard gameController.gameState == GameState.GAME else {
             return
         }
         if let touch = touches.first?.locationInView(self.view) {
@@ -138,7 +138,7 @@ class GameViewController: BaseViewController {
     }
     
     func endMakeCircle(touches: Set<UITouch>, withEvent event: UIEvent?){
-        if gameController.gameState == .START {
+        guard gameController.gameState == GameState.GAME else {
             return
         }
         if let touch = touches.first?.locationInView(self.view) {

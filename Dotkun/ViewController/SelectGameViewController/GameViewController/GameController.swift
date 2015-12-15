@@ -22,17 +22,29 @@ class GameField {
     }
     
     func getGameObject(position: Position) -> GameObject? {
+        if(position.x >= GameSettings.FIELD_WIDTH || position.x < 0 || position.y >= GameSettings.FIELD_HEIGHT || position.y < 0) {
+            return nil
+        }
         return self.field[position.x][position.y].gameObject
     }
     func getGameObject(x: Int, y: Int) -> GameObject? {
+        if(x >= GameSettings.FIELD_WIDTH || x < 0 || y >= GameSettings.FIELD_HEIGHT || y < 0) {
+            return nil
+        }
         return self.field[x][y].gameObject
     }
     
     func setGameObject(position: Position, object: GameObject) {
+        if(position.x >= GameSettings.FIELD_WIDTH || position.x < 0 || position.y >= GameSettings.FIELD_HEIGHT || position.y < 0) {
+            return
+        }
         self.field[position.x][position.y].gameObject = object
     }
     
     func clearCell(position: Position) {
+        if(position.x >= GameSettings.FIELD_WIDTH || position.x < 0 || position.y >= GameSettings.FIELD_HEIGHT || position.y < 0) {
+            return
+        }
         self.field[position.x][position.y].gameObject = nil
     }
 }
@@ -99,14 +111,16 @@ class GameController {
         }
     }
     
-    func updateStartState(){}
+    func updateStartState() {}
     
     // アップデートごとの処理
-    func updateGameState(){
+    func updateGameState() {
         // 城
         for castle in castles {
             // 城がどっちか死んでたら処理しない
-            if !castle.isVisible {return}
+            guard castle.isVisible else {
+                return
+            }
             
             if !castle.checkAlive() {
                 gameFeild.clearCell(castle.getPosition())
@@ -116,45 +130,67 @@ class GameController {
             }
         }
         
-        for dotkun in dotkuns {
-            if !dotkun.isVisible {continue}
-            if !dotkun.checkAlive() {
-                gameFeild.clearCell(dotkun.getPosition())
-                dotkun.isVisible = false
-                continue
-            }
-            if !dotkun.isActionFrame(frameCounter) {continue}
+        let aliveDotkuns = dotkuns.filter({$0.isVisible})
+        // 移動フェーズ
+        for dotkun in aliveDotkuns {
+            guard dotkun.isActionFrame(frameCounter) else { continue }
+            
+            // targetに基いてdirectionを設定
             updateDotkunDirection(dotkun)
+            
             let nextPosition = dotkun.getPosition().advancedBy(dotkun.getDirection())
-            let fieldState = gameFeild.getState(nextPosition)
-            switch fieldState {
-            case .ALLY, .ENEMY:
-                if dotkun.type == fieldState {
+            switch gameFeild.getState(nextPosition) {
+            case .ALLY:
+                if dotkun.type == .ALLY {
                     dotkun.changeDirection()
-                } else {
-                    if let enemy = gameFeild.getGameObject(nextPosition) {
-                        dotkun.battleWith(enemy)
-                    }
+                }
+                break
+            case .ENEMY:
+                if dotkun.type == .ENEMY {
+                    dotkun.changeDirection()
                 }
                 break
             case .NONE:
+                // 普通に移動
                 gameFeild.clearCell(dotkun.getPosition())
                 dotkun.updatePosition()
                 gameFeild.setGameObject(dotkun.getPosition(), object: dotkun)
-                break;
+                break
             case .OUT_OF_FIELD:
                 dotkun.changeDirection()
-                break;
+                break
+            }
+        }
+        // 攻撃フェーズ
+        for dotkun in aliveDotkuns {
+            guard dotkun.isActionFrame(frameCounter) else { continue }
+            let nextPosition = dotkun.getPosition().advancedBy(dotkun.getDirection())
+            if let dotkun2 = gameFeild.getGameObject(nextPosition) {
+                if dotkun2.type != dotkun.type {
+                    dotkun.battleWith(dotkun2)
+                }
+            }
+        }
+        // 生死判定フェーズ、死んでたらisVisible = false
+        dotkuns.forEach { dotkun in
+            if !dotkun.checkAlive() {
+                gameFeild.clearCell(dotkun.getPosition())
+                dotkun.isVisible = false
             }
         }
         frameCounter++
     }
     
+    func moveDotkun() {
+        
+    }
+    
     func updateDotkunDirection(dotkun: Dotkun) {
-        if dotkun.targetPosition != nil {
+        // targetがないときは維持
+        if let targetPos = dotkun.targetPosition {
             
-            let difX = dotkun.targetPosition.x - dotkun.getPosition().x
-            let difY = dotkun.targetPosition.y - dotkun.getPosition().y
+            let difX = targetPos.x - dotkun.getPosition().x
+            let difY = targetPos.y - dotkun.getPosition().y
             var res = Direction.RIGHT
             if abs(difX) > abs(difY) {
                 if difX >= 0 {
@@ -187,7 +223,7 @@ class GameController {
             }
 
             dotkun.setDirection(res)
-            if dotkun.targetPosition == dotkun.fieldPosition {
+            if targetPos == dotkun.fieldPosition {
                 dotkun.targetPosition = nil
             }
         }
