@@ -22,7 +22,7 @@ class Dotkun: GameObject {
     private var colorType: ColorType! = nil
     private var power: Int = 0
     private var speed: Int = 0
-    private var direction: Direction! = nil
+    private var direction = Direction.UP
     //----------------------------------------------------------------
     //Life Cycle
     //----------------------------------------------------------------
@@ -124,7 +124,7 @@ class Dotkun: GameObject {
     }
     
     func changeDirection() {
-        direction = Direction(rawValue: (direction.rawValue + 1) % 4)
+        direction = Direction(rawValue: (direction.rawValue + 1) % 4)!
     }
 }
 
