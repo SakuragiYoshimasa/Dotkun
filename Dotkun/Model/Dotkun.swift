@@ -20,8 +20,7 @@ class Dotkun: GameObject {
     //----------------------------------------------------------------
     private var color: UIColor! = nil
     private var colorType: ColorType! = nil
-    private var speed: Int = 0
-    private var direction = Direction.UP
+    
     //----------------------------------------------------------------
     //Life Cycle
     //----------------------------------------------------------------
@@ -54,53 +53,44 @@ class Dotkun: GameObject {
     //----------------------------------------------------------------
     override func drawOnContext(context: CGContextRef) {
         
-        if let pos = fieldPosition {
-            let position = CGPoint(x: (CGFloat(pos.x) + 0.5) * GameSettings.DOT_SIZE, y: (CGFloat(pos.y) + 0.5) * GameSettings.DOT_SIZE)
+        let pos = fieldPosition
         
-            UIGraphicsPushContext(context)
-            
-            self.color.setFill()
-            CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, 6, 6))
-            
-            if self.type == FieldState.ALLY {
-                Constants.ALLY_DOTKUN_COLOR.setStroke()
-            }else{
-                Constants.ENEMY_DOTKUN_COLOR.setStroke()
-            }
-            if self.targetPosition != nil{
-                UIColor.blueColor().setStroke()
-            }
-            CGContextSetLineWidth(context, 1)
-            // 首
-            CGContextMoveToPoint(context, position.x, position.y+3)
-            // 股
-            CGContextAddLineToPoint(context, position.x, position.y+8)
-            // 右足の先
-            CGContextAddLineToPoint(context, position.x+3, position.y+11)
-            // 股
-            CGContextMoveToPoint(context, position.x, position.y+8)
-            // 左足の先
-            CGContextAddLineToPoint(context, position.x-3, position.y+11)
-            
-            // 左腕の先
-            CGContextMoveToPoint(context, position.x-3, position.y+5)
-            // 右腕の先
-            CGContextAddLineToPoint(context, position.x+3, position.y+5)
-            
-            // 描画
-            CGContextStrokePath(context)
-            
-            UIGraphicsPopContext()
-        }
-    }
-        
-    func setPosition(x: Int, y: Int) {
-        self.fieldPosition.x = x
-        self.fieldPosition.y = y
-    }
+        let position = CGPoint(x: (CGFloat(pos.x) + 0.5) * GameSettings.DOT_SIZE, y: (CGFloat(pos.y) + 0.5) * GameSettings.DOT_SIZE)
     
-    func setPosition(pos: Position) {
-        self.fieldPosition = pos
+        UIGraphicsPushContext(context)
+        
+        self.color.setFill()
+        CGContextFillRect(context, CGRectMake(position.x-3, position.y-3, 6, 6))
+        
+        if self.type == FieldState.ALLY {
+            Constants.ALLY_DOTKUN_COLOR.setStroke()
+        }else{
+            Constants.ENEMY_DOTKUN_COLOR.setStroke()
+        }
+        if self.targetPosition != nil{
+            UIColor.blueColor().setStroke()
+        }
+        CGContextSetLineWidth(context, 1)
+        // 首
+        CGContextMoveToPoint(context, position.x, position.y+3)
+        // 股
+        CGContextAddLineToPoint(context, position.x, position.y+8)
+        // 右足の先
+        CGContextAddLineToPoint(context, position.x+3, position.y+11)
+        // 股
+        CGContextMoveToPoint(context, position.x, position.y+8)
+        // 左足の先
+        CGContextAddLineToPoint(context, position.x-3, position.y+11)
+        
+        // 左腕の先
+        CGContextMoveToPoint(context, position.x-3, position.y+5)
+        // 右腕の先
+        CGContextAddLineToPoint(context, position.x+3, position.y+5)
+        
+        // 描画
+        CGContextStrokePath(context)
+        
+        UIGraphicsPopContext()
     }
     
     func updatePosition() {

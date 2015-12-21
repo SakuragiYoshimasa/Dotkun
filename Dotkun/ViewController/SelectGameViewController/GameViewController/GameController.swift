@@ -120,6 +120,7 @@ class GameController {
             gameView.addObject(dotkun)
             dotkun.setDirection(Direction.DOWN)
         }
+        
     }
     
     func update(){
@@ -148,7 +149,7 @@ class GameController {
                 return
             }
             
-            if !castle.checkAlive() {
+            if !castle.isAlive() {
                 gameFeild.clearCell(castle.getPosition())
                 castle.isVisible = false
                 NSNotificationCenter.defaultCenter().postNotificationName("FinishGame", object: nil)
@@ -200,7 +201,7 @@ class GameController {
         }
         // 生死判定フェーズ、死んでたらisVisible = false
         aliveDotkuns.forEach { dotkun in
-            if !dotkun.checkAlive() {
+            if !dotkun.isAlive() {
                 gameFeild.clearCell(dotkun.getPosition())
                 dotkun.isVisible = false
             }

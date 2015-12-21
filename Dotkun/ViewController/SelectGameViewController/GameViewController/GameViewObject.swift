@@ -68,18 +68,26 @@ class GameObject: GameViewObject {
     }
     
     var power: Int = 0
+    var speed: Int = 0
+    var direction = Direction.UP
     
-    func checkAlive() -> Bool {
+    func isAlive() -> Bool {
         return self.hp > 0
     }
     
+    var fieldPosition = Position(x: 0, y: 0)
     func getPosition() -> Position {
-        if fieldPosition == nil {
-            fieldPosition = Position(x:0, y:0)
-        }
         return self.fieldPosition
     }
     
-    var targetPosition: Position! = nil
-    var fieldPosition: Position! = nil
+    func setPosition(x: Int, y: Int) {
+        self.fieldPosition = Position(x: x, y: y)
+    }
+    func setPosition(pos: Position) {
+        self.fieldPosition = pos
+    }
+    
+    
+    var targetPosition: Position? = nil
+    
 }
