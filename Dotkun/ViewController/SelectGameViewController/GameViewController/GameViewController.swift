@@ -12,12 +12,12 @@ class GameViewController: BaseViewController {
     //Variable
     //----------------------------------------------------------------
     var updateTimer: NSTimer! = nil
-    var gameView: GameView! = nil
-    var gameController: GameController! = nil
+    var gameView: GameView = GameView()
+    var gameController = GameController()
     var startButton: UIButton! = nil
     var finishTitle: UILabel! = nil
     var touchFlag: Bool = false
-    var touchCircle: TouchCircle! = nil
+    var touchCircle = TouchCircle()
     var dismissButton: UIButton! = nil
     
     //----------------------------------------------------------------
@@ -27,18 +27,17 @@ class GameViewController: BaseViewController {
         super.viewDidLoad()
         self.view.backgroundColor = Constants.GAME_FRAME_COLOR
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "finishGame", name: "FinishGame", object: nil)
-        if gameView == nil {
-            gameView = GameView(frame: CGRectMake(GameSettings.GANE_VIEW_X_OFFSET,Util.getStatusBarHeight(),GameSettings.GAME_VIEW_WIDTH, GameSettings.GAME_VIEW_HEIGHT))
-            gameView.backgroundColor = UIColor.grayColor()
+        
+        gameView.frame = CGRectMake(GameSettings.GANE_VIEW_X_OFFSET,Util.getStatusBarHeight(),GameSettings.GAME_VIEW_WIDTH, GameSettings.GAME_VIEW_HEIGHT)
+        gameView.backgroundColor = UIColor.grayColor()
+        if !self.view.subviews.contains(gameView) {
             self.view.addSubview(gameView)
         }
+        
         if updateTimer == nil {
             updateTimer = NSTimer.scheduledTimerWithTimeInterval((1.0/Constants.GAME_FPS), target: self, selector: "onUpdate", userInfo: nil, repeats: true)
         }
-        if gameController == nil {
-            gameController = GameController();
-            gameController.initGame(gameView)
-        }
+
         if startButton == nil {
             startButton = UIButton(frame: CGRectMake(50,300,200,50))
             startButton.setTitle("StartGame", forState: .Normal)
@@ -59,10 +58,9 @@ class GameViewController: BaseViewController {
             finishTitle.text = "Finish Game!"
             finishTitle.backgroundColor = Constants.BACKCOLOR
         }
-        if touchCircle == nil {
-            touchCircle = TouchCircle()
-            gameView.addObject(touchCircle)
-        }
+        
+        gameController.initGame(gameView)
+        gameView.addObject(touchCircle)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -87,14 +85,11 @@ class GameViewController: BaseViewController {
     }
     
     func onUpdate() {
-        //let start = NSDate()
         gameController.update()
         gameView.setNeedsDisplay()
         if touchFlag {
             touchCircle.incrementRadius()
         }
-        //let elapsed = NSDate().timeIntervalSinceDate(start)
-        //print(elapsed)
     }
     
     func finishGame(){

@@ -68,24 +68,39 @@ class GameController {
     var dotkuns: [Dotkun] = []
     var castles: [Castle] = []
     var frameCounter: Int = 0
-    var gameState: GameState = GameState.START
+    var gameState = GameState.START
     
     //----------------------------------------------------------------
     //Game Cycle
     //----------------------------------------------------------------
     func initGame(gameView: GameView) {
         self.gameView = gameView
-        initCastle()
+        self.gameView.clear()
+        
+        initCastles()
+        initDotkuns()
+        
+        gameState = GameState.START
+    }
+    
+    func initDotkuns() {
         self.dotkuns = []
         
-        let allyImage = (ModelManager.manager.currentBattleIcon?.image ??  UIImage(named: "ha1f.png")!).getResizedImage(CGSizeMake(CGFloat(GameSettings.BATTLEICON_WIDTH),CGFloat(GameSettings.BATTLEICON_HEIGHT))).getFlatImage()
-        let enemyImage = UIImage(named: "ha1f.png")!.getResizedImage(CGSizeMake(CGFloat(GameSettings.BATTLEICON_WIDTH),CGFloat(GameSettings.BATTLEICON_HEIGHT))).getFlatImage()
+        let allyImage = (ModelManager.manager.currentBattleIcon?.image ??  UIImage(named: "ha1f.png")!)
+            .getResizedImage(CGSizeMake(CGFloat(GameSettings.BATTLEICON_WIDTH),CGFloat(GameSettings.BATTLEICON_HEIGHT)))
+            .getFlatImage()
+        let enemyImage = UIImage(named: "ha1f.png")!
+            .getResizedImage(CGSizeMake(CGFloat(GameSettings.BATTLEICON_WIDTH),CGFloat(GameSettings.BATTLEICON_HEIGHT)))
+            .getFlatImage()
         
         // 自軍
         for i in 0..<(GameSettings.DOTKUN_NUM/2) {
             let dotkunColor = allyImage.getColor(CGPoint(x: i % GameSettings.BATTLEICON_WIDTH, y: i / GameSettings.BATTLEICON_HEIGHT))
-            let dotkun = Dotkun(color: dotkunColor, id: i, pos: Position(x: i % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
-                y: (i / GameSettings.BATTLEICON_WIDTH) + GameSettings.FIELD_HEIGHT - GameSettings.INITIAL_DOT_Y_OFFSET - GameSettings.BATTLEICON_HEIGHT))
+            let dotkun = Dotkun(
+                color: dotkunColor,
+                id: i,
+                pos: Position(x: i % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET, y: (i / GameSettings.BATTLEICON_WIDTH) + GameSettings.FIELD_HEIGHT - GameSettings.INITIAL_DOT_Y_OFFSET - GameSettings.BATTLEICON_HEIGHT)
+            )
             gameFeild.setGameObject(dotkun.getPosition(), object: dotkun)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
@@ -94,11 +109,12 @@ class GameController {
         
         // 敵軍
         for i in 0..<(GameSettings.DOTKUN_NUM/2) {
-            let dotkun = Dotkun(color: enemyImage.getColor(CGPoint(
-                x: GameSettings.BATTLEICON_WIDTH - (i % GameSettings.BATTLEICON_WIDTH) - 1,
-                y: GameSettings.BATTLEICON_HEIGHT - (i / GameSettings.BATTLEICON_HEIGHT) - 1)
-                ), id: i+GameSettings.DOTKUN_NUM/2, pos: Position(x: i % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
-                y: i/GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_Y_OFFSET))
+            let dotkun = Dotkun(
+                color: enemyImage.getColor(CGPoint(x: GameSettings.BATTLEICON_WIDTH - (i % GameSettings.BATTLEICON_WIDTH) - 1, y: GameSettings.BATTLEICON_HEIGHT - (i / GameSettings.BATTLEICON_HEIGHT) - 1)),
+                id: i+GameSettings.DOTKUN_NUM/2,
+                pos: Position(x: i % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
+                    y: i/GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_Y_OFFSET)
+            )
             gameFeild.setGameObject(dotkun.getPosition(), object: dotkun)
             dotkuns.append(dotkun)
             gameView.addObject(dotkun)
@@ -120,7 +136,8 @@ class GameController {
         }
     }
     
-    func updateStartState() {}
+    func updateStartState() {
+    }
     
     // アップデートごとの処理
     func updateGameState() {
@@ -247,7 +264,7 @@ class GameController {
     //--------------------------------------------------
     //Manupurate Dotkuns
     //--------------------------------------------------
-    func initCastle() {
+    func initCastles() {
         // posは左上座標
         let allyCastle = Castle(color: Constants.BACKCOLOR,
             pos: Position(x: GameSettings.FIELD_WIDTH - GameSettings.CASTLE_SIZE, y: GameSettings.FIELD_HEIGHT - GameSettings.CASTLE_SIZE),
