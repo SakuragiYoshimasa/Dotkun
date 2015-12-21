@@ -29,7 +29,7 @@ class GameViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "finishGame", name: "FinishGame", object: nil)
         if gameView == nil {
             gameView = GameView(frame: CGRectMake(GameSettings.GANE_VIEW_X_OFFSET,Util.getStatusBarHeight(),GameSettings.GAME_VIEW_WIDTH, GameSettings.GAME_VIEW_HEIGHT))
-            gameView.backgroundColor = UIColor.whiteColor()
+            gameView.backgroundColor = UIColor.grayColor()
             self.view.addSubview(gameView)
         }
         if updateTimer == nil {

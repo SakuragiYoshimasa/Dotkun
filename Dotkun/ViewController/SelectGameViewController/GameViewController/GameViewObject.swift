@@ -67,6 +67,8 @@ class GameObject: GameViewObject {
         }
     }
     
+    var power: Int = 0
+    
     func checkAlive() -> Bool {
         return self.hp > 0
     }

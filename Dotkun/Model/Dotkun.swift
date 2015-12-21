@@ -20,7 +20,6 @@ class Dotkun: GameObject {
     //----------------------------------------------------------------
     private var color: UIColor! = nil
     private var colorType: ColorType! = nil
-    private var power: Int = 0
     private var speed: Int = 0
     private var direction = Direction.UP
     //----------------------------------------------------------------
@@ -114,11 +113,7 @@ class Dotkun: GameObject {
     func setDirection(direction: Direction) {
         self.direction = direction
     }
-    
-    func battleWith(enemy: GameObject) {
-        enemy.hp -= self.power
-    }
-    
+
     func isActionFrame(frameCounter: Int) -> Bool {
         return (frameCounter % self.speed) == 0
     }

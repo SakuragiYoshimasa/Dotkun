@@ -14,35 +14,44 @@ class GameField {
         field = [[FieldCell]](count: GameSettings.FIELD_WIDTH, repeatedValue: [FieldCell](count: GameSettings.FIELD_HEIGHT, repeatedValue: FieldCell()))
     }
     
+    func isValidPosition(x: Int, _ y: Int) -> Bool {
+        if(x >= GameSettings.FIELD_WIDTH || x < 0 || y >= GameSettings.FIELD_HEIGHT || y < 0) {
+            return false
+        } else {
+            return true
+        }
+    }
+    
     func getState(position: Position) -> FieldState {
-        if(position.x >= GameSettings.FIELD_WIDTH || position.x < 0 || position.y >= GameSettings.FIELD_HEIGHT || position.y < 0) {
+        if isValidPosition(position.x, position.y) {
+            return self.field[position.x][position.y].state
+        } else {
             return .OUT_OF_FIELD
         }
-        return self.field[position.x][position.y].state
     }
     
     func getGameObject(position: Position) -> GameObject? {
-        if(position.x >= GameSettings.FIELD_WIDTH || position.x < 0 || position.y >= GameSettings.FIELD_HEIGHT || position.y < 0) {
+        guard isValidPosition(position.x, position.y) else {
             return nil
         }
         return self.field[position.x][position.y].gameObject
     }
     func getGameObject(x: Int, y: Int) -> GameObject? {
-        if(x >= GameSettings.FIELD_WIDTH || x < 0 || y >= GameSettings.FIELD_HEIGHT || y < 0) {
+        guard isValidPosition(x, y) else {
             return nil
         }
         return self.field[x][y].gameObject
     }
     
     func setGameObject(position: Position, object: GameObject) {
-        if(position.x >= GameSettings.FIELD_WIDTH || position.x < 0 || position.y >= GameSettings.FIELD_HEIGHT || position.y < 0) {
+        guard isValidPosition(position.x, position.y) else {
             return
         }
         self.field[position.x][position.y].gameObject = object
     }
     
     func clearCell(position: Position) {
-        if(position.x >= GameSettings.FIELD_WIDTH || position.x < 0 || position.y >= GameSettings.FIELD_HEIGHT || position.y < 0) {
+        guard isValidPosition(position.x, position.y) else {
             return
         }
         self.field[position.x][position.y].gameObject = nil
@@ -55,7 +64,7 @@ class GameController {
     //Variable
     //----------------------------------------------------------------
     private let gameFeild = GameField()
-    private var gameView: GameView! = nil
+    private weak var gameView: GameView! = nil
     var dotkuns: [Dotkun] = []
     var castles: [Castle] = []
     var frameCounter: Int = 0
@@ -162,17 +171,18 @@ class GameController {
             }
         }
         // 攻撃フェーズ
-        for dotkun in aliveDotkuns {
+        for dotkun in aliveDotkuns.filter({$0.type == .ALLY}) {
             guard dotkun.isActionFrame(frameCounter) else { continue }
-            let nextPosition = dotkun.getPosition().advancedBy(dotkun.getDirection())
-            if let dotkun2 = gameFeild.getGameObject(nextPosition) {
-                if dotkun2.type != dotkun.type {
-                    dotkun.battleWith(dotkun2)
+            for i in 0..<4 {
+                if let dotkun2 = gameFeild.getGameObject(dotkun.getPosition().advancedBy(Direction(rawValue: i)!)) {
+                    if dotkun2.type != dotkun.type {
+                        battle(dotkun, dotkun2)
+                    }
                 }
             }
         }
         // 生死判定フェーズ、死んでたらisVisible = false
-        dotkuns.forEach { dotkun in
+        aliveDotkuns.forEach { dotkun in
             if !dotkun.checkAlive() {
                 gameFeild.clearCell(dotkun.getPosition())
                 dotkun.isVisible = false
@@ -181,8 +191,9 @@ class GameController {
         frameCounter++
     }
     
-    func moveDotkun() {
-        
+    func battle(o1: GameObject,_ o2: GameObject) {
+        o2.hp -= o1.power
+        o1.hp -= o2.power
     }
     
     func updateDotkunDirection(dotkun: Dotkun) {
