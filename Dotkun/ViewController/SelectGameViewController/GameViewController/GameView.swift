@@ -33,6 +33,9 @@ class GameView: UIView {
     func addObject(object: GameViewObject) {
         self.objects.append(object)
     }
+    func addObjects(objects: [GameViewObject]) {
+        self.objects += objects
+    }
     
     func clear() {
         self.objects = []

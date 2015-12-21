@@ -10,6 +10,7 @@ import UIKit
 
 class GameField {
     private var field: [[FieldCell]]
+    
     init() {
         field = [[FieldCell]](count: GameSettings.FIELD_WIDTH, repeatedValue: [FieldCell](count: GameSettings.FIELD_HEIGHT, repeatedValue: FieldCell()))
     }
@@ -64,7 +65,6 @@ class GameController {
     //Variable
     //----------------------------------------------------------------
     private let gameFeild = GameField()
-    private weak var gameView: GameView! = nil
     var dotkuns: [Dotkun] = []
     var castles: [Castle] = []
     var frameCounter: Int = 0
@@ -73,17 +73,14 @@ class GameController {
     //----------------------------------------------------------------
     //Game Cycle
     //----------------------------------------------------------------
-    func initGame(gameView: GameView) {
-        self.gameView = gameView
-        self.gameView.clear()
-        
+    func initGame() {
         initCastles()
         initDotkuns()
         
         gameState = GameState.START
     }
     
-    func initDotkuns() {
+    func initDotkuns() -> [GameViewObject] {
         self.dotkuns = []
         
         let allyImage = (ModelManager.manager.currentBattleIcon?.image ??  UIImage(named: "ha1f.png")!)
@@ -103,7 +100,6 @@ class GameController {
             )
             gameFeild.setGameObject(dotkun.getPosition(), object: dotkun)
             dotkuns.append(dotkun)
-            gameView.addObject(dotkun)
             dotkun.setDirection(Direction.UP)
         }
         
@@ -117,10 +113,10 @@ class GameController {
             )
             gameFeild.setGameObject(dotkun.getPosition(), object: dotkun)
             dotkuns.append(dotkun)
-            gameView.addObject(dotkun)
             dotkun.setDirection(Direction.DOWN)
         }
         
+        return (dotkuns as [GameViewObject]) + (castles as [GameViewObject])
     }
     
     func update(){
@@ -281,8 +277,6 @@ class GameController {
             }
         }
         self.castles = [allyCastle, enemyCastle]
-        self.gameView.addObject(allyCastle)
-        self.gameView.addObject(enemyCastle)
     }
 
     //------------------------------------------------

@@ -12,7 +12,7 @@ class GameViewController: BaseViewController {
     //Variable
     //----------------------------------------------------------------
     var updateTimer: NSTimer! = nil
-    var gameView: GameView = GameView()
+    var gameView: GameView = GameView(frame: CGRectMake(GameSettings.GANE_VIEW_X_OFFSET,Util.getStatusBarHeight(),GameSettings.GAME_VIEW_WIDTH, GameSettings.GAME_VIEW_HEIGHT))
     var gameController = GameController()
     var startButton: UIButton! = nil
     var finishTitle: UILabel! = nil
@@ -28,14 +28,9 @@ class GameViewController: BaseViewController {
         self.view.backgroundColor = Constants.GAME_FRAME_COLOR
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "finishGame", name: "FinishGame", object: nil)
         
-        gameView.frame = CGRectMake(GameSettings.GANE_VIEW_X_OFFSET,Util.getStatusBarHeight(),GameSettings.GAME_VIEW_WIDTH, GameSettings.GAME_VIEW_HEIGHT)
         gameView.backgroundColor = UIColor.grayColor()
         if !self.view.subviews.contains(gameView) {
             self.view.addSubview(gameView)
-        }
-        
-        if updateTimer == nil {
-            updateTimer = NSTimer.scheduledTimerWithTimeInterval((1.0/Constants.GAME_FPS), target: self, selector: "onUpdate", userInfo: nil, repeats: true)
         }
 
         if startButton == nil {
@@ -59,12 +54,24 @@ class GameViewController: BaseViewController {
             finishTitle.backgroundColor = Constants.BACKCOLOR
         }
         
+        gameView.clear()
         gameController.initGame(gameView)
         gameView.addObject(touchCircle)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        if updateTimer == nil {
+            updateTimer = NSTimer.scheduledTimerWithTimeInterval((1.0/Constants.GAME_FPS), target: self, selector: "onUpdate", userInfo: nil, repeats: true)
+        }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // updateを停止
+        updateTimer.invalidate()
+        updateTimer = nil
     }
 
     deinit {
