@@ -24,7 +24,7 @@ class GameView: UIView {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
     
     //----------------------------------------------------------------
@@ -32,6 +32,9 @@ class GameView: UIView {
     //----------------------------------------------------------------
     func addObject(object: GameViewObject) {
         self.objects.append(object)
+    }
+    func addObjects(objects: [GameViewObject]) {
+        self.objects += objects
     }
     
     func clear() {

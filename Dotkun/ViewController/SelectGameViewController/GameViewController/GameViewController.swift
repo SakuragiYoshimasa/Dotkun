@@ -12,13 +12,16 @@ class GameViewController: BaseViewController {
     //Variable
     //----------------------------------------------------------------
     var updateTimer: NSTimer! = nil
-    var gameView: GameView! = nil
-    var gameController: GameController! = nil
+    var gameView: GameView = GameView(frame: CGRectMake(GameSettings.GANE_VIEW_X_OFFSET,Util.getStatusBarHeight(),GameSettings.GAME_VIEW_WIDTH, GameSettings.GAME_VIEW_HEIGHT))
+    var gameController = GameController()
     var startButton: UIButton! = nil
     var finishTitle: UILabel! = nil
-    var touchFlag: Bool = false
-    var touchCircle: TouchCircle! = nil
     var dismissButton: UIButton! = nil
+    
+    /*required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        print("init")
+    }*/
     
     //----------------------------------------------------------------
     //Life Cycle
@@ -26,19 +29,12 @@ class GameViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = Constants.GAME_FRAME_COLOR
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "finishGame", name: "FinishGame", object: nil)
-        if gameView == nil {
-            gameView = GameView(frame: CGRectMake(GameSettings.GANE_VIEW_X_OFFSET,Util.getStatusBarHeight(),GameSettings.GAME_VIEW_WIDTH, GameSettings.GAME_VIEW_HEIGHT))
-            gameView.backgroundColor = UIColor.whiteColor()
+        
+        gameView.backgroundColor = UIColor.grayColor()
+        if !self.view.subviews.contains(gameView) {
             self.view.addSubview(gameView)
         }
-        if updateTimer == nil {
-            updateTimer = NSTimer.scheduledTimerWithTimeInterval((1.0/Constants.GAME_FPS), target: self, selector: "onUpdate", userInfo: nil, repeats: true)
-        }
-        if gameController == nil {
-            gameController = GameController();
-            gameController.initGame(gameView)
-        }
+
         if startButton == nil {
             startButton = UIButton(frame: CGRectMake(50,300,200,50))
             startButton.setTitle("StartGame", forState: .Normal)
@@ -52,25 +48,28 @@ class GameViewController: BaseViewController {
             dismissButton.addTarget(self, action: "dismiss", forControlEvents: .TouchUpInside)
             dismissButton.backgroundColor = Constants.BACKCOLOR
             self.view.addSubview(dismissButton)
-            
         }
-        if finishTitle == nil {
-            finishTitle = UILabel(frame: CGRectMake(50,300,200,50))
-            finishTitle.text = "Finish Game!"
-            finishTitle.backgroundColor = Constants.BACKCOLOR
-        }
-        if touchCircle == nil {
-            touchCircle = TouchCircle()
-            gameView.addObject(touchCircle)
-        }
+        
+        gameView.clear()
+        let objects = gameController.initGame()
+        gameView.addObjects(objects)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "finishGame", name: "FinishGame", object: nil)
+        if updateTimer == nil {
+            updateTimer = NSTimer.scheduledTimerWithTimeInterval((1.0/Constants.GAME_FPS), target: self, selector: "onUpdate", userInfo: nil, repeats: true)
+        }
     }
-
-    deinit {
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillAppear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        
+        // updateを停止
+        updateTimer.invalidate()
+        updateTimer = nil
     }
     
     func dismiss(){
@@ -82,22 +81,28 @@ class GameViewController: BaseViewController {
     //----------------------------------------------------------------
     func startGame(){
         startButton.removeFromSuperview()
-        finishTitle.removeFromSuperview()
+        if let finishTitle = finishTitle {
+            if self.view.subviews.contains(finishTitle) {
+                finishTitle.removeFromSuperview()
+            }
+        }
         gameController.startGame()
     }
     
     func onUpdate() {
-        //let start = NSDate()
         gameController.update()
         gameView.setNeedsDisplay()
-        if touchFlag {
-            touchCircle.incrementRadius()
+        if gameController.touchingFlag {
+            gameController.touchCircle.incrementRadius()
         }
-        //let elapsed = NSDate().timeIntervalSinceDate(start)
-        //print(elapsed)
     }
     
     func finishGame(){
+        if finishTitle == nil {
+            finishTitle = UILabel(frame: CGRectMake(50,300,200,50))
+            finishTitle.text = "Finish Game!"
+            finishTitle.backgroundColor = Constants.BACKCOLOR
+        }
         self.view.addSubview(finishTitle)
     }
     
@@ -105,48 +110,28 @@ class GameViewController: BaseViewController {
     //Touch Event
     //---------------------------------------------------------------
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        startMakeCircle(touches, withEvent: event)
+        if let touchPos = touches.first?.locationInView(gameView) {
+            gameController.startMakeCircle(touchPos, withEvent: event)
+        }
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if let touch = touches.first?.locationInView(self.view) {
-            touchCircle.setPosition(CGPoint(x: touch.x - gameView.frame.minX , y: touch.y - gameView.frame.minY))
+        if let touchPos = touches.first?.locationInView(gameView) {
+            gameController.moveCircle(touchPos)
         } else {
-            touchFlag = false
+            gameController.touchingFlag = false
         }
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        endMakeCircle(touches, withEvent: event)
+        if let touchPos = touches.first?.locationInView(gameView) {
+            gameController.endMakeCircle(touchPos, withEvent: event)
+        }
     }
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        if let unwrappedTouches = touches {
-            endMakeCircle(unwrappedTouches, withEvent: event)
-        }
-    }
-    
-    func startMakeCircle(touches: Set<UITouch>, withEvent event: UIEvent?){
-        guard gameController.gameState == GameState.GAME else {
-            return
-        }
-        if let touch = touches.first?.locationInView(self.view) {
-            touchCircle.setPosition(CGPoint(x: touch.x - gameView.frame.minX , y: touch.y - gameView.frame.minY))
-            touchFlag = true
-            touchCircle.isVisible = true
-        }
-    }
-    
-    func endMakeCircle(touches: Set<UITouch>, withEvent event: UIEvent?){
-        guard gameController.gameState == GameState.GAME else {
-            return
-        }
-        if let touch = touches.first?.locationInView(self.view) {
-            touchCircle.setPosition(CGPoint(x: touch.x - gameView.frame.minX , y: touch.y - gameView.frame.minY))
-            touchFlag = false
-            gameController.assembleDotkuns(touchCircle.getTouchInfo())
-            touchCircle.reset()
-            touchCircle.isVisible = false
+        if let touch = touches, let touchPos = touch.first?.locationInView(self.view) {
+            gameController.endMakeCircle(touchPos, withEvent: event)
         }
     }
 }

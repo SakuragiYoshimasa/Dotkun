@@ -86,16 +86,15 @@ extension UIImage {
         return image
     }
     
-    func getColor(pos: CGPoint) -> UIColor {
+    func getColor(x x: Int, y: Int) -> UIColor {
         // 範囲オーバー
-        if pos.x > self.size.width ||  pos.y > self.size.height || pos.x < 0 || pos.y < 0 {
-            return UIColor.whiteColor()
+        if x > Int(self.size.width) || y > Int(self.size.height) || x < 0 || y < 0 {
+            return UIColor.clearColor()
         }
         
         let pixelDataByteSize = 4
-        let imageData = CGDataProviderCopyData(CGImageGetDataProvider(self.CGImage))
-        let data : UnsafePointer = CFDataGetBytePtr(imageData)
-        var address = Int(self.size.width * pos.y + pos.x)  * pixelDataByteSize
+        let data : UnsafePointer = CFDataGetBytePtr(CGDataProviderCopyData(CGImageGetDataProvider(self.CGImage)))
+        var address = (Int(self.size.width) * y + x)  * pixelDataByteSize
         
         
         //通常が3
