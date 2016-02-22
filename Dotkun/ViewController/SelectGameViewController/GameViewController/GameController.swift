@@ -217,6 +217,7 @@ class GameController {
         battleIfNeed(allyCastle)
         
         print(allyCastle.hp)
+        print(enemyCastle.hp)
         
         // 生死判定フェーズ、死んでたらisVisible = false
         aliveDotkuns.forEach {[unowned self] dotkun in

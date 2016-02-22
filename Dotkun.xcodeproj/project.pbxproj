@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		550D20BE1BEB6B0400B6EC4A /* BattleIconCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550D20BD1BEB6B0400B6EC4A /* BattleIconCollectionCell.swift */; };
 		550D20E41BEE5F2400B6EC4A /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550D20E31BEE5F2400B6EC4A /* ColorPickerViewController.swift */; };
+		553974541C7AF3A0000E3626 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 553974521C7AF3A0000E3626 /* Realm.framework */; };
+		553974551C7AF3A0000E3626 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 553974531C7AF3A0000E3626 /* RealmSwift.framework */; };
 		555DAA7E1BEEED93006F00B0 /* BattleIconRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555DAA7D1BEEED93006F00B0 /* BattleIconRepository.swift */; };
 		558032C11BE77F54001D9C61 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558032C01BE77F54001D9C61 /* Constants.swift */; };
 		55BF3B2F1BE9DD5400AF67AC /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BF3B2C1BE9DD5400AF67AC /* BaseViewController.swift */; };
@@ -67,6 +69,8 @@
 		1F264AC49FB783E0CC7239C3 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		550D20BD1BEB6B0400B6EC4A /* BattleIconCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BattleIconCollectionCell.swift; sourceTree = "<group>"; };
 		550D20E31BEE5F2400B6EC4A /* ColorPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
+		553974521C7AF3A0000E3626 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
+		553974531C7AF3A0000E3626 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		555DAA7D1BEEED93006F00B0 /* BattleIconRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BattleIconRepository.swift; sourceTree = "<group>"; };
 		558032C01BE77F54001D9C61 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		55BF3B2C1BE9DD5400AF67AC /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -116,6 +120,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				553974541C7AF3A0000E3626 /* Realm.framework in Frameworks */,
+				553974551C7AF3A0000E3626 /* RealmSwift.framework in Frameworks */,
 				C55C45851A7F7DB38D53C7BF /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -169,6 +175,8 @@
 		84B59AE1E8FE86CEB94669D8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				553974521C7AF3A0000E3626 /* Realm.framework */,
+				553974531C7AF3A0000E3626 /* RealmSwift.framework */,
 				1F264AC49FB783E0CC7239C3 /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -322,6 +330,7 @@
 				D15E9B6845D09800F5DBE507 /* Embed Pods Frameworks */,
 				8EEF842E369D97CA8BF1D2E7 /* Copy Pods Resources */,
 				558D30691BF1A670006DAEC6 /* ShellScript */,
+				553974511C7AF2DC000E3626 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -441,6 +450,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		553974511C7AF2DC000E3626 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
 		558D30691BF1A670006DAEC6 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -625,7 +649,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -664,7 +688,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -677,7 +701,12 @@
 			baseConfigurationReference = E8C5E9CA8B12B21BB15795E3 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Dotkun/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.at.Dotkun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -689,7 +718,12 @@
 			baseConfigurationReference = 8AB016CDA6DEA3F94A299E06 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Dotkun/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.at.Dotkun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
