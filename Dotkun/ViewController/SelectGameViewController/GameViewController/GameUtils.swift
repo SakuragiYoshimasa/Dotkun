@@ -8,7 +8,7 @@
 import UIKit
 
 class GameUtils {
-    static func TransScreenToGameFieldPosition(screenPoint: CGPoint) -> Position{
+    static func TransScreenToGameFieldPosition(screenPoint: CGPoint) -> Position {
         return Position(x: Int(screenPoint.x / GameSettings.DOT_SIZE), y: Int(screenPoint.y / GameSettings.DOT_SIZE))
     }
 }
@@ -16,17 +16,34 @@ class GameUtils {
 struct Position {
     var x: Int
     var y: Int
+    
     func advancedBy(direction: Direction) -> Position {
         switch direction {
         case .UP:
-            return Position(x: self.x, y: self.y-1);
+            return Position(x: self.x, y: self.y-1)
         case .RIGHT:
-            return Position(x: self.x+1, y: self.y);
+            return Position(x: self.x+1, y: self.y)
         case .DOWN:
-            return Position(x: self.x, y: self.y+1);
+            return Position(x: self.x, y: self.y+1)
         case .LEFT:
-            return Position(x: self.x-1, y: self.y);
+            return Position(x: self.x-1, y: self.y)
         }
+    }
+    
+    mutating func advanceBy(direction: Direction, distance: Int) {
+        switch direction {
+        case .UP:
+            self.y -= distance
+            break
+        case .RIGHT:
+            self.x += distance
+            break
+        case .DOWN:
+            self.y += distance
+        case .LEFT:
+            self.x -= distance
+        }
+        return
     }
 }
 
@@ -39,8 +56,7 @@ struct GameSettings {
     
     static let BATTLEICON_WIDTH: Int = 24
     static let BATTLEICON_HEIGHT: Int = 24
-    static let INITIAL_DOT_X_OFFSET: Int = 14 //44
-    static let INITIAL_DOT_Y_OFFSET: Int = 10 //45
+    static let INITIAL_BATTLEICON_OFFSET: Position = Position(x: 14, y: 10)//44,45
 
     static let FIELD_WIDTH: Int = 60 //120
     static let FIELD_HEIGHT: Int = 100 //200
@@ -49,6 +65,8 @@ struct GameSettings {
     static let CASTLE_SIZE: Int = 10
     
     static let TOUCHCIRCLE_GROWTH_RATE: CGFloat = 5.0
+    
+    static let HP_CASTLE = 30000
     
 }
 

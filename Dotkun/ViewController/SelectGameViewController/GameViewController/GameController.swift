@@ -10,13 +10,17 @@ import UIKit
 
 class GameField {
     private var field: [[FieldCell]]
+    private let width: Int
+    private let height: Int
     
-    init() {
-        field = [[FieldCell]](count: GameSettings.FIELD_WIDTH, repeatedValue: [FieldCell](count: GameSettings.FIELD_HEIGHT, repeatedValue: FieldCell()))
+    init(width: Int, height: Int) {
+        self.width = width
+        self.height = height
+        field = [[FieldCell]](count: width, repeatedValue: [FieldCell](count: height, repeatedValue: FieldCell()))
     }
     
     func isValidPosition(x: Int, _ y: Int) -> Bool {
-        if(x >= GameSettings.FIELD_WIDTH || x < 0 || y >= GameSettings.FIELD_HEIGHT || y < 0) {
+        if(x >= width || x < 0 || y >= height || y < 0) {
             return false
         } else {
             return true
@@ -57,6 +61,12 @@ class GameField {
         }
         self.field[position.x][position.y].gameObject = nil
     }
+    
+    func move(gameObject: GameObject) {
+        self.clearCell(gameObject.fieldPosition)
+        gameObject.updatePosition()
+        self.setGameObject(gameObject.fieldPosition, object: gameObject)
+    }
 }
 
 class GameController {
@@ -64,59 +74,89 @@ class GameController {
     //----------------------------------------------------------------
     //Variable
     //----------------------------------------------------------------
-    private let gameFeild = GameField()
+    private let gameFeild = GameField(width: GameSettings.FIELD_WIDTH, height: GameSettings.FIELD_HEIGHT)
+    
     var dotkuns: [Dotkun] = []
-    var castles: [Castle] = []
+    
+    var allyCastle: Castle! = nil
+    var enemyCastle: Castle! = nil
+    var castles: [Castle] {
+        return [allyCastle, enemyCastle]
+    }
     var frameCounter: Int = 0
     var gameState = GameState.START
+    
+    var touchingFlag: Bool = false
+    var touchCircle: TouchCircle! = nil
     
     //----------------------------------------------------------------
     //Game Cycle
     //----------------------------------------------------------------
-    func initGame() {
+    func initGame() -> [GameViewObject] {
         initCastles()
         initDotkuns()
+        touchCircle = TouchCircle()
         
         gameState = GameState.START
+        
+        return (dotkuns as [GameViewObject]) + (castles as [GameViewObject]) + ([touchCircle] as [GameViewObject])
     }
     
-    func initDotkuns() -> [GameViewObject] {
+    static func reversedPosition(pos: Position, width: Int, height: Int) -> Position {
+        return Position(x: width - 1 - pos.x, y: height - 1 - pos.y)
+    }
+    
+    func reversePosition(pos: Position) -> Position {
+        return GameController.reversedPosition(pos, width: GameSettings.FIELD_WIDTH, height: GameSettings.FIELD_HEIGHT)
+    }
+    
+    func initDotkuns() {
         self.dotkuns = []
         
+        let battleIconSize = CGSizeMake(CGFloat(GameSettings.BATTLEICON_WIDTH), CGFloat(GameSettings.BATTLEICON_HEIGHT))
+        
         let allyImage = (ModelManager.manager.currentBattleIcon?.image ??  UIImage(named: "ha1f.png")!)
-            .getResizedImage(CGSizeMake(CGFloat(GameSettings.BATTLEICON_WIDTH),CGFloat(GameSettings.BATTLEICON_HEIGHT)))
+            .getResizedImage(battleIconSize)
             .getFlatImage()
+        
         let enemyImage = UIImage(named: "ha1f.png")!
-            .getResizedImage(CGSizeMake(CGFloat(GameSettings.BATTLEICON_WIDTH),CGFloat(GameSettings.BATTLEICON_HEIGHT)))
+            .getResizedImage(battleIconSize)
             .getFlatImage()
         
         // 自軍
         for i in 0..<(GameSettings.DOTKUN_NUM/2) {
-            let dotkunColor = allyImage.getColor(CGPoint(x: i % GameSettings.BATTLEICON_WIDTH, y: i / GameSettings.BATTLEICON_HEIGHT))
+            let xPos = i % GameSettings.BATTLEICON_WIDTH
+            let yPos = i / GameSettings.BATTLEICON_HEIGHT
+            
+            let dotkunColor = allyImage.getColor(x: xPos, y: yPos)
             let dotkun = Dotkun(
                 color: dotkunColor,
                 id: i,
-                pos: Position(x: i % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET, y: (i / GameSettings.BATTLEICON_WIDTH) + GameSettings.FIELD_HEIGHT - GameSettings.INITIAL_DOT_Y_OFFSET - GameSettings.BATTLEICON_HEIGHT)
+                pos: Position(x: xPos - GameSettings.BATTLEICON_WIDTH + 1, y: yPos - GameSettings.BATTLEICON_HEIGHT + 1)
+                    + reversePosition(GameSettings.INITIAL_BATTLEICON_OFFSET)
             )
-            gameFeild.setGameObject(dotkun.getPosition(), object: dotkun)
+            gameFeild.setGameObject(dotkun.fieldPosition, object: dotkun)
             dotkuns.append(dotkun)
             dotkun.setDirection(Direction.UP)
         }
         
         // 敵軍
-        for i in 0..<(GameSettings.DOTKUN_NUM/2) {
+        for i in (0..<(GameSettings.DOTKUN_NUM/2)).reverse() {
+            let xPos = i % GameSettings.BATTLEICON_WIDTH
+            let yPos = i / GameSettings.BATTLEICON_HEIGHT
+            
             let dotkun = Dotkun(
-                color: enemyImage.getColor(CGPoint(x: GameSettings.BATTLEICON_WIDTH - (i % GameSettings.BATTLEICON_WIDTH) - 1, y: GameSettings.BATTLEICON_HEIGHT - (i / GameSettings.BATTLEICON_HEIGHT) - 1)),
-                id: i+GameSettings.DOTKUN_NUM/2,
-                pos: Position(x: i % GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_X_OFFSET,
-                    y: i/GameSettings.BATTLEICON_WIDTH + GameSettings.INITIAL_DOT_Y_OFFSET)
+                color: enemyImage.getColor(x: xPos, y: yPos),
+                id: i + GameSettings.DOTKUN_NUM/2,
+                pos: GameController.reversedPosition(Position(x: xPos, y: yPos), width: GameSettings.BATTLEICON_WIDTH, height: GameSettings.BATTLEICON_HEIGHT)
+                    + GameSettings.INITIAL_BATTLEICON_OFFSET
             )
-            gameFeild.setGameObject(dotkun.getPosition(), object: dotkun)
+            gameFeild.setGameObject(dotkun.fieldPosition, object: dotkun)
             dotkuns.append(dotkun)
             dotkun.setDirection(Direction.DOWN)
         }
         
-        return (dotkuns as [GameViewObject]) + (castles as [GameViewObject])
+        aliveDotkuns = dotkuns.filter({$0.isVisible})
     }
     
     func update(){
@@ -137,77 +177,78 @@ class GameController {
     }
     
     // アップデートごとの処理
+    var aliveDotkuns: [Dotkun] = []
     func updateGameState() {
-        // 城
         for castle in castles {
             // 城がどっちか死んでたら処理しない
             guard castle.isVisible else {
                 return
             }
             
-            if !castle.isAlive() {
-                gameFeild.clearCell(castle.getPosition())
-                castle.isVisible = false
+            if !checkAlive(castle) {
                 NSNotificationCenter.defaultCenter().postNotificationName("FinishGame", object: nil)
-                continue
+                break
             }
         }
         
-        let aliveDotkuns = dotkuns.filter({$0.isVisible})
+        aliveDotkuns = aliveDotkuns.filter({$0.isVisible})
+        
         // 移動フェーズ
-        for dotkun in aliveDotkuns {
-            guard dotkun.isActionFrame(frameCounter) else { continue }
+        aliveDotkuns.forEach() { dotkun in
+            guard dotkun.isActionFrame(frameCounter) else { return }
             
             // targetに基いてdirectionを設定
             updateDotkunDirection(dotkun)
             
-            let nextPosition = dotkun.getPosition().advancedBy(dotkun.getDirection())
-            switch gameFeild.getState(nextPosition) {
-            case .ALLY:
-                if dotkun.type == .ALLY {
-                    dotkun.changeDirection()
-                }
-                break
-            case .ENEMY:
-                if dotkun.type == .ENEMY {
-                    dotkun.changeDirection()
-                }
-                break
-            case .NONE:
-                // 普通に移動
-                gameFeild.clearCell(dotkun.getPosition())
-                dotkun.updatePosition()
-                gameFeild.setGameObject(dotkun.getPosition(), object: dotkun)
-                break
-            case .OUT_OF_FIELD:
+            let nextPositionState = gameFeild.getState(dotkun.fieldPosition.advancedBy(dotkun.getDirection()))
+            if nextPositionState == dotkun.type {
                 dotkun.changeDirection()
-                break
+            } else if nextPositionState == .NONE {
+                // 普通に移動
+                gameFeild.move(dotkun)
+            } else {
+                // out of field
+                dotkun.changeDirection()
             }
         }
+        
         // 攻撃フェーズ
-        for dotkun in aliveDotkuns.filter({$0.type == .ALLY}) {
-            guard dotkun.isActionFrame(frameCounter) else { continue }
-            for i in 0..<4 {
-                if let dotkun2 = gameFeild.getGameObject(dotkun.getPosition().advancedBy(Direction(rawValue: i)!)) {
-                    if dotkun2.type != dotkun.type {
-                        battle(dotkun, dotkun2)
-                    }
-                }
-            }
-        }
+        aliveDotkuns.filter({$0.type == .ALLY}).forEach(battleIfNeed)
+        battleIfNeed(allyCastle)
+        
+        print(allyCastle.hp)
+        
         // 生死判定フェーズ、死んでたらisVisible = false
-        aliveDotkuns.forEach { dotkun in
-            if !dotkun.isAlive() {
-                gameFeild.clearCell(dotkun.getPosition())
-                dotkun.isVisible = false
-            }
+        aliveDotkuns.forEach {[unowned self] dotkun in
+            self.checkAlive(dotkun)
         }
         frameCounter++
     }
     
-    func battle(o1: GameObject,_ o2: GameObject) {
+    func checkAlive(o: GameObject) -> Bool {
+        if o.isAlive {
+            return true
+        } else {
+            gameFeild.clearCell(o.getPosition())
+            o.isVisible = false
+            return false
+        }
+    }
+    
+    func battle(o1: GameObject, _ o2: GameObject) {
         o2.hp -= o1.power
         o1.hp -= o2.power
+    }
+    
+    func battleIfNeed(o: GameObject) {
+        guard o.isActionFrame(frameCounter) else { return }
+        for i in 0..<4 {
+            if let o2 = self.gameFeild.getGameObject(o.fieldPosition.advancedBy(Direction(rawValue: i)!)) {
+                if o2.type != o.type {
+                    battle(o, o2)
+                }
+            }
+        }
     }
     
     func updateDotkunDirection(dotkun: Dotkun) {
@@ -231,7 +272,7 @@ class GameController {
                 }
             }
             // 雑ながら、移動先がからじゃなかったら修正。どうやったら綺麗にできる？
-            if self.gameFeild.getState(dotkun.getPosition().advancedBy(res)) != FieldState.NONE {
+            if self.gameFeild.getState(dotkun.fieldPosition.advancedBy(res)) != FieldState.NONE {
                 if abs(difX) > abs(difY) {
                     if difY >= 0 {
                         res = Direction.DOWN
@@ -263,12 +304,17 @@ class GameController {
     //--------------------------------------------------
     func initCastles() {
         // posは左上座標
-        let allyCastle = Castle(color: Constants.BACKCOLOR,
+        allyCastle = Castle(
+            color: Constants.BACKCOLOR,
             pos: Position(x: GameSettings.FIELD_WIDTH - GameSettings.CASTLE_SIZE, y: GameSettings.FIELD_HEIGHT - GameSettings.CASTLE_SIZE),
-            id: ObjectId.AllyCastleId)
-        let enemyCastle = Castle(color: Constants.BACKCOLOR,
+            id: ObjectId.AllyCastleId
+        )
+        enemyCastle = Castle(
+            color: Constants.BACKCOLOR,
             pos: Position(x: 0,y: 0),
-            id: ObjectId.EnemyCastleId)
+            id: ObjectId.EnemyCastleId
+        )
+        
         // castle領域を埋める
         for x in 0..<GameSettings.CASTLE_SIZE {
             for y in 0..<GameSettings.CASTLE_SIZE {
@@ -276,7 +322,6 @@ class GameController {
                 gameFeild.setGameObject(Position(x: x, y: y), object: enemyCastle)
             }
         }
-        self.castles = [allyCastle, enemyCastle]
     }
 
     //------------------------------------------------
@@ -286,9 +331,10 @@ class GameController {
         gameState = GameState.GAME
     }
     
-    func assembleDotkuns(touchInfo: TouchInfo){
-        let center: Position = GameUtils.TransScreenToGameFieldPosition(touchInfo.touchPosition)
-        let radius: Int = Int(touchInfo.touchRadius/CGFloat(GameSettings.DOT_SIZE))
+    // 円形領域でDotkunを集める
+    func assembleDotkuns(touchInfo: TouchInfo) {
+        let center = GameUtils.TransScreenToGameFieldPosition(touchInfo.touchPosition)
+        let radius = Int(touchInfo.touchRadius/CGFloat(GameSettings.DOT_SIZE))
         for x in max((center.x - radius), 0)...min((center.x + radius), GameSettings.FIELD_WIDTH-1) {
             let tmp = Int(sqrt(pow(Double(radius), 2) - pow(Double(x-center.x),2)))
             for y in max((center.y-tmp), 0)...min((center.y+tmp), GameSettings.FIELD_HEIGHT-1) {
@@ -299,5 +345,29 @@ class GameController {
                 }
             }
         }
+    }
+    
+    func moveCircle(center: CGPoint) {
+        touchCircle.setPosition(center)
+    }
+    
+    func startMakeCircle(center: CGPoint, withEvent event: UIEvent?){
+        guard gameState == GameState.GAME else {
+            return
+        }
+        touchCircle.setPosition(center)
+        touchingFlag = true
+        touchCircle.isVisible = true
+    }
+    
+    func endMakeCircle(center: CGPoint, withEvent event: UIEvent?){
+        guard gameState == GameState.GAME else {
+            return
+        }
+        touchCircle.setPosition(center)
+        touchingFlag = false
+        assembleDotkuns(touchCircle.getTouchInfo())
+        touchCircle.reset()
+        touchCircle.isVisible = false
     }
 }

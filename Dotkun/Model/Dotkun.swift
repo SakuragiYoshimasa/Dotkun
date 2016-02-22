@@ -30,6 +30,7 @@ class Dotkun: GameObject {
         self.id = id
         self.calculateParameters(color)
         self.fieldPosition = pos
+        self.speed = 1
     }
     
     func calculateParameters(color: UIColor) {
@@ -38,11 +39,11 @@ class Dotkun: GameObject {
         if sum != 0 {
             self.hp =  Int(red * 255 / sum) + 100
             self.power = Int(green * 100 / sum) + 10
-            self.speed = Int(10 - blue * 10 / sum) + 1
+            self.actionPeriod = Int(10 - blue * 10 / sum) + 1
         }else{
             self.hp = 100
             self.power = 10
-            self.speed = 11
+            self.actionPeriod = 11
         }
         
         print("hp:\(hp) power:\(power) speed:\(speed)")
@@ -93,19 +94,11 @@ class Dotkun: GameObject {
         UIGraphicsPopContext()
     }
     
-    func updatePosition() {
-        self.setPosition(self.fieldPosition.advancedBy(self.direction))
-    }
-    
     func getDirection() -> Direction {
         return direction
     }
     func setDirection(direction: Direction) {
         self.direction = direction
-    }
-
-    func isActionFrame(frameCounter: Int) -> Bool {
-        return (frameCounter % self.speed) == 0
     }
     
     func changeDirection() {

@@ -66,25 +66,33 @@ class GameObject: GameViewObject {
             return _hp
         }
     }
+    var isAlive: Bool {
+        return hp > 0
+    }
     
     var power: Int = 0
-    var speed: Int = 0
-    var direction = Direction.UP
     
-    func isAlive() -> Bool {
-        return self.hp > 0
+    var speed: Int = 0
+    
+    var actionPeriod = 1
+    func isActionFrame(frameCounter: Int) -> Bool {
+        return (frameCounter % actionPeriod) == 0
     }
+    
+    var direction = Direction.UP
     
     var fieldPosition = Position(x: 0, y: 0)
     func getPosition() -> Position {
         return self.fieldPosition
     }
-    
     func setPosition(x: Int, y: Int) {
         self.fieldPosition = Position(x: x, y: y)
     }
     func setPosition(pos: Position) {
         self.fieldPosition = pos
+    }
+    func updatePosition() {
+        self.fieldPosition.advanceBy(direction, distance: speed)
     }
     
     

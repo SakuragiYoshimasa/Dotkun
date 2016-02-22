@@ -23,11 +23,14 @@ class Castle: GameObject {
     init(color: UIColor, pos: Position, id: Int) {
         super.init()
         self.id = id
-        self.hp = 100000
+        self.hp = GameSettings.HP_CASTLE
         self.color = color
         self.fieldPosition = pos
+        
+        // 無関係
         self.speed = 0
         self.direction = Direction.UP
+        self.actionPeriod = 1
         self.castleImage = UIImage(named: "castle.png")
     }
 

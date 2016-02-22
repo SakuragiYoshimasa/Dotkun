@@ -10,7 +10,7 @@ import UIKit
 
 struct TouchInfo {
     var touchRadius: CGFloat = 0
-    var touchPosition: CGPoint! = CGPoint(x: 0,y: 0)
+    var touchPosition: CGPoint! = CGPoint(x: 0, y: 0)
     
     mutating func reset() {
         self.touchRadius = 0
